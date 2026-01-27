@@ -1,0 +1,4 @@
+import * as React from "react";
+import type { SVGProps } from "react";
+const SvgProportions = (props: SVGProps<SVGSVGElement>) => <svg xmlns="http://www.w3.org/2000/svg" width={props.width} height={props.height} fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} viewBox="0 0 24 24" {...props}><rect width={20} height={16} x={2} y={4} rx={2} /><path d="M12 9v11M2 9h13a2 2 0 0 1 2 2v9" /></svg>;
+export default SvgProportions;

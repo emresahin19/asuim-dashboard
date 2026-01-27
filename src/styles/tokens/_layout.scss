@@ -1,0 +1,24 @@
+:root {
+  /* === Core measurements === */
+  --layout-unit: 8px;
+
+  --layout-header-height: calc(var(--layout-unit) * 6); // 48px
+  --layout-footer-height: calc(var(--layout-unit) * 5); // 40px
+  --layout-sidebar-width: calc(var(--layout-unit) * 32); // 256px
+
+  --layout-gap: calc(var(--layout-unit) * 2); // 16px
+  --layout-radius: calc(var(--layout-unit) * 1); // 12px
+
+  /* === Derived values (THE MATH) === */
+  --layout-vertical-offset: calc(
+    var(--layout-gap) + var(--layout-header-height)
+  );
+
+  --layout-content-height: calc(
+    100vh - var(--layout-header-height) - var(--layout-footer-height) - var(--layout-gap) * 2
+  );
+
+  /* === Motion === */
+  --layout-transition-fast: 0.2s ease;
+  --layout-transition: 0.3s cubic-bezier(.22,.61,.36,1);
+}
