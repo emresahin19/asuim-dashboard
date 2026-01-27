@@ -2,6 +2,9 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+
+  background: var(--color-bg-app);
+  color: var(--color-text);
 }
 
 .body {
@@ -11,12 +14,24 @@
   padding-top: var(--layout-vertical-offset);
 }
 
-.content {
+.main {
   height: var(--layout-content-height);
   overflow: auto;
+
   margin-top: var(--layout-vertical-offset);
   padding: var(--layout-gap);
+
+  border-radius: var(--layout-radius);
+
   transition: var(--layout-transition);
+}
+
+.content {
+  padding: var(--layout-gap);
+  min-height: 100%;
+  border-radius: var(--layout-radius);
+  border: 1px solid var(--color-border);
+  background: var(--color-bg-surface);
 }
 
 .sidebarOpen {
@@ -33,7 +48,7 @@
     position: absolute;
     content: '';
     inset: 0;
-    background: #00000075;
+    background: oklch(0 0 0 / 0.45);
     z-index: 150;
     backdrop-filter: blur(3.3px);
     animation: backdropIn 0.3s ease forwards;
@@ -42,11 +57,11 @@
 
 @keyframes backdropIn {
   from {
-    background: #00000000;
+    background: oklch(0 0 0 / 0);
     backdrop-filter: blur(0);
   }
   to {
-    background: #00000075;
-    backdrop-filter: blur(3.3px);
+    background: oklch(0 0 0 / 0.45);
+    backdrop-filter: blur(3px);
   }
 }

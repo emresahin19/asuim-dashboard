@@ -1,0 +1,82 @@
+:root {
+  /* =====================================================
+   * APP / GLOBAL BACKGROUNDS
+   * ===================================================== */
+
+  /* En dip zemin (body) */
+  --color-bg-app: var(--color-slate-50);
+
+  /* Ana içerik yüzeyi (page, main) */
+  --color-bg-surface: var(--color-neutral-50);
+
+  /* Kartlar, paneller */
+  --color-bg-card: var(--color-neutral-50);
+
+  /* Modal, popover, dropdown */
+  --color-bg-elevated: var(--color-neutral-50);
+
+
+  /* =====================================================
+   * TEXT COLORS
+   * ===================================================== */
+
+  --color-text: var(--color-slate-900);
+  --color-text-soft: var(--color-slate-700);
+  --color-text-muted: var(--color-slate-500);
+  --color-text-disabled: var(--color-slate-400);
+
+  /* Ters zeminler için */
+  --color-text-inverse: var(--color-neutral-50);
+
+
+  /* =====================================================
+   * BORDERS & DIVIDERS
+   * ===================================================== */
+
+  --color-border: var(--color-slate-200);
+  --color-border-soft: var(--color-slate-100);
+  --color-border-strong: var(--color-slate-300);
+
+
+  /* =====================================================
+   * INTERACTIVE SURFACES
+   * (sidebar, header, toolbar)
+   * ===================================================== */
+
+  --color-sidebar-bg: var(--color-slate-900);
+  --color-sidebar-bg-hover: var(--color-slate-800);
+
+  --color-sidebar-text: var(--color-slate-100);
+  --color-sidebar-text-muted: var(--color-slate-400);
+
+  --color-sidebar-border: var(--color-slate-800);
+
+  --color-header-bg: var(--color-neutral-50);
+  --color-header-border: var(--color-slate-200);
+
+
+  /* =====================================================
+   * STATES (NEUTRAL, RENGİ SONRA GİYER)
+   * ===================================================== */
+
+  --color-focus-ring: var(--color-slate-400);
+
+  --color-hover-overlay: oklch(0 0 0 / 0.04);
+  --color-active-overlay: oklch(0 0 0 / 0.08);
+
+  --color-disabled-bg: var(--color-slate-100);
+  --color-disabled-text: var(--color-slate-400);
+
+
+  /* =====================================================
+   * FEEDBACK
+   * ===================================================== */
+
+  --color-success-bg: var(--color-neutral-100);
+  --color-warning-bg: var(--color-neutral-100);
+  --color-danger-bg: var(--color-neutral-100);
+
+  --color-success-text: var(--color-slate-700);
+  --color-warning-text: var(--color-slate-700);
+  --color-danger-text: var(--color-slate-700);
+}

@@ -1,8 +1,13 @@
+import { clsx } from '@/utils/clsx';
 import styles from './footer.module.scss';
 
-export function Footer() {
+export function Footer({
+  isOpen,
+}: {
+  isOpen: boolean;
+}) {
   return (
-    <footer className={styles.root}>
+    <footer className={clsx(styles.root, isOpen && styles.sidebarOpen)}>
       <div className={styles.inner}>Footer</div>
     </footer>
   );

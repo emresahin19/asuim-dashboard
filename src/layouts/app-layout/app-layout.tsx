@@ -23,20 +23,22 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
         onToggleSidebar={() => setSidebarOpen((v) => !v)}
         isOpen={sidebarOpen}
       />
-      <Sidebar 
-        isOpen={sidebarOpen} 
+      <Sidebar
+        isOpen={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
       />
 
       <main
         className={clsx(
-          styles.content,
+          styles.main,
           sidebarOpen && styles.sidebarOpen,
         )}
       >
-        {children}
+        <div className={styles.content}>
+          {children}
+        </div>
       </main>
-      <Footer />
+      <Footer isOpen={sidebarOpen} />
     </div>
   );
 }
