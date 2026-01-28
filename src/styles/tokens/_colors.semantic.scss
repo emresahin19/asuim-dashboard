@@ -4,16 +4,16 @@
    * ===================================================== */
 
   /* En dip zemin (body) */
-  --color-bg-app: var(--color-slate-50);
+  --color-bg-app: var(--color-slate-100);
 
   /* Ana içerik yüzeyi (page, main) */
-  --color-bg-surface: var(--color-neutral-50);
+  --color-bg-surface: var(--color-neutral-100);
 
   /* Kartlar, paneller */
-  --color-bg-card: var(--color-neutral-50);
+  --color-bg-card: var(--color-neutral-100);
 
   /* Modal, popover, dropdown */
-  --color-bg-elevated: var(--color-neutral-50);
+  --color-bg-elevated: var(--color-neutral-100);
 
 
   /* =====================================================
@@ -43,13 +43,13 @@
    * (sidebar, header, toolbar)
    * ===================================================== */
 
-  --color-sidebar-bg: var(--color-slate-900);
-  --color-sidebar-bg-hover: var(--color-slate-800);
+  --color-sidebar-bg: var(--color-slate-50);
+  --color-sidebar-bg-hover: var(--color-slate-200);
 
-  --color-sidebar-text: var(--color-slate-100);
-  --color-sidebar-text-muted: var(--color-slate-400);
+  --color-sidebar-text: var(--color-slate-800);
+  --color-sidebar-text-muted: var(--color-slate-600);
 
-  --color-sidebar-border: var(--color-slate-800);
+  --color-sidebar-border: var(--color-slate-300);
 
   --color-header-bg: var(--color-neutral-50);
   --color-header-border: var(--color-slate-200);

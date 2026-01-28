@@ -7,6 +7,7 @@ import { useSidebarGesture } from './use-sidebar-gesture';
 import { useRef } from 'react';
 import { Icon } from '@/components/ui/icon/icon';
 import { useState } from 'react';
+import { SidebarState } from '../layout.types';
 
 function SidebarItemNode({ item }: { item: SidebarItem }) {
   // SECTION (sadece başlık)
@@ -29,7 +30,7 @@ function SidebarItemNode({ item }: { item: SidebarItem }) {
           className={styles.itemContent}
           onClick={() => setIsOpen((s) => !s)}
         >
-          {item.icon && <Icon name={item.icon} size={18} />}
+          {item.icon && <Icon name={item.icon} size={22} />}
           <div className={styles.label}>{item.label}</div>
 
           <Icon
@@ -70,16 +71,16 @@ function SidebarItemNode({ item }: { item: SidebarItem }) {
 }
 
 export function Sidebar({
-  isOpen,
+  state,
   onClose,
 }: {
-  isOpen: boolean;
+  state: SidebarState;
   onClose: () => void;
 }) {
   const sidebarRef = useRef<HTMLDivElement>(null);
 
   const gesture = useSidebarGesture(sidebarRef, {
-    isOpen,
+    isOpen: state === 'open',
     onClose,
     sidebarWidth: 240,
     threshold: 50,
@@ -89,17 +90,10 @@ export function Sidebar({
     <aside
       ref={sidebarRef}
       {...gesture}
-      className={clsx(styles.root, isOpen && styles.open)}
+      className={styles.root}
     >
       <div className={styles.header}>
         <div className={styles.logo}>LOGO</div>
-
-        <Hamburger
-          className={styles.hamburger}
-          isActive={isOpen}
-          variant="Hamburger2"
-          onClick={onClose}
-        />
       </div>
 
       <nav className={styles.nav}>

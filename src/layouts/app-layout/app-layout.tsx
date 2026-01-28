@@ -5,40 +5,63 @@ import { Sidebar } from '@/layouts/sidebar';
 import styles from './app-layout.module.scss';
 import { clsx } from '@/utils/clsx';
 import { Footer } from '../footer';
+import { Icon } from '@/components/ui/icon/icon';
+import { SidebarState } from '../layout.types';
 
 export function AppLayout({ children }: { children: React.ReactNode }) {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebar, setSidebar] = useState<SidebarState>('open');
+
+  function toggleSidebar() {
+    const isMobile = window.innerWidth < 768;
+
+    setSidebar((prev) => {
+      if (isMobile) {
+        return prev === 'open' ? 'closed' : 'open';
+      }
+
+      if (prev === 'open') return 'icon';
+      if (prev === 'icon') return 'closed';
+      return 'open';
+    });
+  }
 
   useEffect(() => {
-    if (sidebarOpen && window.innerWidth < 768) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-  }, [sidebarOpen]);
+    const isMobile = window.innerWidth < 768;
+    document.body.style.overflow =
+      isMobile && sidebar === 'open' ? 'hidden' : '';
+  }, [sidebar]);
 
   return (
-    <div className={clsx(styles.root, sidebarOpen && styles.sidebarOpenRoot)}>
-      <Header
-        onToggleSidebar={() => setSidebarOpen((v) => !v)}
-        isOpen={sidebarOpen}
-      />
+    <div className={styles.root} data-sidebar-state={sidebar}>
+
+      <button
+        className={styles.hamburger}
+        onClick={toggleSidebar}
+      >
+        <Icon
+          name={
+            sidebar === 'open'
+              ? 'chevron-left'
+              : sidebar === 'icon'
+                ? 'table-2'
+                : 'menu'
+          }
+          size={28}
+        />
+      </button>
+
+      <Header />
+
       <Sidebar
-        isOpen={sidebarOpen}
-        onClose={() => setSidebarOpen(false)}
+        state={sidebar}
+        onClose={() => setSidebar('closed')}
       />
 
-      <main
-        className={clsx(
-          styles.main,
-          sidebarOpen && styles.sidebarOpen,
-        )}
-      >
-        <div className={styles.content}>
-          {children}
-        </div>
+      <main className={styles.main}>
+        <div className={styles.content}>{children}</div>
       </main>
-      <Footer isOpen={sidebarOpen} />
+      
+      <Footer />
     </div>
   );
 }
