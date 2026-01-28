@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Header } from '@/layouts/header';
 import { Sidebar } from '@/layouts/sidebar';
 import styles from './app-layout.module.scss';
@@ -10,6 +10,7 @@ import { SidebarState } from '../layout.types';
 
 export function AppLayout({ children }: { children: React.ReactNode }) {
   const [sidebar, setSidebar] = useState<SidebarState>('open');
+  const prevSidebar = useRef<SidebarState>(sidebar);
 
   function toggleSidebar() {
     const isMobile = window.innerWidth < 768;
@@ -26,13 +27,15 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
   }
 
   useEffect(() => {
+    prevSidebar.current = sidebar;
+
     const isMobile = window.innerWidth < 768;
     document.body.style.overflow =
       isMobile && sidebar === 'open' ? 'hidden' : '';
   }, [sidebar]);
 
   return (
-    <div className={styles.root} data-sidebar-state={sidebar}>
+    <div className={styles.root} data-sidebar-state={sidebar} data-sidebar-prev={prevSidebar.current}>
 
       <button
         className={styles.hamburger}
@@ -60,7 +63,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
       <main className={styles.main}>
         <div className={styles.content}>{children}</div>
       </main>
-      
+
       <Footer />
     </div>
   );
