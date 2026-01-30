@@ -3,7 +3,6 @@ import { useEffect, useRef, useState } from 'react';
 import { Header } from '@/layouts/header';
 import { Sidebar } from '@/layouts/sidebar';
 import styles from './app-layout.module.scss';
-import { clsx } from '@/utils/clsx';
 import { Footer } from '../footer';
 import { Icon } from '@/components/ui/icon/icon';
 import { SidebarState } from '../layout.types';

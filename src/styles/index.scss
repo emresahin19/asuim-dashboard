@@ -1,13 +1,14 @@
 @use './reset';
 @use './tokens/layout';
 @use './tokens/spacing';
-@use './tokens/radius';
 @use './tokens/typography';
 
 /* Colors */
-@use './tokens/colors.palette' as *;
-@use './tokens/colors.semantic' as *;
+@use './tokens/colors';
 
-/* Themes */
-@use './tokens/themes.light' as *;
-@use './tokens/themes.dark' as *;
+/* Theme */
+@use './theme/palette';
+@use './theme/primary';
+@use './theme/dark';
+@use './theme/light';
+@use './theme/base';

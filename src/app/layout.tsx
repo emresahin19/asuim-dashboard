@@ -1,6 +1,8 @@
 import '@/styles/globals.scss';
 
 import { AppLayout } from '@/layouts/app-layout';
+import { ThemeProvider } from '@/theme/ThemeContext'
+import { ThemeSettings } from '@/components/ui/theme-settings/theme-settings';
 
 export const metadata = {
   title: 'AsUIm Dashboard',
@@ -15,7 +17,12 @@ export default function RootLayout({
   return (
     <html lang="en" data-theme="light">
       <body>
-        <AppLayout>{children}</AppLayout>
+        <ThemeProvider>
+          <AppLayout>
+            {children}
+            <ThemeSettings />
+          </AppLayout>
+        </ThemeProvider>
       </body>
     </html>
   );

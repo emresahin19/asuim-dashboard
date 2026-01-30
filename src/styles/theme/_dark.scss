@@ -1,0 +1,47 @@
+/* src/styles/tokens/themes.dark.scss */
+
+:root[data-theme="dark"] {
+  /* App surfaces */
+  --color-bg-app: var(--base-950);
+  --color-bg-surface: var(--base-900);
+  --color-bg-card: var(--base-900);
+  --color-bg-elevated: var(--base-800);
+
+  /* Text */
+  --color-text: var(--base-100);
+  --color-text-soft: var(--base-300);
+  --color-text-muted: var(--base-400);
+  --color-text-disabled: var(--base-500);
+  --color-text-inverse: var(--base-900);
+
+  /* Borders */
+  --color-border: var(--base-800);
+  --color-border-soft: var(--base-900);
+  --color-border-strong: var(--base-700);
+
+  /* Sidebar */
+  --color-sidebar-bg: var(--base-900);
+  --color-sidebar-bg-hover: var(--base-800);
+  --color-sidebar-text: var(--base-100);
+  --color-sidebar-text-muted: var(--base-400);
+  --color-sidebar-border: var(--base-800);
+
+  /* Header */
+  --color-header-bg: var(--base-900);
+  --color-header-border: var(--base-800);
+
+  /* States */
+  --color-focus-ring: var(--base-500);
+  --color-hover-overlay: oklch(1 0 0 / 0.04);
+  --color-active-overlay: oklch(1 0 0 / 0.08);
+
+  --color-disabled-bg: var(--base-800);
+  --color-disabled-text: var(--base-500);
+
+  --color-accent: var(--primary-600);
+  --color-accent-hover: var(--primary-600);
+  --color-accent-soft: var(--primary-900);
+  --color-accent-muted: var(--primary-700);
+  --color-accent-text: var(--primary-300);
+  --color-accent-contrast: var(--primary-900);
+}

@@ -21,13 +21,14 @@ function SidebarItemNode({ item }: { item: SidebarItem }) {
 
   const isGroup = Boolean(item.children && item.children.length > 0 && !item.href);
   const [isOpen, setIsOpen] = useState(false);
+  const isActive = item.href && item.href === '/';
 
   // GROUP (collapsible)
   if (isGroup) {
     return (
       <li className={styles.item}>
         <div
-          className={styles.itemContent}
+          className={clsx(styles.itemContent, isActive && styles.active)}
           onClick={() => setIsOpen((s) => !s)}
         >
           {item.icon && <Icon name={item.icon} size={22} />}
@@ -62,7 +63,7 @@ function SidebarItemNode({ item }: { item: SidebarItem }) {
   // ITEM (leaf)
   return (
     <li className={styles.item}>
-      <div className={styles.itemContent}>
+      <div className={clsx(styles.itemContent, isActive && styles.active)}>
         {item.icon && <Icon name={item.icon} size={18} />}
         <div className={styles.label}>{item.label}</div>
       </div>
@@ -90,7 +91,7 @@ export function Sidebar({
     <aside
       ref={sidebarRef}
       {...gesture}
-      className={styles.root}
+      className={clsx(styles.root)}
     >
       <div className={styles.header}>
         <div className={styles.logo}>LOGO</div>

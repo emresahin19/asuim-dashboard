@@ -1,0 +1,74 @@
+:root {
+  --color-bg-app: var(--base-100);
+  --color-bg-surface: var(--base-100);
+  --color-bg-card: var(--base-100);
+  --color-bg-elevated: var(--base-100);
+
+
+  /* =====================================================
+   * TEXT COLORS
+   * ===================================================== */
+  --color-text: var(--base-900);
+  --color-text-soft: var(--base-700);
+  --color-text-muted: var(--base-500);
+  --color-text-disabled: var(--base-400);
+  --color-text-inverse: var(--base-50);
+
+
+  /* =====================================================
+   * BORDERS & DIVIDERS
+   * ===================================================== */
+  --color-border: var(--base-200);
+  --color-border-soft: var(--base-100);
+  --color-border-strong: var(--base-300);
+
+
+  /* =====================================================
+   * INTERACTIVE SURFACES
+   * (sidebar, header, toolbar)
+   * ===================================================== */
+  --color-sidebar-bg: var(--base-50);
+  --color-sidebar-bg-hover: var(--base-200);
+
+  --color-sidebar-text: var(--base-800);
+  --color-sidebar-text-muted: var(--base-600);
+
+  --color-sidebar-border: var(--base-300);
+
+  --color-header-bg: var(--base-50);
+  --color-header-border: var(--base-200);
+
+
+  /* =====================================================
+   * STATES (NEUTRAL, RENGİ SONRA GİYER)
+   * ===================================================== */
+  --color-focus-ring: var(--base-400);
+
+  --color-hover-overlay: oklch(0 0 0 / 0.04);
+  --color-active-overlay: oklch(0 0 0 / 0.08);
+
+  --color-disabled-bg: var(--base-100);
+  --color-disabled-text: var(--base-400);
+
+
+  /* =====================================================
+   * FEEDBACK
+   * ===================================================== */
+  --color-success-bg: var(--base-100);
+  --color-warning-bg: var(--base-100);
+  --color-danger-bg: var(--base-100);
+
+  --color-success-text: var(--base-700);
+  --color-warning-text: var(--base-700);
+  --color-danger-text: var(--base-700);
+
+  /* =====================================================
+   * PRIMARY COLORS
+   * ===================================================== */
+  --color-accent: var(--primary-500);
+  --color-accent-hover: var(--primary-600);
+  --color-accent-soft: var(--primary-100);
+  --color-accent-muted: var(--primary-300);
+  --color-accent-text: var(--primary-700);
+  --color-accent-contrast: var(--color-white);
+}

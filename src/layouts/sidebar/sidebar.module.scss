@@ -58,8 +58,10 @@
   font-size: 14px;
   font-weight: 600;
 
-  color: var(--color-sidebar-text);
-  background: var(--color-hover-overlay);
+  color: var(--color-accent-text);
+  background: linear-gradient(135deg,
+      var(--color-accent-soft),
+      var(--color-accent-contrast));
 
   flex: 1;
   height: 100%;
@@ -96,13 +98,27 @@
   gap: 8px;
   padding: 4px var(--layout-gap);
   height: var(--layout-sidebar-icon-width);
+  border-radius: 6px;
 
   &:hover {
-    background: var(--color-hover-overlay);
+    background: var(--color-accent-soft);
   }
 
   svg {
     min-width: 22px;
+  }
+
+  &.active {
+    background: var(--color-accent-soft);
+
+    .label {
+      color: var(--color-accent-text);
+      font-weight: 500;
+    }
+
+    svg {
+      color: var(--color-accent);
+    }
   }
 }
 
