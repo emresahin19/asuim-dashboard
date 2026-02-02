@@ -18,7 +18,7 @@ function SidebarItemNode({ item }: { item: SidebarItem }) {
 
   function isGroupActive(item: SidebarItem, pathname: string): boolean {
     if (!item.children) return false;
-    return item.children.some((child) => isItemActive(child, pathname));
+    return item.children.some((child) => isItemActive(child, pathname) || (child.children ? isGroupActive(child, pathname) : false));
   }
 
   if (item.role === 'section') {
@@ -30,7 +30,7 @@ function SidebarItemNode({ item }: { item: SidebarItem }) {
   }
 
   const pathname = usePathname();
-  const isGroup = Boolean(item.children && !item.href);
+  const isGroup = Boolean(item.children);
   const groupActive = isGroup && isGroupActive(item, pathname);
   const [isOpen, setIsOpen] = useState(groupActive);
 
@@ -73,21 +73,34 @@ function SidebarItemNode({ item }: { item: SidebarItem }) {
       </li>
     );
   }
-  
+
   const isActive = isItemActive(item, pathname);
 
   return (
     <li className={styles.item}>
-      <Link
-        href={item.href!}
-        className={clsx(
-          styles.itemContent,
-          isActive && styles.active
-        )}
-      >
-        {item.icon && <Icon name={item.icon} size={18} />}
-        <div className={styles.label}>{item.label}</div>
-      </Link>
+      {item.href ? (
+
+        <Link
+          href={item.href!}
+          className={clsx(
+            styles.itemContent,
+            isActive && styles.active
+          )}
+        >
+          {item.icon && <Icon name={item.icon} size={18} />}
+          <div className={styles.label}>{item.label}</div>
+        </Link>
+      ) : (
+        <div
+          className={clsx(
+            styles.itemContent,
+            isActive && styles.active
+          )}
+        >
+          {item.icon && <Icon name={item.icon} size={18} />}
+          <div className={styles.label}>{item.label}</div>
+        </div>
+      )}
     </li>
   );
 }

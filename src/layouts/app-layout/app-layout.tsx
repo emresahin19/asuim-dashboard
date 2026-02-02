@@ -6,10 +6,18 @@ import styles from './app-layout.module.scss';
 import { Footer } from '../footer';
 import { Icon } from '@/components/ui/icon/icon';
 import { SidebarState } from '../layout.types';
+import { usePathname } from 'next/navigation';
+import { resolveRouteByPathname, resolveBreadcrumbs } from '@/utils/route-resolver';
+import { RouteProvider } from '@/context/route/RouteContext';
+import { Breadcrumbs } from '@/components/navigation/breadcrumbs/Breadcrumbs';
 
 export function AppLayout({ children }: { children: React.ReactNode }) {
   const [sidebar, setSidebar] = useState<SidebarState>('open');
   const prevSidebar = useRef<SidebarState>(sidebar);
+  const pathname = usePathname();
+
+  const route = resolveRouteByPathname(pathname);
+  const breadcrumbs = resolveBreadcrumbs(pathname);
 
   function toggleSidebar() {
     const isMobile = window.innerWidth < 768;
@@ -34,36 +42,46 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
   }, [sidebar]);
 
   return (
-    <div className={styles.root} data-sidebar-state={sidebar} data-sidebar-prev={prevSidebar.current}>
+    <RouteProvider
+      value={{
+        title: route?.title,
+        breadcrumbs,
+      }}
+    >
+      <div className={styles.root} data-sidebar-state={sidebar} data-sidebar-prev={prevSidebar.current}>
 
-      <button
-        className={styles.hamburger}
-        onClick={toggleSidebar}
-      >
-        <Icon
-          name={
-            sidebar === 'open'
-              ? 'chevron-left'
-              : sidebar === 'icon'
-                ? 'table-2'
-                : 'menu'
-          }
-          size={28}
+        <button
+          className={styles.hamburger}
+          onClick={toggleSidebar}
+        >
+          <Icon
+            name={
+              sidebar === 'open'
+                ? 'chevron-left'
+                : sidebar === 'icon'
+                  ? 'table-2'
+                  : 'menu'
+            }
+            size={28}
+          />
+        </button>
+
+        <Header />
+
+        <Sidebar
+          state={sidebar}
+          onClose={() => setSidebar('closed')}
         />
-      </button>
 
-      <Header />
+        <main className={styles.main}>
+          <div className={styles.content}>
+            <Breadcrumbs />
+            {children}
+          </div>
+        </main>
 
-      <Sidebar
-        state={sidebar}
-        onClose={() => setSidebar('closed')}
-      />
-
-      <main className={styles.main}>
-        <div className={styles.content}>{children}</div>
-      </main>
-
-      <Footer />
-    </div>
+        <Footer />
+      </div>
+    </RouteProvider>
   );
 }
