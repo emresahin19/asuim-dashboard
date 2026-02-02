@@ -1,16 +1,26 @@
-import { sidebarConfig } from './sidebar.config';
+import { sidebarConfig } from '../../constant/sidebar.config';
 import { SidebarItem } from './sidebar.types';
 import styles from './sidebar.module.scss';
 import { clsx } from '@/utils/clsx';
-import { Hamburger } from '@/components/ui/hamburger-button';
 import { useSidebarGesture } from './use-sidebar-gesture';
 import { useRef } from 'react';
 import { Icon } from '@/components/ui/icon/icon';
 import { useState } from 'react';
 import { SidebarState } from '../layout.types';
+import { usePathname } from 'next/navigation';
+import Link from 'next/link';
 
 function SidebarItemNode({ item }: { item: SidebarItem }) {
-  // SECTION (sadece başlık)
+  function isItemActive(item: SidebarItem, pathname: string): boolean {
+    if (!item.href) return false;
+    return pathname === item.href;
+  }
+
+  function isGroupActive(item: SidebarItem, pathname: string): boolean {
+    if (!item.children) return false;
+    return item.children.some((child) => isItemActive(child, pathname));
+  }
+
   if (item.role === 'section') {
     return (
       <li className={styles.section}>
@@ -19,17 +29,21 @@ function SidebarItemNode({ item }: { item: SidebarItem }) {
     );
   }
 
-  const isGroup = Boolean(item.children && item.children.length > 0 && !item.href);
-  const [isOpen, setIsOpen] = useState(false);
-  const isActive = item.href && item.href === '/';
+  const pathname = usePathname();
+  const isGroup = Boolean(item.children && !item.href);
+  const groupActive = isGroup && isGroupActive(item, pathname);
+  const [isOpen, setIsOpen] = useState(groupActive);
 
   // GROUP (collapsible)
   if (isGroup) {
     return (
       <li className={styles.item}>
         <div
-          className={clsx(styles.itemContent, isActive && styles.active)}
-          onClick={() => setIsOpen((s) => !s)}
+          className={clsx(
+            styles.itemContent,
+            groupActive && styles.active
+          )}
+          onClick={() => setIsOpen((v) => !v)}
         >
           {item.icon && <Icon name={item.icon} size={22} />}
           <div className={styles.label}>{item.label}</div>
@@ -59,14 +73,21 @@ function SidebarItemNode({ item }: { item: SidebarItem }) {
       </li>
     );
   }
+  
+  const isActive = isItemActive(item, pathname);
 
-  // ITEM (leaf)
   return (
     <li className={styles.item}>
-      <div className={clsx(styles.itemContent, isActive && styles.active)}>
+      <Link
+        href={item.href!}
+        className={clsx(
+          styles.itemContent,
+          isActive && styles.active
+        )}
+      >
         {item.icon && <Icon name={item.icon} size={18} />}
         <div className={styles.label}>{item.label}</div>
-      </div>
+      </Link>
     </li>
   );
 }

@@ -1,7 +1,7 @@
 import '@/styles/globals.scss';
 
 import { AppLayout } from '@/layouts/app-layout';
-import { ThemeProvider } from '@/theme/ThemeContext'
+import { ThemeProvider } from '@/context/theme/ThemeContext'
 import { ThemeSettings } from '@/components/ui/theme-settings/theme-settings';
 
 export const metadata = {

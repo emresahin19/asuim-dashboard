@@ -1,10 +1,10 @@
 'use client'
 
 import { useState } from 'react'
-import { useTheme } from '@/theme/ThemeContext'
+import { useTheme } from '@/context/theme/ThemeContext'
 import styles from './theme-settings.module.scss'
 import { Icon } from '@/components/ui/icon/icon'
-import { Palette, PrimaryColor } from '@/theme/types'
+import { Palette, PrimaryColor } from '@/context/theme/types'
 
 const colors: PrimaryColor[] = ['red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose']
 const palettes: Palette[] = ['slate', 'gray', 'zinc', 'neutral', 'stone']
