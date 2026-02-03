@@ -1,29 +1,22 @@
 "use client";
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Header } from '@/layouts/header';
 import { Sidebar } from '@/layouts/sidebar';
 import styles from './app-layout.module.scss';
 import { Footer } from '../footer';
-import { Icon } from '@/components/ui/icon/icon';
 import { SidebarState } from '../layout.types';
-import { usePathname } from 'next/navigation';
-import { resolveRouteByPathname, resolveBreadcrumbs } from '@/utils/route-resolver';
-import { RouteProvider } from '@/context/route/RouteContext';
 import { Breadcrumbs } from '@/components/navigation/breadcrumbs/Breadcrumbs';
+import { useBreakpoints } from '@/context/breakpoint/Provider';
+import { Hamburger } from '@/components/ui/hamburger/hamburger.component';
 
 export function AppLayout({ children }: { children: React.ReactNode }) {
-  const [sidebar, setSidebar] = useState<SidebarState>('open');
+  const { smAndDown } = useBreakpoints();
+  const [sidebar, setSidebar] = useState<SidebarState>('closed');
   const prevSidebar = useRef<SidebarState>(sidebar);
-  const pathname = usePathname();
-
-  const route = resolveRouteByPathname(pathname);
-  const breadcrumbs = resolveBreadcrumbs(pathname);
 
   function toggleSidebar() {
-    const isMobile = window.innerWidth < 768;
-
-    setSidebar((prev) => {
-      if (isMobile) {
+    setSidebarState((prev) => {
+      if (smAndDown) {
         return prev === 'open' ? 'closed' : 'open';
       }
 
@@ -33,55 +26,73 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
     });
   }
 
-  useEffect(() => {
-    prevSidebar.current = sidebar;
+  function setSidebarState(next: SidebarState | ((prev: SidebarState) => SidebarState)) {
+    setSidebar((prev) => {
+      const resolved = typeof next === 'function' ? next(prev) : next;
 
-    const isMobile = window.innerWidth < 768;
-    document.body.style.overflow =
-      isMobile && sidebar === 'open' ? 'hidden' : '';
-  }, [sidebar]);
+      if (resolved !== prev) {
+        prevSidebar.current = prev;
+      }
+
+      return resolved;
+    });
+  }
+
+  const hamburgerState = useMemo(() => {
+    if (smAndDown) {
+      return sidebar === 'closed' ? 'open' : 'closed';
+    }
+
+    if (sidebar === 'closed') return 'open';
+    if (sidebar === 'open') return 'icon';
+    return 'closed';
+  }, [smAndDown, sidebar]);
+  
+  useEffect(() => {
+    if (!smAndDown) {
+      document.body.style.overflow = '';
+      return;
+    }
+    document.body.style.overflow = sidebar === 'open' ? 'hidden' : '';
+  }, [smAndDown, sidebar]);
+
+  useEffect(() => {
+    if (smAndDown) {
+      setSidebarState('closed');
+    } else {
+      setSidebarState('open');
+    }
+  }, [smAndDown]);
 
   return (
-    <RouteProvider
-      value={{
-        title: route?.title,
-        breadcrumbs,
-      }}
+    <div
+      className={styles.root}
+      data-sidebar-state={sidebar}
+      data-sidebar-prev={prevSidebar.current}
     >
-      <div className={styles.root} data-sidebar-state={sidebar} data-sidebar-prev={prevSidebar.current}>
 
-        <button
-          className={styles.hamburger}
-          onClick={toggleSidebar}
-        >
-          <Icon
-            name={
-              sidebar === 'open'
-                ? 'chevron-left'
-                : sidebar === 'icon'
-                  ? 'table-2'
-                  : 'menu'
-            }
-            size={28}
-          />
-        </button>
+      <button
+        className={styles.hamburger}
+        onClick={toggleSidebar}
+      >
+        <Hamburger state={hamburgerState} />
+      </button>
 
-        <Header />
+      <Header />
 
-        <Sidebar
-          state={sidebar}
-          onClose={() => setSidebar('closed')}
-        />
+      <Sidebar
+        state={sidebar}
+        onClose={() => setSidebarState('closed')}
+      />
 
-        <main className={styles.main}>
-          <div className={styles.content}>
-            <Breadcrumbs />
-            {children}
-          </div>
-        </main>
+      <main className={styles.main}>
+        <div className={styles.content}>
+          <Breadcrumbs />
+          {children}
+        </div>
+      </main>
 
-        <Footer />
-      </div>
-    </RouteProvider>
+      <Footer />
+    </div>
   );
 }

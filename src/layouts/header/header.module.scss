@@ -40,6 +40,11 @@
   padding: 0 var(--layout-gap);
   display: flex;
   align-items: center;
+  transition: var(--layout-transition) padding;
+}
+
+[data-sidebar-state='closed'] .inner {
+  padding: var(--layout-gap) calc(var(--layout-gap) + var(--layout-hamburger-size));
 }
 
 .button {

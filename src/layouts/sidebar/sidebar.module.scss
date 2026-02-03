@@ -36,7 +36,7 @@
   align-items: center;
   justify-content: space-between;
 
-  padding: var(--layout-gap) calc(var(--layout-gap) + var(--layout-hamburger-size));
+  padding: var(--layout-gap) var(--layout-hamburger-size);
   flex-shrink: 0;
   position: relative;
 

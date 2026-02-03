@@ -1,0 +1,98 @@
+.button {
+    cursor: pointer;
+    touch-action: manipulation;
+    background: none;
+    font-size: inherit;
+    border: none;
+    outline: none;
+    padding: 0;
+}
+
+.ham {
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: transform 400ms;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    max-width: 100%;
+    color: inherit;
+
+    &>path,
+    &>line,
+    &>rect {
+        stroke: inherit;
+    }
+}
+
+.line {
+    fill: none;
+    transition: stroke-dasharray 400ms, stroke-dashoffset 400ms;
+    stroke: inherit;
+    stroke-width: 5.5;
+    stroke-linecap: round;
+}
+
+.hamTs {
+    stroke: var(--color-text);
+    stroke-width: 5.5;
+    stroke-linecap: round;
+    transition: stroke-dasharray 400ms, stroke-dashoffset 400ms, transform 400ms;
+}
+
+.hamTs .top {
+    stroke-dasharray: 40 121;
+    transition: stroke-dasharray 400ms, stroke-dashoffset 400ms, translate 400ms;
+}
+
+.hamTs .bottom {
+    stroke-dasharray: 40 121;
+    transition: stroke-dasharray 400ms, stroke-dashoffset 400ms, translate 400ms;
+}
+
+.hamTs .middle {
+    transition: stroke-dasharray 400ms, stroke-dashoffset 400ms, transform 400ms;
+}
+
+.hamTs.icon {
+    transform: rotate(90deg);
+}
+
+.hamTs.icon .top {
+    stroke-dashoffset: -18px;
+    stroke-dasharray: 58 121;
+    transform: translate(-2px, 12px) scaleY(1.4);
+    stroke-width: 4.5px;
+    transform-origin: 0%;
+}
+
+.hamTs.icon .bottom {
+    stroke-dashoffset: -18px;
+    stroke-dasharray: 58 121;
+    transform: translate(2px, -12px) scaleY(1.4);
+    stroke-width: 4.5px;
+    transform-origin: 0%;
+}
+
+.hamTs.icon .middle {
+    transform-origin: 50%;
+    transform: scaleX(0);
+}
+
+.hamTs.closed {
+    transform: rotate(45deg);
+}
+
+.hamTs.closed .top {
+    stroke-dashoffset: -68px;
+}
+
+.hamTs.closed .bottom {
+    stroke-dashoffset: -68px;
+
+}
+
+.hamTs.closed .middle {
+    opacity: 0;
+}

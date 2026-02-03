@@ -1,5 +1,6 @@
 import { AppLayout } from '@/layouts/app-layout';
 import { ThemeSettings } from '@/components/ui/theme-settings/theme-settings';
+import { BreakpointProvider } from '@/context/breakpoint/Provider';
 
 export default function AppSegmentLayout({
   children,
@@ -7,9 +8,11 @@ export default function AppSegmentLayout({
   children: React.ReactNode;
 }) {
   return (
-    <AppLayout>
-      {children}
-      <ThemeSettings />
-    </AppLayout>
+    <BreakpointProvider>
+      <AppLayout>
+        {children}
+        <ThemeSettings />
+      </AppLayout>
+    </BreakpointProvider>
   );
 }

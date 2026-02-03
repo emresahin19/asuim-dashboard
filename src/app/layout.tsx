@@ -1,13 +1,13 @@
 import '@/styles/globals.scss';
 
-import { ThemeProvider } from '@/context/theme/ThemeContext'
+import RootLayout from '@/layouts/root-layout/root-layout';
 
 export const metadata = {
     title: 'AsUIm Dashboard',
     description: 'Performance-first dashboard template',
 };
 
-export default function RootLayout({
+export default function Layout({
     children,
 }: {
     children: React.ReactNode;
@@ -15,9 +15,9 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body>
-                <ThemeProvider>
+                <RootLayout>
                     {children}
-                </ThemeProvider>
+                </RootLayout>
             </body>
         </html>
     );
