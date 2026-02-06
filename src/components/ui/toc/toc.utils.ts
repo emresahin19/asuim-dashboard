@@ -1,7 +1,6 @@
-import { TOKENS } from "./toc.tokens"
-import { PathSegment, Waypoint } from "./toc.types"
+import { PathSegment, TocTokens, Waypoint } from "./toc.types"
 
-export function buildSvgPath(segments: PathSegment[]): string {
+export function buildSvgPath(segments: PathSegment[], tokens: TocTokens): string {
     const d: string[] = []
 
     for (let i = 0; i < segments.length; i++) {
@@ -13,7 +12,7 @@ export function buildSvgPath(segments: PathSegment[]): string {
             d.push(`M${seg.offset} ${seg.top}`)
         } else if (prev && prev.offset !== seg.offset) {
             d.push(
-                `Q${seg.offset} ${seg.top},${seg.offset} ${seg.top + TOKENS.cornerRadius}`
+                `Q${seg.offset} ${seg.top},${seg.offset} ${seg.top + tokens.cornerRadius}`
             )
         } else {
             d.push(`L${seg.offset} ${seg.top}`)
@@ -21,12 +20,12 @@ export function buildSvgPath(segments: PathSegment[]): string {
 
         if (next && next.offset !== seg.offset) {
             const cornerBottom = seg.bottom
-            d.push(`L${seg.offset} ${cornerBottom - TOKENS.cornerRadius}`)
+            d.push(`L${seg.offset} ${cornerBottom - tokens.cornerRadius}`)
 
             const dx = next.offset - seg.offset
             const dy = next.top - cornerBottom
             const len = Math.hypot(dx, dy)
-            const r = Math.min(TOKENS.cornerRadius / len, 0.5)
+            const r = Math.min(tokens.cornerRadius / len, 0.5)
 
             const mx = seg.offset + dx * r
             const my = cornerBottom + dy * r
@@ -40,7 +39,7 @@ export function buildSvgPath(segments: PathSegment[]): string {
     return d.join(' ')
 }
 
-export function measureToc(container: HTMLElement): PathSegment[] {
+export function measureToc(container: HTMLElement, tokens: TocTokens): PathSegment[] {
     const items = Array.from(
         container.querySelectorAll<HTMLElement>('[data-toc-item]')
     )
@@ -50,12 +49,15 @@ export function measureToc(container: HTMLElement): PathSegment[] {
         const rect = el.getBoundingClientRect()
         const depth = Number(el.dataset.depth)
 
-        const top = rect.top - baseTop
-        const bottom = top + rect.height
-        const center = top + rect.height / 2
+        const realTop = rect.top - baseTop
+        const realBottom = realTop + rect.height
+        
+        const top = realTop - tokens.itemPadding
+        const bottom = realBottom + tokens.itemPadding
+        const center = realTop + rect.height / 2
 
         return {
-            offset: TOKENS.indentBase + (depth - 1) * TOKENS.indentStep,
+            offset: tokens.indentBase + (depth - 1) * tokens.indentStep,
             top,
             center,
             bottom,
@@ -98,6 +100,7 @@ export function buildStepWaypoints(
         return [{ x: to.offset, y: to.center }]
     }
 
+    // Aşağı inerken: Mevcut olanın altından çık, yenisinin tepesinden gir
     if (dir === 1) {
         return [
             { x: from.offset, y: from.bottom },
@@ -106,6 +109,7 @@ export function buildStepWaypoints(
         ]
     }
 
+    // Yukarı çıkarken: Mevcut olanın tepesinden çık, yenisinin altından gir
     return [
         { x: from.offset, y: from.top },
         { x: to.offset, y: to.bottom },

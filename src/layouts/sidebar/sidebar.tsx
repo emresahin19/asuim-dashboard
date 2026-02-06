@@ -3,7 +3,7 @@ import { SidebarItem } from './sidebar.types';
 import styles from './sidebar.module.scss';
 import { clsx } from '@/utils/clsx';
 import { useSidebarGesture } from './use-sidebar-gesture';
-import { useEffect, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { Icon } from '@/components/ui/icon/icon';
 import { useState } from 'react';
 import { SidebarState } from '../layout.types';
@@ -16,6 +16,7 @@ import {
   getVisibleActiveIndexById,
   isDescendantActive
 } from './sidebar.utils';
+import { TocTokens } from '@/components/ui/toc/toc.types';
 
 function SidebarLeafRow({
   item,
@@ -133,6 +134,27 @@ function SidebarItemNode({
   )
 }
 
+const sidebarTocTokens: Record<SidebarState, TocTokens> = {
+  'open': {
+    indentBase: 4,
+    indentStep: 16,
+    cornerRadius: 4,
+    itemPadding: 2,
+  },
+  'icon': {
+    indentBase: 4,
+    indentStep: 16,
+    cornerRadius: 16,
+    itemPadding: 2,
+  },
+  'closed': {
+    indentBase: 0,
+    indentStep: 0,
+    cornerRadius: 0,
+    itemPadding: 0,
+  }
+}
+
 export function Sidebar({
   state,
   onClose,
@@ -149,6 +171,8 @@ export function Sidebar({
   const [openGroups, setOpenGroups] = useState<Set<string>>(new Set())
   const [activeId, setActiveId] = useState<string | null>(null)
   const [activeIndex, setActiveIndex] = useState(0)
+
+  const tokens = useMemo(() => sidebarTocTokens[state], [state])
 
   useEffect(() => {
     setActiveId(findActiveIdByPath(sidebarConfig, pathname))
@@ -205,8 +229,10 @@ export function Sidebar({
 
       <nav className={styles.nav}>
         <Toc
+          key={state}
           containerRef={listRef}
           activeIndex={activeIndex}
+          tokens={tokens}
         />
 
         <ul className={styles.list} ref={listRef}>

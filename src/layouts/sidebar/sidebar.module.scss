@@ -168,6 +168,8 @@
 [data-sidebar-prev="icon"][data-sidebar-state='closed'] .root {
   scrollbar-width: thin;
   scrollbar-color: transparent transparent;
+  background: transparent;
+  box-shadow: none;
 
   &::-webkit-scrollbar {
     width: 0;
@@ -194,8 +196,8 @@
     padding: var(--layout-gap) 0;
   }
 
-  .subList {
-    padding-left: 0;
+  .list {
+    z-index: 2;
   }
 
   .logo {
@@ -231,6 +233,10 @@
   .itemContent {
     transition: var(--layout-transition) all;
     padding: 4px calc(var(--layout-gap) * 0.75);
+    background: var(--color-sidebar-bg);
+    border-radius: var(--layout-sidebar-icon-width);
+    box-shadow: var(--layout-icon-box-shadow);
+    width: fit-content;
 
     .label {
       display: none;

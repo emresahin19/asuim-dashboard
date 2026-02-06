@@ -6,9 +6,11 @@
 .container {
   position: relative;
   width: var(--layout-gap);
+  padding-left: 4px;
 }
 
 .svg {
+  position: absolute;
   flex-shrink: 0;
   overflow: visible;
 }

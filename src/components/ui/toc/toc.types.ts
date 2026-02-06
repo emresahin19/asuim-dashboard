@@ -4,9 +4,17 @@ export type TocItem = {
     depth: number
 }
 
+export type TocTokens = {
+    indentBase: number
+    indentStep: number
+    cornerRadius: number
+    itemPadding: number
+}
+
 export type TocProps = {
   containerRef: React.RefObject<HTMLElement | null>
   activeIndex: number
+  tokens?: Partial<TocTokens>
 }
 
 export interface PathSegment {

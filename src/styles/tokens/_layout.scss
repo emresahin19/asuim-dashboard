@@ -18,7 +18,7 @@
   --layout-hamburger-size: calc(var(--layout-unit) * 5); // 24px
 
   --layout-box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
-
+  --layout-icon-box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
   --layout-transform: translateX(0);
 
   /* === Derived values (THE MATH) === */
@@ -38,12 +38,12 @@
 }
 
 [data-sidebar-state='icon'] {
-  --layout-sidebar-width: var(--layout-sidebar-icon-width);
-  --layout-main-left: calc(var(--layout-sidebar-icon-width) + var(--layout-gap));
+  --layout-sidebar-width: calc(var(--layout-sidebar-icon-width) * 2);
+  --layout-main-left: calc(var(--layout-sidebar-icon-width) * 2 + var(--layout-gap));
 }
 
 [data-sidebar-prev='icon'][data-sidebar-state='closed'] {
-  --layout-sidebar-width: var(--layout-sidebar-icon-width);
+  --layout-sidebar-width: calc(var(--layout-sidebar-icon-width) * 2);
 }
 
 [data-sidebar-prev='open'][data-sidebar-state='closed'] {

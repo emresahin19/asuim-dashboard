@@ -1,12 +1,14 @@
 'use client'
 
-import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import styles from './toc.module.scss'
 import { TocProps, TocSvgData } from './toc.types'
 import { buildRouteWaypoints, buildSvgPath, measureToc } from './toc.utils'
+import AsimImage from '@/assets/image/asimthecat-120x120.png'
+import { TOKENS } from './toc.tokens'
 
 /* ---------------- COMPONENT ---------------- */
-export function Toc({ containerRef, activeIndex }: TocProps) {
+export function Toc({ containerRef, activeIndex, tokens }: TocProps) {
   const prevActiveRef = useRef(activeIndex)
   const [svg, setSvg] = useState<TocSvgData | null>(null)
   const [dotX, setDotX] = useState(0)
@@ -14,23 +16,28 @@ export function Toc({ containerRef, activeIndex }: TocProps) {
   const timersRef = useRef<number[]>([])
   const [currentStepMs, setCurrentStepMs] = useState(140);
 
+  const tokensWithDefaults = useMemo(
+    () => ({ ...TOKENS, ...tokens }),
+    [tokens]
+  )
+
   function clearTimers() {
     for (const t of timersRef.current) window.clearTimeout(t)
     timersRef.current = []
   }
 
-  function recompute() {
+  const recompute = useCallback(() => {
     if (!containerRef?.current) return
-    const segments = measureToc(containerRef.current)
 
+    const segments = measureToc(containerRef.current, tokensWithDefaults)
     if (!segments.length) return
 
-    const path = buildSvgPath(segments)
-    const width = Math.max(...segments.map((s) => s.offset)) + 4
+    const path = buildSvgPath(segments, tokensWithDefaults)
+    const width = Math.max(...segments.map(s => s.offset)) + 4
     const height = segments[segments.length - 1].bottom
 
     setSvg({ path, width, height, segments })
-  }
+  }, [containerRef, tokensWithDefaults])
 
   useLayoutEffect(() => {
     requestAnimationFrame(recompute)
@@ -77,7 +84,6 @@ export function Toc({ containerRef, activeIndex }: TocProps) {
 
     const fromIndex = prevActiveRef.current;
     prevActiveRef.current = activeIndex;
-    console.log(fromIndex, activeIndex)
     clearTimers();
 
     const route = buildRouteWaypoints(svg.segments, fromIndex, activeIndex);
@@ -127,7 +133,8 @@ export function Toc({ containerRef, activeIndex }: TocProps) {
             transition: `transform ${currentStepMs}ms ease-in-out`,
           }}
         >
-          <circle cx={0} cy={0} r="3" fill="var(--color-primary)" />
+          <image href={AsimImage.src} x={-12} y={-12} width={24} height={24} />
+          {/* <circle cx={0} cy={0} r="3" fill="var(--color-primary)" /> */}
         </g>
       </svg>
     </div>
