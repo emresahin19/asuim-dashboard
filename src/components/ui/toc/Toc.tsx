@@ -7,7 +7,6 @@ import { buildRouteWaypoints, buildSvgPath, measureToc } from './toc.utils'
 import AsimImage from '@/assets/image/asimthecat-120x120.png'
 import { TOKENS } from './toc.tokens'
 
-/* ---------------- COMPONENT ---------------- */
 export function Toc({ containerRef, activeIndex, tokens }: TocProps) {
   const prevActiveRef = useRef(activeIndex)
   const [svg, setSvg] = useState<TocSvgData | null>(null)
@@ -50,11 +49,9 @@ export function Toc({ containerRef, activeIndex, tokens }: TocProps) {
 
     const schedule = () => requestAnimationFrame(recompute)
 
-    // 1️⃣ Size changes
     const resizeObserver = new ResizeObserver(schedule)
     resizeObserver.observe(container)
 
-    // 2️⃣ DOM structure changes (group open/close)
     const mutationObserver = new MutationObserver(schedule)
     mutationObserver.observe(container, {
       childList: true,
@@ -65,7 +62,7 @@ export function Toc({ containerRef, activeIndex, tokens }: TocProps) {
       resizeObserver.disconnect()
       mutationObserver.disconnect()
     }
-  }, [containerRef])
+  }, [containerRef, tokensWithDefaults])
 
   useEffect(() => {
     if (!svg || activeIndex === undefined || !svg.segments[activeIndex]) {
@@ -87,24 +84,26 @@ export function Toc({ containerRef, activeIndex, tokens }: TocProps) {
     clearTimers();
 
     const route = buildRouteWaypoints(svg.segments, fromIndex, activeIndex);
-    if (!route.length) return;
+    
+    if (!route.length) {
+      const target = svg.segments[activeIndex];
+      if (target) {
+        setDotX(target.offset);
+        setDotY(target.center);
+      }
+      return;
+    }
 
-    // --- DİNAMİK SÜRE HESABI ---
     const indexDiff = Math.abs(activeIndex - fromIndex);
 
-    // Toplam süreyi belirle: min 150ms, max 450ms. 
-    // Her ek index için +50ms ekleyelim ama 450ms'i geçmesin.
     const totalDuration = Math.min(150 + (indexDiff * 50), 450);
 
-    // Her bir waypoint adımı için süreyi böl (route.length - 1 adet adım var)
     const stepMs = totalDuration / (route.length - 1);
-    // ---------------------------
+
     setCurrentStepMs(stepMs);
-    // Noktayı başlangıca kilitle
     setDotX(route[0].x);
     setDotY(route[0].y);
 
-    // Waypoint'leri yeni dinamik süreyle dön
     for (let k = 1; k < route.length; k++) {
       const t = window.setTimeout(() => {
         setDotX(route[k].x);

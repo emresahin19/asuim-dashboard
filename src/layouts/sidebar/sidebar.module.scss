@@ -206,19 +206,17 @@
 
   .section {
     padding: 0;
-    overflow: hidden;
     color: transparent;
 
     &:before {
-      content: '';
-      position: absolute;
-      width: calc(100% - 2 * var(--layout-gap));
-      height: 2px;
+      content: "";
+      width: calc(3 * var(--layout-gap));
       background: var(--color-sidebar-border);
+      height: 2px;
       transition: background var(--layout-transition);
+      position: absolute;
       bottom: 0;
-      left: 0;
-      right: 0;
+      top: 0;
       margin: auto;
     }
 

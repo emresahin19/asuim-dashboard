@@ -1,3 +1,5 @@
+import { TocTokens } from '@/components/ui/toc/toc.types'
+import { SidebarState } from '../layout.types'
 import { SidebarItem } from './sidebar.types'
 
 export function findActiveIdByPath(
@@ -130,4 +132,26 @@ export function collectActiveGroupIds(
     }
 
     return false
+}
+
+
+export const sidebarTocTokens: Record<SidebarState, TocTokens> = {
+  'open': {
+    indentBase: 4,
+    indentStep: 16,
+    cornerRadius: 4,
+    itemPadding: 2,
+  },
+  'icon': {
+    indentBase: 4,
+    indentStep: 16,
+    cornerRadius: 16,
+    itemPadding: 2,
+  },
+  'closed': {
+    indentBase: 0,
+    indentStep: 0,
+    cornerRadius: 0,
+    itemPadding: 0,
+  }
 }

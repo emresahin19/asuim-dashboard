@@ -10,9 +10,9 @@ import type { ThemeState } from './types'
 
 const defaultTheme: ThemeState = {
     scheme: 'light',
-    primary: 'blue',
+    primary: 'amber',
     direction: 'ltr',
-    palette: 'slate',
+    palette: 'stone',
 }
 
 const ThemeContext = createContext<{

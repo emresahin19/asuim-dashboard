@@ -14,7 +14,8 @@ import {
   collectActiveGroupIds,
   findActiveIdByPath,
   getVisibleActiveIndexById,
-  isDescendantActive
+  isDescendantActive,
+  sidebarTocTokens
 } from './sidebar.utils';
 import { TocTokens } from '@/components/ui/toc/toc.types';
 
@@ -134,27 +135,6 @@ function SidebarItemNode({
   )
 }
 
-const sidebarTocTokens: Record<SidebarState, TocTokens> = {
-  'open': {
-    indentBase: 4,
-    indentStep: 16,
-    cornerRadius: 4,
-    itemPadding: 2,
-  },
-  'icon': {
-    indentBase: 4,
-    indentStep: 16,
-    cornerRadius: 16,
-    itemPadding: 2,
-  },
-  'closed': {
-    indentBase: 0,
-    indentStep: 0,
-    cornerRadius: 0,
-    itemPadding: 0,
-  }
-}
-
 export function Sidebar({
   state,
   onClose,
@@ -172,7 +152,6 @@ export function Sidebar({
   const [activeId, setActiveId] = useState<string | null>(null)
   const [activeIndex, setActiveIndex] = useState(0)
 
-  const tokens = useMemo(() => sidebarTocTokens[state], [state])
 
   useEffect(() => {
     setActiveId(findActiveIdByPath(sidebarConfig, pathname))
@@ -217,6 +196,8 @@ export function Sidebar({
     threshold: 50,
   })
 
+  const tokens = useMemo(() => sidebarTocTokens[state], [state])
+  
   return (
     <aside
       ref={sidebarRef}
@@ -229,7 +210,6 @@ export function Sidebar({
 
       <nav className={styles.nav}>
         <Toc
-          key={state}
           containerRef={listRef}
           activeIndex={activeIndex}
           tokens={tokens}
