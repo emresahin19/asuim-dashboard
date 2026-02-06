@@ -242,36 +242,53 @@ export function buildRouteWaypoints(
 ): Waypoint[] {
     if (!segments.length) return []
 
-    if (fromIndex === toIndex) {
-        const s = segments[fromIndex]
+    const safeFrom = clampToNearestIndex(fromIndex, segments)
+    const safeTo = clampToNearestIndex(toIndex, segments)
+
+    if (safeFrom === -1 || safeTo === -1) return []
+
+    if (safeFrom === safeTo) {
+        const s = segments[safeFrom]
         return s ? [{ x: s.offset, y: s.center }] : []
     }
 
-    const dir = (toIndex > fromIndex ? 1 : -1) as 1 | -1
+    const dir = (safeTo > safeFrom ? 1 : -1) as 1 | -1
     const route: Waypoint[] = []
 
-    // Başlangıç: current center
-    const start = segments[fromIndex]
+    const start = segments[safeFrom]
     if (!start) return []
+
     route.push({ x: start.offset, y: start.center })
 
-    // Aradaki tüm indexleri tek tek dolaş
-    let i = fromIndex
-    while (i !== toIndex) {
+    let i = safeFrom
+    while (i !== safeTo) {
         const a = segments[i]
         const b = segments[i + dir]
         if (!a || !b) break
 
         const steps = buildStepWaypoints(a, b, dir)
 
-        // duplicate noktaları ekleme (aynı x,y tekrar etmesin)
         for (const p of steps) {
             const last = route[route.length - 1]
-            if (!last || last.x !== p.x || last.y !== p.y) route.push(p)
+            if (!last || last.x !== p.x || last.y !== p.y) {
+                route.push(p)
+            }
         }
 
         i += dir
     }
 
     return route
+}
+
+function clampToNearestIndex(
+    index: number,
+    segments: PathSegment[]
+): number {
+    if (segments.length === 0) return -1
+
+    if (index < 0) return 0
+    if (index >= segments.length) return segments.length - 1
+
+    return index
 }

@@ -81,6 +81,7 @@ export function Toc({
 
   /* DOT + ROUTE ANIMASYONU */
   useEffect(() => {
+    
     if (!svg || !svg.segments[activeIndex]) return
 
     if (activeIndex === prevActiveRef.current) {
@@ -89,18 +90,18 @@ export function Toc({
       setDotY(s.center)
       return
     }
-
+    
     const fromIndex = prevActiveRef.current
     prevActiveRef.current = activeIndex
-
+    
     clearTimers()
-
+    
     const route = buildRouteWaypoints(
       svg.segments,
       fromIndex,
       activeIndex
     )
-
+    
     if (!route.length) return
 
     setActiveRoute(route)
