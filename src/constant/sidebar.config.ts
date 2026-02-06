@@ -99,7 +99,7 @@ const navTree: SidebarNavNode[] = [
     children: [
       { id: 'buttons', label: 'Buttons', role: 'item', icon: 'mouse-pointer-click', routeId: 'buttons' },
       {
-        id: 'components-form', label: 'Form', role: 'item', icon: 'file-pen', children: [
+        id: 'components-form', label: 'Form', role: 'item', icon: 'file-pen', routeId: 'components-form', children: [
           { id: 'components-form-input', label: 'Input', role: 'item', icon: 'text-cursor-input', routeId: 'components-form-input' },
           { id: 'components-form-checkbox', label: 'Checkbox', role: 'item', icon: 'badge-check', routeId: 'components-form-checkbox' },
         ]

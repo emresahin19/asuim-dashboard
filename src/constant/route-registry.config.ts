@@ -22,6 +22,8 @@ export const routeRegistry: RouteDefinition[] = [
 
     { id: 'type-system', path: '/typography/system', title: 'Type System' },
     { id: 'buttons', path: '/components/buttons', title: 'Buttons' },
+    { id: 'components', path: '/components', title: 'Components' },
+    { id: 'components-form', path: '/components/form', title: 'Form' },
     { id: 'components-form-input', path: '/components/form/input', title: 'Input' },
     { id: 'components-form-checkbox', path: '/components/form/checkbox', title: 'Checkbox' },
     { id: 'navigation', path: '/components/navigation', title: 'Navigation' },
