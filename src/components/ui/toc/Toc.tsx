@@ -2,26 +2,17 @@
 
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import styles from './toc.module.scss'
-import { TocItem, TocSvgData } from './toc.types'
-import { buildRouteWaypoints, buildSvgPath, getCornerY, measureToc } from './toc.utils'
-import { TOKENS } from './toc.tokens'
-
-const toc: TocItem[] = [
-  { id: 'a', label: 'Intro', depth: 1 },
-  { id: 'b', label: 'Install', depth: 2 },
-  { id: 'c', label: 'Usage', depth: 2 },
-  { id: 'd', label: 'API', depth: 1 },
-]
+import { TocProps, TocSvgData } from './toc.types'
+import { buildRouteWaypoints, buildSvgPath, measureToc } from './toc.utils'
 
 /* ---------------- COMPONENT ---------------- */
-export function Toc() {
-  const listRef = useRef<HTMLUListElement>(null)
-  const [active, setActive] = useState(0)
+export function Toc({ containerRef, activeIndex }: TocProps) {
+  const prevActiveRef = useRef(activeIndex)
   const [svg, setSvg] = useState<TocSvgData | null>(null)
   const [dotX, setDotX] = useState(0)
   const [dotY, setDotY] = useState(0)
-  const prevActiveRef = useRef(0)
   const timersRef = useRef<number[]>([])
+  const [currentStepMs, setCurrentStepMs] = useState(140);
 
   function clearTimers() {
     for (const t of timersRef.current) window.clearTimeout(t)
@@ -29,9 +20,9 @@ export function Toc() {
   }
 
   function recompute() {
-    if (!listRef.current) return
+    if (!containerRef?.current) return
+    const segments = measureToc(containerRef.current)
 
-    const segments = measureToc(listRef.current)
     if (!segments.length) return
 
     const path = buildSvgPath(segments)
@@ -46,86 +37,101 @@ export function Toc() {
   }, [])
 
   useEffect(() => {
-    if (!listRef.current) return
+    const container = containerRef.current
+    if (!container) return
+    container.parentElement?.classList.add(styles.root)
 
-    const ro = new ResizeObserver(() => requestAnimationFrame(recompute))
-    ro.observe(listRef.current)
+    const schedule = () => requestAnimationFrame(recompute)
 
-    return () => ro.disconnect()
-  }, [])
+    // 1️⃣ Size changes
+    const resizeObserver = new ResizeObserver(schedule)
+    resizeObserver.observe(container)
+
+    // 2️⃣ DOM structure changes (group open/close)
+    const mutationObserver = new MutationObserver(schedule)
+    mutationObserver.observe(container, {
+      childList: true,
+      subtree: true,
+    })
+
+    return () => {
+      resizeObserver.disconnect()
+      mutationObserver.disconnect()
+    }
+  }, [containerRef])
 
   useEffect(() => {
-    if (!svg) return
+    if (!svg || activeIndex === undefined) return;
 
-    clearTimers()
-
-    const route = buildRouteWaypoints(svg.segments, prevActiveRef.current, active)
-    if (!route.length) return
-
-    // Dot’u route[0]’a kilitle
-    setDotX(route[0].x)
-    setDotY(route[0].y)
-
-    // Her waypoint arası süre (istersen token yap)
-    const STEP_MS = 140
-
-    for (let k = 1; k < route.length; k++) {
-      const t = window.setTimeout(() => {
-        setDotX(route[k].x)
-        setDotY(route[k].y)
-      }, STEP_MS * k)
-      timersRef.current.push(t)
+    // 1. Durum: Aynı index, animasyona gerek yok
+    if (activeIndex === prevActiveRef.current) {
+      const target = svg.segments[activeIndex];
+      if (target) {
+        setDotX(target.offset);
+        setDotY(target.center);
+      }
+      return;
     }
 
-    return () => clearTimers()
-  }, [active, svg])
+    const fromIndex = prevActiveRef.current;
+    prevActiveRef.current = activeIndex;
+
+    clearTimers();
+
+    const route = buildRouteWaypoints(svg.segments, fromIndex, activeIndex);
+    if (!route.length) return;
+
+    // --- DİNAMİK SÜRE HESABI ---
+    const indexDiff = Math.abs(activeIndex - fromIndex);
+
+    // Toplam süreyi belirle: min 150ms, max 450ms. 
+    // Her ek index için +50ms ekleyelim ama 450ms'i geçmesin.
+    const totalDuration = Math.min(150 + (indexDiff * 50), 450);
+
+    // Her bir waypoint adımı için süreyi böl (route.length - 1 adet adım var)
+    const stepMs = totalDuration / (route.length - 1);
+    // ---------------------------
+    setCurrentStepMs(stepMs);
+    // Noktayı başlangıca kilitle
+    setDotX(route[0].x);
+    setDotY(route[0].y);
+
+    // Waypoint'leri yeni dinamik süreyle dön
+    for (let k = 1; k < route.length; k++) {
+      const t = window.setTimeout(() => {
+        setDotX(route[k].x);
+        setDotY(route[k].y);
+      }, stepMs * k);
+      timersRef.current.push(t);
+    }
+
+    return () => clearTimers();
+  }, [activeIndex, svg]);
 
   useEffect(() => {
-    prevActiveRef.current = active
-  }, [active])
+    prevActiveRef.current = activeIndex
+  }, [activeIndex])
 
-  return (
-    <div className={styles.root}>
-      {svg && (
-        <svg className={styles.svg} width={svg.width} height={svg.height}>
-          <path
-            d={svg.path}
-            stroke="var(--color-border)"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            fill="none"
-          />
-          <g
-            style={{
-              transform: `translate(${dotX}px, ${dotY}px)`,
-              transition: 'transform 220ms cubic-bezier(0.4, 0, 0.2, 1)',
-            }}
-          >
-            <circle
-              cx={0}
-              cy={0}
-              r="3"
-              fill="var(--color-primary)"
-            />
-          </g>
-        </svg>
-      )}
-
-      <ul ref={listRef} className={styles.list}>
-        {toc.map((item, i) => (
-          <li
-            key={item.id}
-            data-toc-item
-            data-depth={item.depth}
-            data-active={i === active}
-            style={{ paddingLeft: item.depth * TOKENS.indentStep }}
-            onClick={() => setActive(i)}
-          >
-            {item.label}
-          </li>
-        ))}
-      </ul>
+  return svg && (
+    <div className={styles.container}>
+      <svg className={styles.svg} width={svg.width} height={svg.height}>
+        <path
+          d={svg.path}
+          stroke="var(--color-border)"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          fill="none"
+        />
+        <g
+          style={{
+            transform: `translate(${dotX}px, ${dotY}px)`,
+            transition: `transform ${currentStepMs}ms ease-in-out`,
+          }}
+        >
+          <circle cx={0} cy={0} r="3" fill="var(--color-primary)" />
+        </g>
+      </svg>
     </div>
   )
 }

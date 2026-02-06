@@ -44,7 +44,6 @@ export function measureToc(container: HTMLElement): PathSegment[] {
     const items = Array.from(
         container.querySelectorAll<HTMLElement>('[data-toc-item]')
     )
-
     const baseTop = container.getBoundingClientRect().top
 
     return items.map((el) => {
@@ -70,7 +69,6 @@ export function getCornerY(
     toIndex: number
 ): number | null {
     if (fromIndex === toIndex) return null
-    console.log(fromIndex, toIndex)
     const dir = Math.sign(toIndex - fromIndex)
     let i = fromIndex
 

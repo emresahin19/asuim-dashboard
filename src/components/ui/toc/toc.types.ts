@@ -4,6 +4,11 @@ export type TocItem = {
     depth: number
 }
 
+export type TocProps = {
+  containerRef: React.RefObject<HTMLElement | null>
+  activeIndex: number
+}
+
 export interface PathSegment {
     offset: number
     top: number

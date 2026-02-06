@@ -1,41 +1,14 @@
 .root {
-    position: relative;
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    padding-top: 16px; 
+  display: flex;
+  position: relative;
+}
+
+.container {
+  position: relative;
+  width: var(--layout-gap);
 }
 
 .svg {
-    flex-shrink: 0;
-    overflow: visible;
-    
-}
-
-.list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-
-    li {
-        cursor: pointer;
-        font-size: 13px;
-        line-height: 20px;
-        padding-top: 6px;
-        padding-bottom: 6px;
-        border-radius: 6px;
-        color: var(--color-text-muted);
-        transition: color 150ms ease, background-color 150ms ease;
-
-        &[data-active='true'] {
-            color: var(--color-primary);
-            background: color-mix(in srgb,
-                    var(--color-primary) 10%,
-                    transparent);
-        }
-
-        &:hover {
-            color: var(--color-text);
-        }
-    }
+  flex-shrink: 0;
+  overflow: visible;
 }

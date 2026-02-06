@@ -84,12 +84,14 @@
 
 .subList {
   padding-left: var(--layout-gap);
-  margin: var(--layout-unit) 0;
 }
 
 .item {
   cursor: pointer;
   user-select: none;
+  gap: var(--layout-unit);
+  display: flex;
+  flex-direction: column;
 }
 
 .itemContent {
