@@ -61,7 +61,9 @@ export function Toc({ containerRef, activeIndex }: TocProps) {
   }, [containerRef])
 
   useEffect(() => {
-    if (!svg || activeIndex === undefined) return;
+    if (!svg || activeIndex === undefined || !svg.segments[activeIndex]) {
+      return;
+    }
 
     // 1. Durum: Aynı index, animasyona gerek yok
     if (activeIndex === prevActiveRef.current) {
@@ -75,7 +77,7 @@ export function Toc({ containerRef, activeIndex }: TocProps) {
 
     const fromIndex = prevActiveRef.current;
     prevActiveRef.current = activeIndex;
-
+    console.log(fromIndex, activeIndex)
     clearTimers();
 
     const route = buildRouteWaypoints(svg.segments, fromIndex, activeIndex);

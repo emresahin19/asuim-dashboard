@@ -163,10 +163,15 @@ export function Sidebar({
     if (!listRef.current || !activeId) return;
 
     const handle = requestAnimationFrame(() => {
-      const next = getVisibleActiveIndexById(listRef.current!, activeId, sidebarConfig);
-      setActiveIndex(prev => {
-        if (prev === next) return prev;
-        return next;
+      requestAnimationFrame(() => {
+        if (!listRef.current) return;
+
+        const next = getVisibleActiveIndexById(listRef.current, activeId, sidebarConfig);
+
+        setActiveIndex(prev => {
+          if (prev === next) return prev;
+          return next;
+        });
       });
     });
 
