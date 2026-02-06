@@ -108,10 +108,6 @@ export function Toc({ containerRef, activeIndex }: TocProps) {
     return () => clearTimers();
   }, [activeIndex, svg]);
 
-  useEffect(() => {
-    prevActiveRef.current = activeIndex
-  }, [activeIndex])
-
   return svg && (
     <div className={styles.container}>
       <svg className={styles.svg} width={svg.width} height={svg.height}>
