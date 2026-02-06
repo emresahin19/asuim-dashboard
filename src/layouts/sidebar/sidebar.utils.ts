@@ -81,34 +81,36 @@ export function findItemPathById(
     return null
 }
 
-export function getVisibleActiveIndexById(
+export function getVisibleActiveIndexesById(
     container: HTMLElement,
     activeId: string,
     items: SidebarItem[]
-): number {
+): number[] {
+    const indexPath: number[] = []
+
     const domItems = Array.from(
-        container.querySelectorAll<HTMLElement>('[data-toc-item]')
+        container.querySelectorAll<HTMLElement>('[data-toc-item="true"]')
     )
 
     // 1) Active item DOM’da mı?
     const directIndex = domItems.findIndex(
         (el) => el.dataset.id === activeId
     )
-    if (directIndex !== -1) return directIndex
+    if (directIndex !== -1) indexPath.push(directIndex)
 
-    // 2) Parent zincirini bul
     const path = findItemPathById(items, activeId)
-    if (!path) return 0
+    if (!path) return indexPath
 
-    // 3) Yukarıdan aşağı ilk DOM’da görüneni yakala
     for (const item of path.reverse()) {
+        if (item.id === activeId) continue
+
         const index = domItems.findIndex(
             (el) => el.dataset.id === item.id
         )
-        if (index !== -1) return index
+        if (index !== -1) indexPath.push(index)
     }
 
-    return 0
+    return indexPath
 }
 
 export function collectActiveGroupIds(

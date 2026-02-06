@@ -13,11 +13,10 @@ import { Toc } from '@/components/ui/toc/Toc';
 import {
   collectActiveGroupIds,
   findActiveIdByPath,
-  getVisibleActiveIndexById,
+  getVisibleActiveIndexesById,
   isDescendantActive,
   sidebarTocTokens
 } from './sidebar.utils';
-import { TocTokens } from '@/components/ui/toc/toc.types';
 
 function SidebarLeafRow({
   item,
@@ -105,6 +104,7 @@ function SidebarItemNode({
           onToggle={() => toggleGroup(item.id)}
         />
 
+        {/* <div className={clsx(styles.groupBody, isOpen && styles.groupOpen)}> */}
         {isOpen && (
           <ul className={styles.subList}>
             {item.children!.map(child => (
@@ -119,6 +119,7 @@ function SidebarItemNode({
             ))}
           </ul>
         )}
+        {/* </div> */}
       </li>
     )
   }
@@ -151,7 +152,7 @@ export function Sidebar({
   const [openGroups, setOpenGroups] = useState<Set<string>>(new Set())
   const [activeId, setActiveId] = useState<string | null>(null)
   const [activeIndex, setActiveIndex] = useState(0)
-
+  const [activePathIndex, setActivePathIndex] = useState(0)
 
   useEffect(() => {
     setActiveId(findActiveIdByPath(sidebarConfig, pathname))
@@ -168,8 +169,14 @@ export function Sidebar({
     const handle = requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         if (!listRef.current) return;
+        const nexts = getVisibleActiveIndexesById(listRef.current, activeId, sidebarConfig);
+        const next = nexts.length ? nexts[0] : 0
+        const first = nexts[nexts.length - 1]
 
-        const next = getVisibleActiveIndexById(listRef.current, activeId, sidebarConfig);
+        setActivePathIndex(prev => {
+          if (prev === first) return prev;
+          return first;
+        })
 
         setActiveIndex(prev => {
           if (prev === next) return prev;
@@ -197,7 +204,7 @@ export function Sidebar({
   })
 
   const tokens = useMemo(() => sidebarTocTokens[state], [state])
-  
+
   return (
     <aside
       ref={sidebarRef}

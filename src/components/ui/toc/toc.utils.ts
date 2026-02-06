@@ -1,42 +1,137 @@
 import { PathSegment, TocTokens, Waypoint } from "./toc.types"
 
 export function buildSvgPath(segments: PathSegment[], tokens: TocTokens): string {
-    const d: string[] = []
+    if (segments.length === 0) return '';
+    const d: string[] = [];
 
     for (let i = 0; i < segments.length; i++) {
-        const seg = segments[i]
-        const prev = segments[i - 1]
-        const next = segments[i + 1]
+        const seg = segments[i];
+        const prev = segments[i - 1];
+        const next = segments[i + 1];
 
+        // İlk nokta M (Move), diğerleri L (Line) veya Q (Quadratic Curve)
         if (i === 0) {
-            d.push(`M${seg.offset} ${seg.top}`)
+            d.push(`M${seg.offset} ${seg.top}`);
         } else if (prev && prev.offset !== seg.offset) {
-            d.push(
-                `Q${seg.offset} ${seg.top},${seg.offset} ${seg.top + tokens.cornerRadius}`
-            )
+            d.push(`Q${seg.offset} ${seg.top}, ${seg.offset} ${seg.top + tokens.cornerRadius}`);
         } else {
-            d.push(`L${seg.offset} ${seg.top}`)
+            d.push(`L${seg.offset} ${seg.top}`);
         }
 
         if (next && next.offset !== seg.offset) {
-            const cornerBottom = seg.bottom
-            d.push(`L${seg.offset} ${cornerBottom - tokens.cornerRadius}`)
-
-            const dx = next.offset - seg.offset
-            const dy = next.top - cornerBottom
-            const len = Math.hypot(dx, dy)
-            const r = Math.min(tokens.cornerRadius / len, 0.5)
-
-            const mx = seg.offset + dx * r
-            const my = cornerBottom + dy * r
-
-            d.push(`Q${seg.offset} ${cornerBottom},${mx} ${my}`)
+            const cornerBottom = seg.bottom;
+            d.push(`L${seg.offset} ${cornerBottom - tokens.cornerRadius}`);
+            const dx = next.offset - seg.offset;
+            const dy = next.top - cornerBottom;
+            const len = Math.hypot(dx, dy);
+            const r = Math.min(tokens.cornerRadius / len, 0.5);
+            const mx = seg.offset + dx * r;
+            const my = cornerBottom + dy * r;
+            d.push(`Q${seg.offset} ${cornerBottom}, ${mx} ${my}`);
         } else {
-            d.push(`L${seg.offset} ${seg.bottom}`)
+            d.push(`L${seg.offset} ${seg.bottom}`);
         }
     }
 
+    return d.join(' ');
+}
+
+export function buildPathFromWaypoints(
+    points: Waypoint[],
+    tokens: TocTokens
+): string {
+    if (points.length === 0) return ''
+
+    const d: string[] = []
+
+    for (let i = 0; i < points.length; i++) {
+        const p = points[i]
+        const prev = points[i - 1]
+        const next = points[i + 1]
+
+        // başlangıç
+        if (i === 0) {
+            d.push(`M${p.x} ${p.y}`)
+            continue
+        }
+
+        // yön vektörleri
+        const vx0 = prev ? p.x - prev.x : 0
+        const vy0 = prev ? p.y - prev.y : 0
+        const vx1 = next ? next.x - p.x : 0
+        const vy1 = next ? next.y - p.y : 0
+
+        const isCorner =
+            prev &&
+            next &&
+            (Math.sign(vx0) !== Math.sign(vx1) ||
+                Math.sign(vy0) !== Math.sign(vy1))
+
+        if (!isCorner || !next) {
+            // düz devam
+            d.push(`L${p.x} ${p.y}`)
+            continue
+        }
+
+        // köşe yumuşatma
+        const len0 = Math.hypot(vx0, vy0)
+        const len1 = Math.hypot(vx1, vy1)
+
+        if (len0 === 0 || len1 === 0) {
+            d.push(`L${p.x} ${p.y}`)
+            continue
+        }
+
+        const r0 = Math.min(tokens.cornerRadius / len0, 0.5)
+        const r1 = Math.min(tokens.cornerRadius / len1, 0.5)
+
+        const cx0 = p.x - vx0 * r0
+        const cy0 = p.y - vy0 * r0
+
+        const cx1 = p.x + vx1 * r1
+        const cy1 = p.y + vy1 * r1
+
+        d.push(`L${cx0} ${cy0}`)
+        d.push(`Q${p.x} ${p.y}, ${cx1} ${cy1}`)
+    }
+
     return d.join(' ')
+}
+
+export function buildCenterToCenterPath(segments: PathSegment[], tokens: TocTokens): string {
+    if (segments.length === 0) return '';
+    const d: string[] = [];
+
+    for (let i = 0; i < segments.length; i++) {
+        const seg = segments[i];
+        const prev = segments[i - 1];
+        const next = segments[i + 1];
+
+        // İlk nokta M (Move), diğerleri L (Line) veya Q (Quadratic Curve)
+        if (i === 0) {
+            d.push(`M${seg.offset} ${seg.center}`);
+        } else if (prev && prev.offset !== seg.offset) {
+            d.push(`Q${seg.offset} ${seg.top}, ${seg.offset} ${seg.top + tokens.cornerRadius}`);
+        } else {
+            d.push(`L${seg.offset} ${seg.top}`);
+        }
+
+        if (next && next.offset !== seg.offset) {
+            const cornerBottom = seg.bottom;
+            d.push(`L${seg.offset} ${cornerBottom - tokens.cornerRadius}`);
+            const dx = next.offset - seg.offset;
+            const dy = next.top - cornerBottom;
+            const len = Math.hypot(dx, dy);
+            const r = Math.min(tokens.cornerRadius / len, 0.5);
+            const mx = seg.offset + dx * r;
+            const my = cornerBottom + dy * r;
+            d.push(`Q${seg.offset} ${cornerBottom}, ${mx} ${my}`);
+        } else {
+            d.push(`L${seg.offset} ${seg.center}`);
+        }
+    }
+
+    return d.join(' ');
 }
 
 export function measureToc(container: HTMLElement, tokens: TocTokens): PathSegment[] {
@@ -51,7 +146,7 @@ export function measureToc(container: HTMLElement, tokens: TocTokens): PathSegme
 
         const realTop = rect.top - baseTop
         const realBottom = realTop + rect.height
-        
+
         const top = realTop - tokens.itemPadding
         const bottom = realBottom + tokens.itemPadding
         const center = realTop + rect.height / 2
@@ -63,6 +158,29 @@ export function measureToc(container: HTMLElement, tokens: TocTokens): PathSegme
             bottom,
         }
     })
+}
+
+export function getPathLengthAtY(
+    path: SVGPathElement | null,
+    targetY: number,
+    precision = 1
+): number {
+    if (!path) return 0
+    const total = path.getTotalLength()
+    let prev = path.getPointAtLength(0)
+
+    for (let l = 0; l <= total; l += precision) {
+        const p = path.getPointAtLength(l)
+        if (
+            (prev.y <= targetY && p.y >= targetY) ||
+            (prev.y >= targetY && p.y <= targetY)
+        ) {
+            return l
+        }
+        prev = p
+    }
+
+    return total
 }
 
 export function getCornerY(
