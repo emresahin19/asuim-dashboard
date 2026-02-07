@@ -14,3 +14,16 @@
   flex-shrink: 0;
   overflow: visible;
 }
+
+.trail {
+  stroke: var(--primary-500);
+}
+
+@keyframes trailFade {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
