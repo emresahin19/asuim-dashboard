@@ -81,36 +81,31 @@ export function findItemPathById(
     return null
 }
 
-export function getVisibleActiveIndexesById(
+export function getVisibleActiveIndexById(
     container: HTMLElement,
     activeId: string,
     items: SidebarItem[]
-): number[] {
-    const indexPath: number[] = []
-
+): number {
     const domItems = Array.from(
-        container.querySelectorAll<HTMLElement>('[data-toc-item="true"]')
+        container.querySelectorAll<HTMLElement>('[data-toc-item]')
     )
 
-    // 1) Active item DOM’da mı?
     const directIndex = domItems.findIndex(
         (el) => el.dataset.id === activeId
     )
-    if (directIndex !== -1) indexPath.push(directIndex)
+    if (directIndex !== -1) return directIndex
 
     const path = findItemPathById(items, activeId)
-    if (!path) return indexPath
+    if (!path) return 0
 
     for (const item of path.reverse()) {
-        if (item.id === activeId) continue
-
         const index = domItems.findIndex(
             (el) => el.dataset.id === item.id
         )
-        if (index !== -1) indexPath.push(index)
+        if (index !== -1) return index
     }
 
-    return indexPath
+    return 0
 }
 
 export function collectActiveGroupIds(
@@ -138,22 +133,22 @@ export function collectActiveGroupIds(
 
 
 export const sidebarTocTokens: Record<SidebarState, TocTokens> = {
-  'open': {
-    indentBase: 4,
-    indentStep: 16,
-    cornerRadius: 4,
-    itemPadding: 2,
-  },
-  'icon': {
-    indentBase: 4,
-    indentStep: 16,
-    cornerRadius: 16,
-    itemPadding: 2,
-  },
-  'closed': {
-    indentBase: 0,
-    indentStep: 0,
-    cornerRadius: 0,
-    itemPadding: 0,
-  }
+    'open': {
+        indentBase: 4,
+        indentStep: 16,
+        cornerRadius: 4,
+        itemPadding: 2,
+    },
+    'icon': {
+        indentBase: 4,
+        indentStep: 16,
+        cornerRadius: 16,
+        itemPadding: 2,
+    },
+    'closed': {
+        indentBase: 0,
+        indentStep: 0,
+        cornerRadius: 0,
+        itemPadding: 0,
+    }
 }

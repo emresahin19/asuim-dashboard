@@ -13,7 +13,7 @@ import { Toc } from '@/components/ui/toc/Toc';
 import {
   collectActiveGroupIds,
   findActiveIdByPath,
-  getVisibleActiveIndexesById,
+  getVisibleActiveIndexById,
   isDescendantActive,
   sidebarTocTokens
 } from './sidebar.utils';
@@ -152,7 +152,6 @@ export function Sidebar({
   const [openGroups, setOpenGroups] = useState<Set<string>>(new Set())
   const [activeId, setActiveId] = useState<string | null>(null)
   const [activeIndex, setActiveIndex] = useState(0)
-  const [activePathIndex, setActivePathIndex] = useState(0)
 
   useEffect(() => {
     setActiveId(findActiveIdByPath(sidebarConfig, pathname))
@@ -169,14 +168,7 @@ export function Sidebar({
     const handle = requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         if (!listRef.current) return;
-        const nexts = getVisibleActiveIndexesById(listRef.current, activeId, sidebarConfig);
-        const next = nexts.length ? nexts[0] : 0
-        const first = nexts[nexts.length - 1]
-
-        setActivePathIndex(prev => {
-          if (prev === first) return prev;
-          return first;
-        })
+        const next = getVisibleActiveIndexById(listRef.current, activeId, sidebarConfig);
 
         setActiveIndex(prev => {
           if (prev === next) return prev;

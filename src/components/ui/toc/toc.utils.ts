@@ -98,42 +98,6 @@ export function buildPathFromWaypoints(
     return d.join(' ')
 }
 
-export function buildCenterToCenterPath(segments: PathSegment[], tokens: TocTokens): string {
-    if (segments.length === 0) return '';
-    const d: string[] = [];
-
-    for (let i = 0; i < segments.length; i++) {
-        const seg = segments[i];
-        const prev = segments[i - 1];
-        const next = segments[i + 1];
-
-        // İlk nokta M (Move), diğerleri L (Line) veya Q (Quadratic Curve)
-        if (i === 0) {
-            d.push(`M${seg.offset} ${seg.center}`);
-        } else if (prev && prev.offset !== seg.offset) {
-            d.push(`Q${seg.offset} ${seg.top}, ${seg.offset} ${seg.top + tokens.cornerRadius}`);
-        } else {
-            d.push(`L${seg.offset} ${seg.top}`);
-        }
-
-        if (next && next.offset !== seg.offset) {
-            const cornerBottom = seg.bottom;
-            d.push(`L${seg.offset} ${cornerBottom - tokens.cornerRadius}`);
-            const dx = next.offset - seg.offset;
-            const dy = next.top - cornerBottom;
-            const len = Math.hypot(dx, dy);
-            const r = Math.min(tokens.cornerRadius / len, 0.5);
-            const mx = seg.offset + dx * r;
-            const my = cornerBottom + dy * r;
-            d.push(`Q${seg.offset} ${cornerBottom}, ${mx} ${my}`);
-        } else {
-            d.push(`L${seg.offset} ${seg.center}`);
-        }
-    }
-
-    return d.join(' ');
-}
-
 export function measureToc(container: HTMLElement, tokens: TocTokens): PathSegment[] {
     const items = Array.from(
         container.querySelectorAll<HTMLElement>('[data-toc-item]')
@@ -160,55 +124,6 @@ export function measureToc(container: HTMLElement, tokens: TocTokens): PathSegme
     })
 }
 
-export function getPathLengthAtY(
-    path: SVGPathElement | null,
-    targetY: number,
-    precision = 1
-): number {
-    if (!path) return 0
-    const total = path.getTotalLength()
-    let prev = path.getPointAtLength(0)
-
-    for (let l = 0; l <= total; l += precision) {
-        const p = path.getPointAtLength(l)
-        if (
-            (prev.y <= targetY && p.y >= targetY) ||
-            (prev.y >= targetY && p.y <= targetY)
-        ) {
-            return l
-        }
-        prev = p
-    }
-
-    return total
-}
-
-export function getCornerY(
-    segments: PathSegment[],
-    fromIndex: number,
-    toIndex: number
-): number | null {
-    if (fromIndex === toIndex) return null
-    const dir = Math.sign(toIndex - fromIndex)
-    let i = fromIndex
-
-    while (i !== toIndex) {
-        const current = segments[i]
-        const next = segments[i + dir]
-
-        if (!current || !next) return null
-
-        // X offset değişiyorsa burada köşe var
-        if (current.offset !== next.offset) {
-            return current.bottom
-        }
-
-        i += dir
-    }
-
-    return null
-}
-
 export function buildStepWaypoints(
     from: PathSegment,
     to: PathSegment,
@@ -218,7 +133,6 @@ export function buildStepWaypoints(
         return [{ x: to.offset, y: to.center }]
     }
 
-    // Aşağı inerken: Mevcut olanın altından çık, yenisinin tepesinden gir
     if (dir === 1) {
         return [
             { x: from.offset, y: from.bottom },
@@ -227,7 +141,6 @@ export function buildStepWaypoints(
         ]
     }
 
-    // Yukarı çıkarken: Mevcut olanın tepesinden çık, yenisinin altından gir
     return [
         { x: from.offset, y: from.top },
         { x: to.offset, y: to.bottom },

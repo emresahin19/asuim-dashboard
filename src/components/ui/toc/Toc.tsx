@@ -36,13 +36,6 @@ export function Toc({ containerRef, activeIndex, tokens }: TocProps) {
     [tokens]
   )
 
-  const cancelRaf = () => {
-    if (rafRef.current !== null) {
-      cancelAnimationFrame(rafRef.current)
-      rafRef.current = null
-    }
-  }
-
   const cancelAnimations = useCallback(() => {
     if (rafRef.current != null) {
       cancelAnimationFrame(rafRef.current)
@@ -92,7 +85,6 @@ export function Toc({ containerRef, activeIndex, tokens }: TocProps) {
 
     const fromIndex = prevActiveRef.current
     prevActiveRef.current = activeIndex
-
     cancelAnimations()
 
     const route = buildRouteWaypoints(svg.segments, fromIndex, activeIndex)
@@ -108,7 +100,6 @@ export function Toc({ containerRef, activeIndex, tokens }: TocProps) {
 
     const myRunId = runIdRef.current
 
-    // React'in d=... commit etmesi için 2 frame bekle
     rafRef.current = requestAnimationFrame(() => {
       rafRef.current = requestAnimationFrame(() => {
         if (runIdRef.current !== myRunId) return
@@ -117,23 +108,22 @@ export function Toc({ containerRef, activeIndex, tokens }: TocProps) {
         if (!el || !el.isConnected) return
 
         const d = el.getAttribute('d')
-        if (!d) return // d boşsa ölçme
+        if (!d) return 
 
-        let length = 0
+        let length = -1
         try {
           length = el.getTotalLength()
         } catch {
           return
         }
-        if (!isFinite(length) || length <= 0) return
 
-        // başlangıç state
+        if (!isFinite(length) || length < 0) return
+
         el.style.transition = 'none'
         el.style.strokeDasharray = `${length} ${length}`
         el.style.strokeDashoffset = `${length}`
         el.getBoundingClientRect()
 
-        // 1) çiz
         el.style.transition = `stroke-dashoffset ${drawDuration}ms ease-in-out`
         el.style.strokeDashoffset = '0'
 
@@ -145,7 +135,7 @@ export function Toc({ containerRef, activeIndex, tokens }: TocProps) {
           if (!el2 || !el2.isConnected) return
 
           const d2 = el2.getAttribute('d')
-          if (!d2) return // aktifPath temizlendiyse çık
+          if (!d2) return
 
           const t = Math.min((now - start) / drawDuration, 1)
 
@@ -161,7 +151,6 @@ export function Toc({ containerRef, activeIndex, tokens }: TocProps) {
 
         rafRef.current = requestAnimationFrame(animateDot)
 
-        // 2) çizim bitince sil
         const tErase = window.setTimeout(() => {
           if (runIdRef.current !== myRunId) return
           const el3 = pathRef.current
@@ -170,7 +159,6 @@ export function Toc({ containerRef, activeIndex, tokens }: TocProps) {
           el3.style.transition = `stroke-dashoffset ${eraseDuration}ms ease-in-out`
           el3.style.strokeDashoffset = `${-length}`
 
-          // 3) silme bitince gerçekten temizle
           const tClear = window.setTimeout(() => {
             if (runIdRef.current !== myRunId) return
             setActivePath('')
