@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useRef } from 'react';
 import { Header } from '@/layouts/header';
 import { Sidebar } from '@/layouts/sidebar';
 import styles from './app-layout.module.scss';
@@ -8,11 +8,20 @@ import { SidebarState } from '../layout.types';
 import { Breadcrumbs } from '@/components/navigation/breadcrumbs/Breadcrumbs';
 import { useBreakpoints } from '@/context/breakpoint/Provider';
 import { Hamburger } from '@/components/ui/hamburger/hamburger.component';
+import { useTheme } from '@/context/theme/ThemeContext';
+import type { MobileSidebarState } from '@/context/theme/types';
 
 export function AppLayout({ children }: { children: React.ReactNode }) {
   const { smAndDown } = useBreakpoints();
-  const [sidebar, setSidebar] = useState<SidebarState>('closed');
+  const { theme, setTheme } = useTheme();
+
+  const sidebar = useMemo<SidebarState>(() => theme.sidebarState, [theme.sidebarState]);
+
   const prevSidebar = useRef<SidebarState>(sidebar);
+
+  function normalizeMobileState(next: SidebarState): MobileSidebarState {
+    return next === 'icon' ? 'closed' : next;
+  }
 
   function toggleSidebar() {
     setSidebarState((prev) => {
@@ -27,26 +36,36 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
   }
 
   function setSidebarState(next: SidebarState | ((prev: SidebarState) => SidebarState)) {
-    setSidebar((prev) => {
-      const resolved = typeof next === 'function' ? next(prev) : next;
-
-      if (resolved !== prev) {
-        prevSidebar.current = prev;
-      }
-
-      return resolved;
-    });
-  }
-
-  const hamburgerState = useMemo(() => {
     if (smAndDown) {
-      return sidebar === 'closed' ? 'open' : 'closed';
+      const resolved = typeof next === 'function'
+        ? next(theme.sidebarState)
+        : next;
+      const normalized = normalizeMobileState(resolved);
+
+      if (normalized !== theme.sidebarState) {
+        setTheme({ sidebarState: normalized });
+      }
+      return;
     }
 
-    if (sidebar === 'closed') return 'open';
-    if (sidebar === 'open') return 'icon';
-    return 'closed';
-  }, [smAndDown, sidebar]);
+    const resolved = typeof next === 'function'
+      ? next(theme.sidebarState)
+      : next;
+
+    if (resolved !== theme.sidebarState) {
+      setTheme({ sidebarState: resolved });
+    }
+  }
+
+  useLayoutEffect(() => {
+    const root = document.documentElement;
+    root.dataset.sidebarPrev = prevSidebar.current;
+    root.dataset.sidebarState = sidebar;
+
+    if (sidebar !== prevSidebar.current) {
+      prevSidebar.current = sidebar;
+    }
+  }, [sidebar]);
   
   useEffect(() => {
     if (!smAndDown) {
@@ -56,26 +75,15 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
     document.body.style.overflow = sidebar === 'open' ? 'hidden' : '';
   }, [smAndDown, sidebar]);
 
-  useEffect(() => {
-    if (smAndDown) {
-      setSidebarState('closed');
-    } else {
-      setSidebarState('open');
-    }
-  }, [smAndDown]);
-
   return (
     <div
       className={styles.root}
-      data-sidebar-state={sidebar}
-      data-sidebar-prev={prevSidebar.current}
     >
-
       <button
         className={styles.hamburger}
         onClick={toggleSidebar}
       >
-        <Hamburger state={hamburgerState} />
+        <Hamburger />
       </button>
 
       <Header />

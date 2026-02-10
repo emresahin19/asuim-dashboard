@@ -21,8 +21,9 @@ import { TOKENS } from './toc.tokens'
 
 export function Toc({ containerRef, activeIndex, tokens }: TocProps) {
   const prevActiveRef = useRef(activeIndex)
-  const [svg, setSvg] = useState<TocSvgData | null>(null)
+  const strokeColorRef = useRef('transparent')
 
+  const [svg, setSvg] = useState<TocSvgData | null>(null)
   const [activePath, setActivePath] = useState('')
   const [dotPos, setDotPos] = useState({ x: 0, y: 0 })
 
@@ -44,6 +45,7 @@ export function Toc({ containerRef, activeIndex, tokens }: TocProps) {
     timeoutsRef.current.forEach(window.clearTimeout)
     timeoutsRef.current = []
     runIdRef.current += 1
+    strokeColorRef.current = 'transparent'
   }, [])
 
   const recompute = useCallback(() => {
@@ -126,6 +128,7 @@ export function Toc({ containerRef, activeIndex, tokens }: TocProps) {
 
         el.style.transition = `stroke-dashoffset ${drawDuration}ms ease-in-out`
         el.style.strokeDashoffset = '0'
+        strokeColorRef.current = 'var(--primary-500)'
 
         const start = performance.now()
 
@@ -194,7 +197,7 @@ export function Toc({ containerRef, activeIndex, tokens }: TocProps) {
           <path
             ref={pathRef}
             d={activePath}
-            stroke="var(--primary-500)"
+            stroke={strokeColorRef.current}
             strokeWidth="2.5"
             strokeLinecap="round"
             strokeLinejoin="round"

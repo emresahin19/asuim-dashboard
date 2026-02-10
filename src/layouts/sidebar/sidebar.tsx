@@ -17,6 +17,7 @@ import {
   isDescendantActive,
   sidebarTocTokens
 } from './sidebar.utils';
+import { TocTokens } from '@/components/ui/toc/toc.types';
 
 function SidebarLeafRow({
   item,
@@ -148,10 +149,10 @@ export function Sidebar({
 
   const pathname = usePathname()
 
-  /* ---------- STATE ---------- */
   const [openGroups, setOpenGroups] = useState<Set<string>>(new Set())
   const [activeId, setActiveId] = useState<string | null>(null)
   const [activeIndex, setActiveIndex] = useState(0)
+  const [tokens, setTokens] = useState<TocTokens | undefined>(undefined)
 
   useEffect(() => {
     setActiveId(findActiveIdByPath(sidebarConfig, pathname))
@@ -195,7 +196,11 @@ export function Sidebar({
     threshold: 50,
   })
 
-  const tokens = useMemo(() => sidebarTocTokens[state], [state])
+  useEffect(() => {
+    if (sidebarTocTokens[state]) {
+      setTokens(sidebarTocTokens[state])
+    }
+  }, [state])
 
   return (
     <aside

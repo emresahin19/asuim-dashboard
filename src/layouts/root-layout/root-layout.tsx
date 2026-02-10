@@ -3,6 +3,9 @@ import { ThemeProvider } from '@/context/theme/ThemeContext'
 import { resolveBreadcrumbs, resolveRouteByPathname } from '@/utils/route-resolver';
 import { usePathname } from 'next/navigation';
 import { RouteProvider } from '@/context/route/RouteContext';
+import { AppLayout } from '../app-layout';
+import { BreakpointProvider } from '@/context/breakpoint/Provider';
+import { ThemeSettings } from '@/components/ui/theme-settings/theme-settings';
 
 export default function RootLayout({
     children,
@@ -21,9 +24,14 @@ export default function RootLayout({
                 breadcrumbs,
             }}
         >
-            <ThemeProvider>
-                {children}
-            </ThemeProvider>
+            <BreakpointProvider>
+                <ThemeProvider>
+                    <AppLayout>
+                        {children}
+                        <ThemeSettings />
+                    </AppLayout>
+                </ThemeProvider>
+            </BreakpointProvider>
         </RouteProvider>
     );
 }

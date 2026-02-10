@@ -33,9 +33,10 @@
 
 .root {
   position: fixed;
-  top: 50%;
+  top: 0;
+  bottom: 0;
+  margin: auto;
   right: var(--layout-gap);
-  transform: translate(110%, -50%);
 
   width: 280px;
   max-height: calc(100vh - var(--layout-gap) * 2);
@@ -51,12 +52,18 @@
 
   display: flex;
   flex-direction: column;
+  height: fit-content;
   gap: var(--layout-gap);
+  
+  animation: open 0.3s ease;
+}
 
-  transition: transform var(--layout-transition);
-
-  &[data-open='true'] {
-    transform: translate(0, -50%);
+@keyframes open {
+  from {
+    transform: translateX(110%);
+  }
+  to {
+    transform: translateX(0);
   }
 }
 

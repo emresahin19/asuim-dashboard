@@ -34,7 +34,7 @@ const BreakpointsContext = createContext<BreakpointsContextType | null>(null);
 
 export function BreakpointProvider({ children }: { children: ReactNode }) {
   const [breakpointState, setBreakpointState] =
-    useState<BreakpointsContextType>(getBreakpoint());
+    useState<BreakpointsContextType>(() => getBreakpoint(true));
 
   const resizeObserverRef = useRef<ResizeObserver | null>(null);
 
@@ -78,8 +78,8 @@ export const useBreakpoints = () => {
 };
 
 // Function to get the current breakpoint state
-function getBreakpoint() {
-  if (isServer) {
+function getBreakpoint(forceServer = false) {
+  if (isServer || forceServer) {
     return {
       name: "",
       isXs: false,

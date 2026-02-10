@@ -55,44 +55,65 @@
     transition: stroke-dasharray 400ms, stroke-dashoffset 400ms, transform 400ms;
 }
 
-.hamTs.icon {
-    transform: rotate(90deg);
+@media (min-width: 768px) {
+    [data-sidebar-state='open'] .hamTs {
+        transform: rotate(90deg);
+    }
+
+    [data-sidebar-state='open'] .hamTs .top {
+        stroke-dashoffset: -18px;
+        stroke-dasharray: 58 121;
+        transform: translate(-2px, 12px) scaleY(1.4);
+        stroke-width: 4.5px;
+        transform-origin: 0%;
+    }
+
+    [data-sidebar-state='open'] .hamTs .bottom {
+        stroke-dashoffset: -18px;
+        stroke-dasharray: 58 121;
+        transform: translate(2px, -12px) scaleY(1.4);
+        stroke-width: 4.5px;
+        transform-origin: 0%;
+    }
+
+    [data-sidebar-state='open'] .hamTs .middle {
+        transform-origin: 50%;
+        transform: scaleX(0);
+    }
+
+    [data-sidebar-state='icon'] .hamTs {
+        transform: rotate(45deg);
+    }
+
+    [data-sidebar-state='icon'] .hamTs .top {
+        stroke-dashoffset: -68px;
+    }
+
+    [data-sidebar-state='icon'] .hamTs .bottom {
+        stroke-dashoffset: -68px;
+
+    }
+
+    [data-sidebar-state='icon'] .hamTs .middle {
+        opacity: 0;
+    }
 }
 
-.hamTs.icon .top {
-    stroke-dashoffset: -18px;
-    stroke-dasharray: 58 121;
-    transform: translate(-2px, 12px) scaleY(1.4);
-    stroke-width: 4.5px;
-    transform-origin: 0%;
-}
+@media (max-width: 768px) {
+    [data-sidebar-state='open'] .hamTs {
+        transform: rotate(45deg);
+    }
 
-.hamTs.icon .bottom {
-    stroke-dashoffset: -18px;
-    stroke-dasharray: 58 121;
-    transform: translate(2px, -12px) scaleY(1.4);
-    stroke-width: 4.5px;
-    transform-origin: 0%;
-}
+    [data-sidebar-state='open'] .hamTs .top {
+        stroke-dashoffset: -68px;
+    }
 
-.hamTs.icon .middle {
-    transform-origin: 50%;
-    transform: scaleX(0);
-}
+    [data-sidebar-state='open'] .hamTs .bottom {
+        stroke-dashoffset: -68px;
 
-.hamTs.closed {
-    transform: rotate(45deg);
-}
+    }
 
-.hamTs.closed .top {
-    stroke-dashoffset: -68px;
-}
-
-.hamTs.closed .bottom {
-    stroke-dashoffset: -68px;
-
-}
-
-.hamTs.closed .middle {
-    opacity: 0;
+    [data-sidebar-state='open'] .hamTs .middle {
+        opacity: 0;
+    }
 }

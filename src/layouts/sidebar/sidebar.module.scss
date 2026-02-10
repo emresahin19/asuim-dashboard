@@ -163,6 +163,7 @@
   grid-template-rows: 1fr;
 }
 
+[data-sidebar-state='icon'] .root,
 [data-sidebar-prev="open"][data-sidebar-state='icon'] .root,
 [data-sidebar-prev="icon"][data-sidebar-state='closed'] .root {
   scrollbar-width: thin;
