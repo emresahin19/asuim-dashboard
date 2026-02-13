@@ -1,4 +1,4 @@
-import { routesById } from '@/constant/route-registry.config';
+import { routesById } from '@/config';
 import NavigationPage from '@/views/components/navigation/Navigation.page';
 import { Metadata } from 'next';
 

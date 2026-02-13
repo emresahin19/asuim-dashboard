@@ -1,4 +1,4 @@
-import { routesById } from '@/constant/route-registry.config';
+import { routesById } from '@/config';
 import DashboardPage from '@/views/dashboard/Dashboard.page';
 import { Metadata } from 'next';
 

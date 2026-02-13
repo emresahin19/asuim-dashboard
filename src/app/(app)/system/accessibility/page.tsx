@@ -1,4 +1,4 @@
-import { routesById } from '@/constant/route-registry.config';
+import { routesById } from '@/config';
 import AccessibilityPage from '@/views/system/accessibility/Accessibility.page';
 import { Metadata } from 'next';
 

@@ -1,4 +1,4 @@
-import { routesById } from '@/constant/route-registry.config';
+import { routesById } from '@/config';
 import PerformancePage from '@/views/system/performance/Performance.page';
 import { Metadata } from 'next';
 

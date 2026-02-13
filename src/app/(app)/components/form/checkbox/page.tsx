@@ -1,4 +1,4 @@
-import { routesById } from '@/constant/route-registry.config';
+import { routesById } from '@/config';
 import CheckboxPage from '@/views/components/form/checkbox/Checkbox.page';
 import { Metadata } from 'next';
 

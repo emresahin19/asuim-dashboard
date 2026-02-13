@@ -1,5 +1,5 @@
 import * as Icons from './icons';
-import { IconName } from './icon.types';
+import { IconName } from '@/types';
 
 type IconProps = {
   name: IconName;

@@ -1,4 +1,4 @@
-import { routesById } from '@/constant/route-registry.config';
+import { routesById } from '@/config';
 import StatusPage from '@/views/status/Status.page';
 import { Metadata } from 'next';
 

@@ -1,6 +1,6 @@
 import '@/styles/globals.scss';
 
-import RootLayout from '@/layouts/root-layout/root-layout';
+import RootLayout from '@/components/layout/root-layout/RootLayout';
 
 export const metadata = {
     title: 'AsUIm Dashboard',

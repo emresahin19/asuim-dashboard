@@ -1,4 +1,4 @@
-import { routesById } from '@/constant/route-registry.config';
+import { routesById } from '@/config';
 import FormPage from '@/views/components/form/page/Form.page';
 import { Metadata } from 'next';
 

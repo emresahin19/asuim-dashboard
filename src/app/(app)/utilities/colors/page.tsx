@@ -1,4 +1,4 @@
-import { routesById } from '@/constant/route-registry.config';
+import { routesById } from '@/config';
 import ColorsPage from '@/views/utilities/colors/Colors.page';
 import { Metadata } from 'next';
 

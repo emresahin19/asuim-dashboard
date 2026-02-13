@@ -1,4 +1,4 @@
-import { routesById } from '@/constant/route-registry.config';
+import { routesById } from '@/config';
 import IconsPage from '@/views/utilities/icons/Icons.page';
 import { Metadata } from 'next';
 

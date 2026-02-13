@@ -2,8 +2,10 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import { spinnerMap, SpinnerName } from './spinner.data'
+
+import { clsx } from '@/utils'
+
 import styles from './spinner.module.scss'
-import { clsx } from '@/utils/clsx'
 
 type SpinnerProps = {
     name?: SpinnerName
