@@ -1,14 +1,4 @@
-export interface RouteDefinition {
-    id: string;
-    path: string;
-    title: string;
-    description?: string;
-
-    search?: {
-        keywords?: string[];
-        aliases?: string[];
-    };
-}
+import { RouteDefinition } from "@/types";
 
 export const routeRegistry: RouteDefinition[] = [
     { id: 'dashboard', path: '/dashboard', title: 'Dashboard' },
@@ -32,7 +22,3 @@ export const routeRegistry: RouteDefinition[] = [
     { id: 'accessibility', path: '/system/accessibility', title: 'Accessibility' },
     { id: 'performance', path: '/system/performance', title: 'Performance' },
 ];
-
-export const routesById = Object.fromEntries(
-    routeRegistry.map((r) => [r.id, r] as const)
-) satisfies Record<string, RouteDefinition>;

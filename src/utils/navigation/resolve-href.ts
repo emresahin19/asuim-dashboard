@@ -1,5 +1,5 @@
-import { routesById } from "@/config";
 import { SidebarNavNode } from "@/types";
+import { routesById } from "./routes-by-id";
 
 export function resolveHref(node: SidebarNavNode): string | undefined {
   if (node.href) return node.href;

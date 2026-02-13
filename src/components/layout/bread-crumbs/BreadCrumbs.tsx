@@ -1,10 +1,16 @@
 'use client';
 
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+
+import { resolveBreadcrumbs } from '@/utils';
 
 import styles from './bread-crumbs.module.scss';
 
-export function BreadCrumbs({ breadcrumbs }: { breadcrumbs: { title: string; path: string }[] }) {
+export function BreadCrumbs() {
+  const pathname = usePathname();
+  const breadcrumbs = resolveBreadcrumbs(pathname);
+
   if (breadcrumbs.length < 2) return null;
 
   return (

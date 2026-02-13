@@ -3,3 +3,4 @@ export type * from './icon.types';
 export type * from './theme.types';
 export type * from './breakpoints.types';
 export type * from './toc.types';
+export type * from './navigation.types';

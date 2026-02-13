@@ -1,4 +1,4 @@
-import { routesById } from '@/config';
+import { routesById } from '@/utils';
 import TokensPage from '@/views/foundations/tokens/Tokens.page';
 import { Metadata } from 'next';
 

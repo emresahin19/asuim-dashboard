@@ -1,4 +1,4 @@
-import { routesById } from '@/config';
+import { routesById } from '@/utils';
 import DashboardPage from '@/views/dashboard/Dashboard.page';
 import { Metadata } from 'next';
 

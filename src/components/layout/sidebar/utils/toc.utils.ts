@@ -15,36 +15,6 @@ export function findActiveIdByPath(
     return null
 }
 
-export function findItemById(
-    items: SidebarItem[],
-    id: string
-): SidebarItem | null {
-    for (const item of items) {
-        if (item.id === id) return item
-        if (item.children) {
-            const found = findItemById(item.children, id)
-            if (found) return found
-        }
-    }
-    return null
-}
-
-export function findParentItemById(
-    items: SidebarItem[],
-    id: string
-): SidebarItem | null {
-    for (const item of items) {
-        if (item.children) {
-            if (item.children.some((child) => child.id === id)) {
-                return item
-            }
-            const found = findParentItemById(item.children, id)
-            if (found) return found
-        }
-    }
-    return null
-}
-
 export function isDescendantActive(
     item: SidebarItem,
     activeId: string | null
@@ -128,7 +98,6 @@ export function collectActiveGroupIds(
 
     return false
 }
-
 
 export const sidebarTocTokens: Record<SidebarState, TocTokens> = {
     'open': {

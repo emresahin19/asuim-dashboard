@@ -1,4 +1,4 @@
-import { routesById } from '@/config';
+import { routesById } from '@/utils';
 import AccessibilityPage from '@/views/system/accessibility/Accessibility.page';
 import { Metadata } from 'next';
 

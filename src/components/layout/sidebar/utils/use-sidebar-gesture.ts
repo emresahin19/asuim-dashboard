@@ -1,6 +1,6 @@
 import { RefObject, useRef } from 'react';
 
-import { SidebarGestureOptions } from './sidebar.types';
+import { SidebarGestureOptions } from '../sidebar.types';
 
 export function useSidebarGesture(
   ref: RefObject<HTMLElement | null>,

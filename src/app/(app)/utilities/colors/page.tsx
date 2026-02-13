@@ -1,4 +1,4 @@
-import { routesById } from '@/config';
+import { routesById } from '@/utils';
 import ColorsPage from '@/views/utilities/colors/Colors.page';
 import { Metadata } from 'next';
 

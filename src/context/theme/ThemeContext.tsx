@@ -1,8 +1,13 @@
+'use client';
 
 import { createContext } from 'react'
-import { ThemeState } from '@/types'
+import { SidebarState, ThemeState } from '@/types'
 
-export const ThemeContext = createContext<{
+interface ThemeContextValue {
     theme: ThemeState
     setTheme: (next: Partial<ThemeState>) => void
-} | null>(null)
+    sidebarState: SidebarState
+    setSidebarState: (next: SidebarState) => void
+}
+
+export const ThemeContext = createContext<ThemeContextValue | null>(null)

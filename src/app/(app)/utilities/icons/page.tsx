@@ -1,4 +1,4 @@
-import { routesById } from '@/config';
+import { routesById } from '@/utils';
 import IconsPage from '@/views/utilities/icons/Icons.page';
 import { Metadata } from 'next';
 

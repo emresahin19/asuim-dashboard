@@ -1,4 +1,4 @@
-import { routesById } from '@/config';
+import { routesById } from '@/utils';
 import TypographySystemPage from '@/views/typography/system/TypographySystem.page';
 import { Metadata } from 'next';
 
