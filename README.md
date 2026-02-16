@@ -34,10 +34,6 @@ Proje, gelecekte Nx monorepo yapısına sorunsuz geçiş yapabilecek şekilde **
     ├── app/                  # Framework Layer (Next.js App Router)
     ├── views/                # Presenter Layer (Sayfa kompozisyonu)
     ├── components/           # Atomic & Feature Layer
-    │   ├── ui/               # Dumb Components (Button, Input)
-    │   ├── features/         # Smart Components (ThemeSettings, UserProfile)
-    │   ├── layout/           # Structural (Grid, Container)
-    │   └── data/             # Data-Aware (Table, Chart)
     ├── config/               # SSOT (Routing, sabitler)
     ├── context/              # Global state katmanı
     ├── hooks/                # Custom logic katmanı

@@ -13,3 +13,8 @@ export type ThemeState = {
     direction: Direction
     sidebarState: SidebarState
 }
+
+export interface ThemeProviderProps {
+    children: React.ReactNode;
+    initialTheme: ThemeState;
+}

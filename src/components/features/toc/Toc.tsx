@@ -68,9 +68,7 @@ export function Toc({ containerRef, activeIndex, tokens }: TocProps) {
 
     const container = containerRef.current
     if (!container) return
-
-    container.parentElement?.classList.add(styles.root)
-
+    
     const schedule = () => requestAnimationFrame(recompute)
     const ro = new ResizeObserver(schedule)
     const mo = new MutationObserver(schedule)
