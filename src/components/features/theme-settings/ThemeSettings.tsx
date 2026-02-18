@@ -17,6 +17,9 @@ export function ThemeSettings() {
     <>
       <button
         className={styles.trigger}
+        data-open={open}
+        aria-expanded={open}
+        aria-label="Toggle theme settings"
         onClick={() => setOpen((v) => !v)}
       >
         <Icon name="settings" size={22} />
@@ -26,55 +29,92 @@ export function ThemeSettings() {
         <aside className={styles.root}>
           <header className={styles.header}>
             <h3>Appearance</h3>
+            <p>Choose your visual preferences</p>
           </header>
 
-          <section className={styles.section}>
-            <h4>Theme</h4>
-            <div className={styles.row}>
-              <button className={styles.button} onClick={() => setTheme({ scheme: 'light' })}>Light</button>
-              <button className={styles.button} onClick={() => setTheme({ scheme: 'dark' })}>Dark</button>
+          <section className={styles.sectionCard}>
+            <div className={styles.sectionHead}>
+              <h4>Theme</h4>
+              <span>Mode</span>
+            </div>
+            <div className={styles.segmented}>
+              <button
+                className={styles.optionButton}
+                data-active={theme.scheme === 'light'}
+                onClick={() => setTheme({ scheme: 'light' })}
+              >
+                Light
+              </button>
+              <button
+                className={styles.optionButton}
+                data-active={theme.scheme === 'dark'}
+                onClick={() => setTheme({ scheme: 'dark' })}
+              >
+                Dark
+              </button>
             </div>
           </section>
 
-          <section className={styles.section}>
-            <h4>Palette</h4>
-            <div className={styles.grid}>
+          <section className={styles.sectionCard}>
+            <div className={styles.sectionHead}>
+              <h4>Palette</h4>
+              <span>Base tones</span>
+            </div>
+            <div className={styles.swatchGrid}>
               {palettes.map(p => (
                 <button
                   key={p}
-                  className={styles.button}
+                  className={styles.swatchButton}
                   data-active={theme.palette === p}
                   onClick={() => setTheme({ palette: p })}
                   style={getThemeSwatchStyle(p)}
                 >
-                  {p}
+                  <span>{p}</span>
                 </button>
               ))}
             </div>
           </section>
 
-          <section className={styles.section}>
-            <h4>Primary</h4>
-            <div className={styles.grid}>
+          <section className={styles.sectionCard}>
+            <div className={styles.sectionHead}>
+              <h4>Primary</h4>
+              <span>Accent color</span>
+            </div>
+            <div className={styles.swatchGrid}>
               {colors.map(c => (
                 <button
                   key={c}
-                  className={styles.button}
+                  className={styles.swatchButton}
                   data-active={theme.primary === c}
                   onClick={() => setTheme({ primary: c })}
                   style={getThemeSwatchStyle(c)}
                 >
-                  {c}
+                  <span>{c}</span>
                 </button>
               ))}
             </div>
           </section>
 
-          <section className={styles.section}>
-            <h4>Direction</h4>
-            <div className={styles.row}>
-              <button className={styles.button} onClick={() => setTheme({ direction: 'ltr' })}>LTR</button>
-              <button className={styles.button} onClick={() => setTheme({ direction: 'rtl' })}>RTL</button>
+          <section className={styles.sectionCard}>
+            <div className={styles.sectionHead}>
+              <h4>Direction</h4>
+              <span>Layout flow</span>
+            </div>
+            <div className={styles.segmented}>
+              <button
+                className={styles.optionButton}
+                data-active={theme.direction === 'ltr'}
+                onClick={() => setTheme({ direction: 'ltr' })}
+              >
+                LTR
+              </button>
+              <button
+                className={styles.optionButton}
+                data-active={theme.direction === 'rtl'}
+                onClick={() => setTheme({ direction: 'rtl' })}
+              >
+                RTL
+              </button>
             </div>
           </section>
         </aside>
