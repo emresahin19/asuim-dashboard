@@ -12,6 +12,7 @@ import { SidebarItemNode } from './components/SidebarItemNode';
 import {
   collectActiveGroupIds,
   findActiveIdByPath,
+  findVisibleActiveId,
   getVisibleActiveIndexById,
   sidebarTocTokens
 } from './utils/toc.utils';
@@ -33,14 +34,17 @@ export function Sidebar({ initialOpenGroups }: { initialOpenGroups: string[] }) 
     toggleGroup
   } = useSidebarState({ setOpenGroups });
 
-  const [activeId, setActiveId] = useState<string | null>(null)
-  const [activeIndex, setActiveIndex] = useState(0)
+  const [activeIndex, setActiveIndex] = useState<number | null>(null)
   const listRef = useRef<HTMLUListElement>(null)
 
   const pathname = usePathname()
+  const activeId = useMemo(() => findActiveIdByPath(sidebarConfig, pathname), [pathname])
+  const visibleActiveId = useMemo(
+    () => findVisibleActiveId(sidebarConfig, activeId, openGroups),
+    [activeId, openGroups]
+  )
 
   useEffect(() => {
-    setActiveId(findActiveIdByPath(sidebarConfig, pathname))
     setOpenGroups(prev => {
       const next = new Set(prev)
       collectActiveGroupIds(sidebarConfig, pathname, next)
@@ -49,22 +53,22 @@ export function Sidebar({ initialOpenGroups }: { initialOpenGroups: string[] }) 
   }, [pathname])
 
   useEffect(() => {
-    if (!listRef.current || !activeId) return;
+    if (!listRef.current || !visibleActiveId) {
+      setActiveIndex(null)
+      return;
+    }
 
     const handle = requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         if (!listRef.current) return;
-        const next = getVisibleActiveIndexById(listRef.current, activeId, sidebarConfig);
+        const next = getVisibleActiveIndexById(listRef.current, visibleActiveId, sidebarConfig);
 
-        setActiveIndex(prev => {
-          if (prev === next) return prev;
-          return next;
-        });
+        setActiveIndex(prev => (prev === next ? prev : next));
       });
     });
 
     return () => cancelAnimationFrame(handle);
-  }, [activeId, openGroups]);
+  }, [visibleActiveId, openGroups]);
 
   const gesture = useSidebarGesture(sidebarRef, {
     isOpen: sidebarState === 'open',
@@ -87,11 +91,13 @@ export function Sidebar({ initialOpenGroups }: { initialOpenGroups: string[] }) 
         </div>
 
         <nav className={styles.nav}>
-          <TocLazy
-            containerRef={listRef}
-            activeIndex={activeIndex}
-            tokens={tokens}
-          />
+          {activeIndex !== null && (
+            <TocLazy
+              containerRef={listRef}
+              activeIndex={activeIndex}
+              tokens={tokens}
+            />
+          )}
 
           <ul className={styles.list} ref={listRef}>
             {sidebarConfig.map(item => (
@@ -99,7 +105,7 @@ export function Sidebar({ initialOpenGroups }: { initialOpenGroups: string[] }) 
                 key={item.id}
                 item={item}
                 depth={1}
-                activeId={activeId}
+                activeId={visibleActiveId}
                 openGroups={openGroups}
                 toggleGroup={toggleGroup}
               />

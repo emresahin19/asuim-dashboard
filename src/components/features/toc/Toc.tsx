@@ -22,7 +22,8 @@ import AsimImage from '@/assets/image/asimthecat-120x120.png'
 import styles from './toc.module.scss'
 
 function Toc({ containerRef, activeIndex, tokens }: TocProps) {
-  const prevActiveRef = useRef(activeIndex)
+  const prevActiveRef = useRef<number | null>(activeIndex)
+  const hasInitialPlacementRef = useRef(false)
   const strokeColorRef = useRef('transparent')
 
   const [svg, setSvg] = useState<TocSvgData | null>(null)
@@ -83,11 +84,28 @@ function Toc({ containerRef, activeIndex, tokens }: TocProps) {
   }, [recompute, containerRef])
 
   useEffect(() => {
-    if (!svg || activeIndex === undefined || !svg.segments[activeIndex]) return
+    if (!svg || activeIndex === null || !svg.segments[activeIndex]) return
 
-    const fromIndex = prevActiveRef.current
+    const currentSegment = svg.segments[activeIndex]
+    if (!currentSegment) return
+
+    if (!hasInitialPlacementRef.current) {
+      hasInitialPlacementRef.current = true
+      prevActiveRef.current = activeIndex
+      setActivePath('')
+      setDotPos({ x: currentSegment.offset, y: currentSegment.center })
+      return
+    }
+
+    const fromIndex = prevActiveRef.current ?? activeIndex
     prevActiveRef.current = activeIndex
     cancelAnimations()
+
+    if (fromIndex === activeIndex) {
+      setActivePath('')
+      setDotPos({ x: currentSegment.offset, y: currentSegment.center })
+      return
+    }
 
     const route = buildRouteWaypoints(svg.segments, fromIndex, activeIndex)
     if (!route.length) return

@@ -1,7 +1,5 @@
 import { SidebarItem } from "@/types";
 import styles from '../sidebar.module.scss';
-import { useMemo } from "react";
-import { isDescendantActive } from "../utils/toc.utils";
 import { SidebarLeafRow } from "./SidebarLeafRow";
 
 export function SidebarItemNode({
@@ -26,18 +24,12 @@ export function SidebarItemNode({
   const isOpen = isGroup && openGroups.has(item.id);
   const isSelfActive = item.id === activeId;
 
-  const hasActiveDescendant = useMemo(() => {
-    return isGroup && item.children!.some(child => isDescendantActive(child, activeId));
-  }, [isGroup, item.children, activeId]);
-
-  const effectiveActive = isSelfActive || (isGroup && hasActiveDescendant);
-
   return (
     <li className={styles.item}>
       <SidebarLeafRow
         item={item}
         depth={depth}
-        isActive={effectiveActive}
+        isActive={isSelfActive}
         isGroup={isGroup}
         isOpen={isOpen}
         onToggle={isGroup ? () => toggleGroup(item.id) : undefined}

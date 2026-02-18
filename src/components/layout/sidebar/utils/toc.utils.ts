@@ -15,19 +15,6 @@ export function findActiveIdByPath(
     return null
 }
 
-export function isDescendantActive(
-    item: SidebarItem,
-    activeId: string | null
-): boolean {
-    if (!activeId) return false
-    if (item.id === activeId) return true
-    if (!item.children) return false
-
-    return item.children.some((child) =>
-        isDescendantActive(child, activeId)
-    )
-}
-
 export function findItemPathById(
     items: SidebarItem[],
     id: string,
@@ -47,6 +34,34 @@ export function findItemPathById(
     }
 
     return null
+}
+
+export function findVisibleActiveId(
+    items: SidebarItem[],
+    activeId: string | null,
+    openGroups: Set<string>
+): string | null {
+    if (!activeId) return null
+
+    const path = findItemPathById(items, activeId)
+    if (!path || !path.length) return null
+
+    let visibleId: string | null = null
+
+    for (let index = 0; index < path.length; index += 1) {
+        const node = path[index]
+        visibleId = node.id
+
+        const next = path[index + 1]
+        if (!next) break
+
+        const nodeIsGroup = !!(node.children && node.children.length > 0)
+        if (nodeIsGroup && !openGroups.has(node.id)) {
+            break
+        }
+    }
+
+    return visibleId
 }
 
 export function getVisibleActiveIndexById(

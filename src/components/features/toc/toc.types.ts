@@ -8,7 +8,7 @@ export type TocItem = {
 
 export type TocProps = {
   containerRef: React.RefObject<HTMLElement | null>
-  activeIndex: number
+    activeIndex: number | null
   tokens?: Partial<TocTokens>
 }
 
