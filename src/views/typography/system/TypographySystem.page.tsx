@@ -1,6 +1,8 @@
+import { typographyFontVariables } from '@/app/fonts.typography'
+
 export default function TypographySystemPage() {
     return (
-        <div style={{ padding: '48px', maxWidth: 960 }}>
+        <div className={typographyFontVariables} style={{ padding: '48px', maxWidth: 960 }}>
             {/* ======================================================
                 PAGE TITLE
             ====================================================== */}

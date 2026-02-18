@@ -5,6 +5,7 @@ import RootLayout from '@/components/layout/root-layout/RootLayout';
 import { getInitialTheme, readStoredTheme, THEME_STORAGE_KEY } from '@/context';
 import { collectActiveGroupIds } from '@/components/layout/sidebar/utils/toc.utils';
 import { sidebarConfig } from '@/config';
+import { globalFontVariables } from './fonts';
 
 export const metadata = {
     title: 'AsUIm Dashboard',
@@ -37,7 +38,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
             data-sidebar-state={initialSidebar}
             dir={initialTheme.direction}
         >
-            <body>
+            <body className={globalFontVariables}>
                 <RootLayout 
                     initialTheme={initialTheme}
                     openGroupsArray={openGroupsArray}
