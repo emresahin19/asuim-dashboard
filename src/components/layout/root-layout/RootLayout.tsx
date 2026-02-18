@@ -17,9 +17,8 @@ export default function RootLayout({
     <BreakpointProvider>
       <ThemeProvider 
         initialTheme={initialTheme}
-        openGroupsArray={openGroupsArray}
       >
-        <AppLayout>
+        <AppLayout initialOpenGroups={openGroupsArray}>
           {children}
           <ThemeSettings />
         </AppLayout>

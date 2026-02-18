@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
 
 import { sidebarConfig } from '@/config';
-import { Hamburger, Toc } from '@/components';
+import { Hamburger } from '@/components';
 
 import { useSidebarGesture } from './utils/use-sidebar-gesture';
 import { useSidebarState } from './utils/use-sidebar-state';
@@ -23,16 +23,15 @@ const TocLazy = dynamic(() => import('@/components/features/toc/Toc'), {
   ssr: false,
 });
 
-export function Sidebar() {
+export function Sidebar({ initialOpenGroups }: { initialOpenGroups: string[] }) {
   const sidebarRef = useRef<HTMLDivElement>(null);
+  const [openGroups, setOpenGroups] = useState<Set<string>>(() => new Set(initialOpenGroups));
   const {
     sidebarState,
     toggleSidebar,
     setSidebarState,
-    openGroups,
-    setOpenGroups,
     toggleGroup
-  } = useSidebarState();
+  } = useSidebarState({ setOpenGroups });
 
   const [activeId, setActiveId] = useState<string | null>(null)
   const [activeIndex, setActiveIndex] = useState(0)
@@ -42,11 +41,11 @@ export function Sidebar() {
 
   useEffect(() => {
     setActiveId(findActiveIdByPath(sidebarConfig, pathname))
-    const next = new Set(openGroups)
-
-    collectActiveGroupIds(sidebarConfig, pathname, next)
-
-    setOpenGroups(next)
+    setOpenGroups(prev => {
+      const next = new Set(prev)
+      collectActiveGroupIds(sidebarConfig, pathname, next)
+      return next
+    })
   }, [pathname])
 
   useEffect(() => {

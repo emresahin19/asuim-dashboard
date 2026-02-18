@@ -8,8 +8,6 @@ interface ThemeContextValue {
     setTheme: (next: Partial<ThemeState>) => void
     sidebarState: SidebarState
     setSidebarState: (next: SidebarState) => void
-    openGroups: Set<string>
-    setOpenGroups: (next: Set<string>) => void
 }
 
 export const ThemeContext = createContext<ThemeContextValue | null>(null)

@@ -1,9 +1,13 @@
 import { useTheme } from "@/context";
 import { SidebarState } from "@/types";
-import { useCallback } from "react";
+import { Dispatch, SetStateAction, useCallback } from "react";
 
-export function useSidebarState() {
-  const { sidebarState, setSidebarState, openGroups, setOpenGroups } = useTheme();
+type UseSidebarStateArgs = {
+  setOpenGroups: Dispatch<SetStateAction<Set<string>>>;
+};
+
+export function useSidebarState({ setOpenGroups }: UseSidebarStateArgs) {
+  const { sidebarState, setSidebarState } = useTheme();
 
   const toggleSidebar = useCallback(() => {
     const cycle: Record<SidebarState, SidebarState> = {
@@ -16,17 +20,17 @@ export function useSidebarState() {
   }, [sidebarState, setSidebarState]);
 
   const toggleGroup = useCallback((id: string) => {
-    const next = new Set(openGroups);
-    next.has(id) ? next.delete(id) : next.add(id);
-    setOpenGroups(next);
-  }, [openGroups, setOpenGroups]);
+    setOpenGroups(prev => {
+      const next = new Set(prev);
+      next.has(id) ? next.delete(id) : next.add(id);
+      return next;
+    });
+  }, [setOpenGroups]);
 
   return {
     sidebarState,
     toggleSidebar,
     setSidebarState,
-    openGroups,
-    setOpenGroups,
     toggleGroup
   };
 }

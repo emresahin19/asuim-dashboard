@@ -17,5 +17,4 @@ export type ThemeState = {
 export interface ThemeProviderProps {
     children: React.ReactNode;
     initialTheme: ThemeState;
-    openGroupsArray: string[];
 }
