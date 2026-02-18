@@ -1,6 +1,6 @@
 .trigger {
   position: fixed;
-  right: 0;
+  inset-inline-end: 0;
   top: 0;
   bottom: 0;
   margin: auto;
@@ -39,13 +39,17 @@
   }
 }
 
+[dir='rtl'] .trigger {
+  border-radius: 0 8px 8px 0;
+}
+
 
 .root {
   position: fixed;
   top: 0;
   bottom: 0;
   margin: auto;
-  right: var(--layout-gap);
+  inset-inline-end: var(--layout-gap);
 
   width: min(340px, calc(100vw - var(--layout-gap) * 2));
   max-height: calc(100vh - var(--layout-gap) * 2);
@@ -91,6 +95,19 @@
 @keyframes open {
   from {
     transform: translateX(110%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+[dir='rtl'] .root {
+  animation-name: openRtl;
+}
+
+@keyframes openRtl {
+  from {
+    transform: translateX(-110%);
   }
   to {
     transform: translateX(0);

@@ -1,8 +1,7 @@
 .root {
   position: fixed;
   top: var(--layout-gap);
-  left: var(--layout-gap);
-  right: var(--layout-gap);
+  inset-inline: var(--layout-gap);
 
   height: var(--layout-header-height);
   border-radius: 0;
@@ -14,7 +13,7 @@
   transition: var(--layout-transition);
   z-index: 100;
 
-  margin-left: var(--layout-main-left);
+  margin-inline-start: var(--layout-main-inline-offset);
 
   &:before {
     content: '';
@@ -23,15 +22,14 @@
     height: 2px;
     background: var(--color-sidebar-border);
     bottom: 0;
-    left: 0;
-    right: 0;
+    inset-inline: 0;
     margin: auto;
   }
 }
 
 @media (max-width: 768px) {
   .root {
-    margin-left: 0;
+    margin-inline-start: 0;
   }
 }
 

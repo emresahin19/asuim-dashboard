@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 
 import { sidebarConfig } from '@/config';
 import { Hamburger } from '@/components';
+import { useTheme } from '@/context';
 
 import { useSidebarGesture } from './utils/use-sidebar-gesture';
 import { useSidebarState } from './utils/use-sidebar-state';
@@ -26,6 +27,7 @@ const TocLazy = dynamic(() => import('@/components/features/toc/Toc'), {
 
 export function Sidebar({ initialOpenGroups }: { initialOpenGroups: string[] }) {
   const sidebarRef = useRef<HTMLDivElement>(null);
+  const { theme } = useTheme();
   const [openGroups, setOpenGroups] = useState<Set<string>>(() => new Set(initialOpenGroups));
   const {
     sidebarState,
@@ -95,6 +97,7 @@ export function Sidebar({ initialOpenGroups }: { initialOpenGroups: string[] }) 
             <TocLazy
               containerRef={listRef}
               activeIndex={activeIndex}
+              direction={theme.direction}
               tokens={tokens}
             />
           )}

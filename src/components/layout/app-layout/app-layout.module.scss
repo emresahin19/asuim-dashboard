@@ -24,7 +24,7 @@
   border-radius: var(--layout-radius);
 
   transition: var(--layout-transition);
-  margin-left: var(--layout-main-left);
+  margin-inline-start: var(--layout-main-inline-offset);
 }
 
 .content {
@@ -35,7 +35,7 @@
 
 @media (max-width: 768px) {
   .main {
-    margin-left: 0;
+    margin-inline-start: 0;
     transform: none;
   }
 

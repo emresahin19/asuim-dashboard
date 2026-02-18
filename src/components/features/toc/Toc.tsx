@@ -21,7 +21,7 @@ import {
 import AsimImage from '@/assets/image/asimthecat-120x120.png'
 import styles from './toc.module.scss'
 
-function Toc({ containerRef, activeIndex, tokens }: TocProps) {
+function Toc({ containerRef, activeIndex, direction, tokens }: TocProps) {
   const prevActiveRef = useRef<number | null>(activeIndex)
   const hasInitialPlacementRef = useRef(false)
   const strokeColorRef = useRef('transparent')
@@ -54,15 +54,19 @@ function Toc({ containerRef, activeIndex, tokens }: TocProps) {
   const recompute = useCallback(() => {
     if (!containerRef?.current) return
 
-    const segments = measureToc(containerRef.current, tokensWithDefaults)
-    if (!segments.length) return
+    const measured = measureToc(containerRef.current, tokensWithDefaults)
+    if (!measured.length) return
+
+    const width = Math.max(...measured.map(s => s.offset)) + 4
+    const segments = direction === 'rtl'
+      ? measured.map((segment) => ({ ...segment, offset: width - segment.offset }))
+      : measured
 
     const path = buildSvgPath(segments, tokensWithDefaults)
-    const width = Math.max(...segments.map(s => s.offset)) + 4
-    const height = segments[segments.length - 1].bottom
+    const height = measured[measured.length - 1].bottom
 
     setSvg({ path, width, height, segments })
-  }, [containerRef, tokensWithDefaults])
+  }, [containerRef, direction, tokensWithDefaults])
 
   useLayoutEffect(() => {
     recompute()

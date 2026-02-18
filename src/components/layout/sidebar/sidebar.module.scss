@@ -1,7 +1,7 @@
 .root {
   position: fixed;
   top: var(--layout-gap);
-  left: var(--layout-gap);
+  inset-inline-start: var(--layout-gap);
 
   width: var(--layout-sidebar-width);
   height: calc(100vh - var(--layout-gap) * 2);
@@ -48,8 +48,7 @@
     background: var(--color-sidebar-border);
     transition: background var(--layout-transition);
     bottom: 0;
-    left: 0;
-    right: 0;
+    inset-inline: 0;
     margin: auto;
   }
 }
@@ -80,11 +79,11 @@
   display: flex;
   flex-direction: column;
   gap: var(--layout-unit);
-  padding-left: var(--layout-gap);
+  padding-inline-start: var(--layout-gap);
 }
 
 .subList {
-  padding-left: var(--layout-gap);
+  padding-inline-start: var(--layout-gap);
 }
 
 .item {
@@ -137,13 +136,13 @@
   font-size: 12px;
   letter-spacing: 0.04em;
   margin-top: var(--layout-gap);
-  padding-left: var(--layout-unit);
+  padding-inline-start: var(--layout-unit);
   color: var(--color-sidebar-text-muted);
   position: relative;
 }
 
 .chevron {
-  margin-left: auto;
+  margin-inline-start: auto;
   transition: transform var(--layout-transition);
 }
 
@@ -167,7 +166,7 @@
 .hamburger {
   cursor: pointer;
   top: var(--layout-hamburger-top);
-  left: var(--layout-hamburger-left);
+  inset-inline-start: var(--layout-hamburger-inline-offset);
   z-index: 400;
   width: var(--layout-hamburger-size);
   stroke: var(--color-text);

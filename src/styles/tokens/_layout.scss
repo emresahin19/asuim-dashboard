@@ -8,18 +8,19 @@
   --layout-sidebar-width-default: calc(var(--layout-unit) * 32); // 256px
   --layout-sidebar-width: var(--layout-sidebar-width-default);
   --layout-sidebar-icon-width: calc(var(--layout-unit) * 6); // 48px
-  --layout-main-left: calc(var(--layout-sidebar-width) + var(--layout-gap)); // 272px
+  --layout-main-inline-offset: calc(var(--layout-sidebar-width) + var(--layout-gap)); // 272px
 
   --layout-gap: calc(var(--layout-unit) * 2); // 16px
   --layout-radius: calc(var(--layout-unit) * 3); // 24px
 
   --layout-hamburger-top: calc(var(--layout-unit) * 3.5); // 36px
-  --layout-hamburger-left: calc(var(--layout-unit) * 2.5); // 28px
+  --layout-hamburger-inline-offset: calc(var(--layout-unit) * 2.5); // 28px
   --layout-hamburger-size: calc(var(--layout-unit) * 5); // 24px
 
   --layout-box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
   --layout-icon-box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
   --layout-transform: translateX(0);
+  --layout-offscreen-translate: calc(-100% - var(--layout-gap));
 
   /* === Derived values (THE MATH) === */
   --layout-vertical-offset: calc(var(--layout-gap) + var(--layout-header-height));
@@ -32,14 +33,18 @@
   --layout-transition: var(--layout-transition-time) var(--layout-transition-type);
 }
 
+[dir='rtl'] {
+  --layout-offscreen-translate: calc(100% + var(--layout-gap));
+}
+
 [data-sidebar-state='closed'] {
-  --layout-main-left: 0;
-  --layout-transform: translateX(calc(-100% - var(--layout-gap)));
+  --layout-main-inline-offset: 0;
+  --layout-transform: translateX(var(--layout-offscreen-translate));
 }
 
 [data-sidebar-state='icon'] {
   --layout-sidebar-width: calc(var(--layout-sidebar-icon-width) * 2);
-  --layout-main-left: calc(var(--layout-sidebar-icon-width) * 2 + var(--layout-gap));
+  --layout-main-inline-offset: calc(var(--layout-sidebar-icon-width) * 2 + var(--layout-gap));
 }
 
 [data-sidebar-prev='icon'][data-sidebar-state='closed'] {
