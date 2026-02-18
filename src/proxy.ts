@@ -1,4 +1,4 @@
-// middleware.ts
+// proxy.ts
 import { NextResponse, userAgent } from 'next/server'
 import type { NextRequest } from 'next/server'
 
@@ -15,7 +15,7 @@ export const config = {
   ],
 };
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const { device } = userAgent(request);
   const viewport = device.type === 'mobile' ? 'mobile' : 'desktop';
   const response = NextResponse.next();
