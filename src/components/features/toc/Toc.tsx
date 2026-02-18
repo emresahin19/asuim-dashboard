@@ -21,7 +21,7 @@ import {
 import AsimImage from '@/assets/image/asimthecat-120x120.png'
 import styles from './toc.module.scss'
 
-export function Toc({ containerRef, activeIndex, tokens }: TocProps) {
+function Toc({ containerRef, activeIndex, tokens }: TocProps) {
   const prevActiveRef = useRef(activeIndex)
   const strokeColorRef = useRef('transparent')
 
@@ -224,3 +224,5 @@ export function Toc({ containerRef, activeIndex, tokens }: TocProps) {
     )
   )
 }
+
+export default Toc

@@ -1,10 +1,9 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
 
 import { sidebarConfig } from '@/config';
-import { TocTokens } from '@/types'
 import { Hamburger, Toc } from '@/components';
 
 import { useSidebarGesture } from './utils/use-sidebar-gesture';
@@ -18,6 +17,11 @@ import {
 } from './utils/toc.utils';
 
 import styles from './sidebar.module.scss';
+import dynamic from 'next/dynamic';
+
+const TocLazy = dynamic(() => import('@/components/features/toc/Toc'), {
+  ssr: false,
+});
 
 export function Sidebar() {
   const sidebarRef = useRef<HTMLDivElement>(null);
@@ -32,7 +36,6 @@ export function Sidebar() {
 
   const [activeId, setActiveId] = useState<string | null>(null)
   const [activeIndex, setActiveIndex] = useState(0)
-  const [tokens, setTokens] = useState<TocTokens | undefined>(undefined)
   const listRef = useRef<HTMLUListElement>(null)
 
   const pathname = usePathname()
@@ -64,18 +67,13 @@ export function Sidebar() {
     return () => cancelAnimationFrame(handle);
   }, [activeId, openGroups]);
 
-
   const gesture = useSidebarGesture(sidebarRef, {
     isOpen: sidebarState === 'open',
     onClose: () => setSidebarState('closed'),
     sidebarWidth: 240,
   });
 
-  useEffect(() => {
-    if (sidebarTocTokens[sidebarState]) {
-      setTokens(sidebarTocTokens[sidebarState])
-    }
-  }, [sidebarState])
+  const tokens = useMemo(() => sidebarTocTokens[sidebarState], [sidebarState]);
 
   return (
     <>
@@ -90,7 +88,7 @@ export function Sidebar() {
         </div>
 
         <nav className={styles.nav}>
-          <Toc
+          <TocLazy
             containerRef={listRef}
             activeIndex={activeIndex}
             tokens={tokens}

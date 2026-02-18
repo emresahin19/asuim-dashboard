@@ -7,13 +7,18 @@ import { ThemeState } from '@/types';
 export default function RootLayout({
  children,
  initialTheme,
+ openGroupsArray,
 }: {
   children: React.ReactNode;
   initialTheme: ThemeState;
+  openGroupsArray: string[];
 }) {
   return (
     <BreakpointProvider>
-      <ThemeProvider initialTheme={initialTheme}>
+      <ThemeProvider 
+        initialTheme={initialTheme}
+        openGroupsArray={openGroupsArray}
+      >
         <AppLayout>
           {children}
           <ThemeSettings />

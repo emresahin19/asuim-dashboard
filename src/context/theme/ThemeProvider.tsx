@@ -12,8 +12,9 @@ import { ThemeContext } from './ThemeContext'
 import { useBreakpoints } from '../breakpoint'
 import { storeTheme } from './theme.utils'
 
-export function ThemeProvider({ children, initialTheme }: ThemeProviderProps) {
+export function ThemeProvider({ children, initialTheme, openGroupsArray }: ThemeProviderProps) {
     const [theme, setThemeState] = useState<ThemeState>(initialTheme);
+    const [openGroups, setOpenGroups] = useState(new Set(openGroupsArray));
     const [isMounted, setIsMounted] = useState(false);
     const [sidebarState, setSidebarState] = useState<SidebarState>(theme.sidebarState);
 
@@ -82,7 +83,9 @@ export function ThemeProvider({ children, initialTheme }: ThemeProviderProps) {
             theme,
             setTheme: updateTheme,
             sidebarState,
-            setSidebarState: updateSidebarState
+            setSidebarState: updateSidebarState,
+            openGroups,
+            setOpenGroups
         }}>
             {children}
         </ThemeContext.Provider>

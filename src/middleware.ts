@@ -20,6 +20,7 @@ export function middleware(request: NextRequest) {
   const viewport = device.type === 'mobile' ? 'mobile' : 'desktop';
   const response = NextResponse.next();
   response.headers.set('x-device-type', viewport);
+  response.headers.set('x-pathname', request.nextUrl.pathname);
 
   return response;
 }
