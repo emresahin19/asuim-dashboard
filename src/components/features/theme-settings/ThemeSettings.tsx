@@ -4,6 +4,7 @@ import { useState } from 'react'
 
 import { useTheme } from '@/context'
 import { Icon } from '@/components'
+import { getThemeSwatchStyle } from '@/context/theme/theme.css-vars'
 
 import styles from './theme-settings.module.scss'
 import { colors, palettes } from '@/config'
@@ -44,10 +45,7 @@ export function ThemeSettings() {
                   className={styles.button}
                   data-active={theme.palette === p}
                   onClick={() => setTheme({ palette: p })}
-                  style={{
-                    background: `var(--color-${p}-200)`,
-                    color: `var(--color-${p}-800)`,
-                  }}
+                  style={getThemeSwatchStyle(p)}
                 >
                   {p}
                 </button>
@@ -64,10 +62,7 @@ export function ThemeSettings() {
                   className={styles.button}
                   data-active={theme.primary === c}
                   onClick={() => setTheme({ primary: c })}
-                  style={{
-                    background: `var(--color-${c}-200)`,
-                    color: `var(--color-${c}-800)`,
-                  }}
+                  style={getThemeSwatchStyle(c)}
                 >
                   {c}
                 </button>

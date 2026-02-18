@@ -3,12 +3,7 @@
 @use './tokens/spacing';
 @use './tokens/typography';
 
-/* Colors */
-@use './tokens/colors';
-
 /* Theme */
-@use './theme/palette';
-@use './theme/primary';
 @use './theme/dark';
 @use './theme/light';
 @use './theme/base';

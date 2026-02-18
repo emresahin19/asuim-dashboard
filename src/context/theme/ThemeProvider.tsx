@@ -11,6 +11,7 @@ import { SidebarState, ThemeProviderProps, ThemeState } from '@/types'
 import { ThemeContext } from './ThemeContext'
 import { useBreakpoints } from '../breakpoint'
 import { storeTheme } from './theme.utils'
+import { applyThemeColorVariables } from './theme.css-vars'
 
 export function ThemeProvider({ children, initialTheme }: ThemeProviderProps) {
     const [theme, setThemeState] = useState<ThemeState>(initialTheme);
@@ -53,6 +54,8 @@ export function ThemeProvider({ children, initialTheme }: ThemeProviderProps) {
     useEffect(() => {
         if (!isMounted) return;
         const root = document.documentElement;
+
+        applyThemeColorVariables(root, theme);
 
         const updates = {
             'theme': theme.scheme,

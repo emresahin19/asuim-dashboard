@@ -5,6 +5,7 @@ import RootLayout from '@/components/layout/root-layout/RootLayout';
 import { getInitialTheme, readStoredTheme, THEME_STORAGE_KEY } from '@/context';
 import { collectActiveGroupIds } from '@/components/layout/sidebar/utils/toc.utils';
 import { sidebarConfig } from '@/config';
+import { getThemeColorStyle } from '@/context/theme/theme.css-vars';
 import { globalFontVariables } from './fonts';
 
 export const metadata = {
@@ -24,6 +25,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
 
     const initialSidebar = viewport === 'mobile' ? 'closed' : (initialTheme.sidebarState || 'open');
     const pathname = headersList.get('x-pathname') || '/';
+    const initialThemeColors = getThemeColorStyle(initialTheme);
 
     const initialOpenGroups = new Set<string>();
     collectActiveGroupIds(sidebarConfig, pathname, initialOpenGroups);
@@ -37,6 +39,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
             data-palette={initialTheme.palette}
             data-sidebar-state={initialSidebar}
             dir={initialTheme.direction}
+            style={initialThemeColors}
         >
             <body className={globalFontVariables}>
                 <RootLayout 
