@@ -43,3 +43,9 @@ ol {
   padding: 0;
   margin: 0;
 }
+
+.layout-main {
+  flex: 1;
+  min-width: 0;
+  container-type: inline-size;
+}

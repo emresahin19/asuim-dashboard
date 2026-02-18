@@ -5,7 +5,6 @@ export interface BreakpointsContextType {
     isMd: boolean;
     isLg: boolean;
     isXl: boolean;
-    is2xl: boolean;
     smAndDown: boolean;
     smAndUp: boolean;
     mdAndDown: boolean;
@@ -18,5 +17,4 @@ export interface BreakpointsContextType {
     MD: number;
     LG: number;
     XL: number;
-    "2XL": number;
 }

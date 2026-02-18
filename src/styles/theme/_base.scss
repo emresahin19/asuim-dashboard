@@ -1,7 +1,7 @@
 :root {
   --color-bg-app: var(--base-100);
   --color-bg-surface: var(--base-100);
-  --color-bg-card: var(--base-100);
+  --color-bg-card: var(--base-200);
   --color-bg-elevated: var(--base-100);
 
 
@@ -71,4 +71,10 @@
   --color-accent-muted: var(--primary-300);
   --color-accent-text: var(--primary-700);
   --color-accent-contrast: var(--color-white);
+
+  /* =====================================================
+   * SHADOWS
+   * ===================================================== */
+  --card-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+  --icon-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
 }

@@ -2,6 +2,8 @@
 @use './tokens/layout';
 @use './tokens/spacing';
 @use './tokens/typography';
+@use './tokens/breakpoints';
+@use './tokens/grid';
 
 /* Theme */
 @use './theme/dark';

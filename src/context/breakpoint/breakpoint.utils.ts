@@ -10,7 +10,6 @@ export function getBreakpoint(forceServer = false) {
       isMd: false,
       isLg: false,
       isXl: false,
-      is2xl: false,
       smAndDown: false,
       smAndUp: false,
       mdAndDown: false,
@@ -31,15 +30,13 @@ export function getBreakpoint(forceServer = false) {
   const sm = width < breakpoints.MD && !xs;
   const md = width < breakpoints.LG && !(sm || xs);
   const lg = width < breakpoints.XL && !(md || sm || xs);
-  const xl = width < breakpoints["2XL"] && !(lg || md || sm || xs);
-  const the2xl = width >= breakpoints["2XL"];
+  const xl = width >= breakpoints.XL && !(lg || md || sm || xs);
 
   if (xs) name = "xs";
   if (sm) name = "sm";
   if (md) name = "md";
   if (lg) name = "lg";
   if (xl) name = "xl";
-  if (the2xl) name = "2xl";
 
   return {
     name,
@@ -49,16 +46,15 @@ export function getBreakpoint(forceServer = false) {
     isMd: md,
     isLg: lg,
     isXl: xl,
-    is2xl: the2xl,
 
     smAndDown: xs || sm,
-    smAndUp: sm || md || lg || xl || the2xl,
+    smAndUp: sm || md || lg || xl,
     mdAndDown: xs || sm || md,
-    mdAndUp: md || lg || xl || the2xl,
+    mdAndUp: md || lg || xl,
     lgAndDown: xs || sm || md || lg,
-    lgAndUp: lg || xl || the2xl,
+    lgAndUp: lg || xl,
     xlAndDown: xs || sm || md || lg || xl,
-    xlAndUp: xl || the2xl,
+    xlAndUp: xl,
 
     ...breakpoints,
   };

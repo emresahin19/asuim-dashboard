@@ -19,18 +19,12 @@
   overflow: auto;
 
   margin-top: var(--layout-vertical-offset);
-  padding: var(--layout-gap);
+  padding: calc(var(--layout-gap) * 2);
 
   border-radius: var(--layout-radius);
 
   transition: var(--layout-transition);
   margin-inline-start: var(--layout-main-inline-offset);
-}
-
-.content {
-  padding: var(--layout-gap);
-  min-height: 100%;
-  border-radius: var(--layout-radius);
 }
 
 @media (max-width: 768px) {

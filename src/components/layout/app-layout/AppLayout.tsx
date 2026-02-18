@@ -5,6 +5,7 @@ import { Sidebar } from '../sidebar';
 import { BreadCrumbs } from '@/components';
 
 import styles from './app-layout.module.scss';
+import { clsx } from '@/utils';
 
 export function AppLayout({
   children,
@@ -18,11 +19,9 @@ export function AppLayout({
       <Header />
       <Sidebar initialOpenGroups={initialOpenGroups} />
 
-      <main className={styles.main}>
-        <div className={styles.content}>
-          <BreadCrumbs />
-          {children}
-        </div>
+      <main className={clsx('layout-main', styles.main)}>
+        <BreadCrumbs />
+        {children}
       </main>
 
       <Footer />
