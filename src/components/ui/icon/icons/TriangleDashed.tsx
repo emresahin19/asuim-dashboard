@@ -1,4 +1,4 @@
 import * as React from "react";
 import type { SVGProps } from "react";
-const SvgTriangleDashed = (props: SVGProps<SVGSVGElement>) => <svg xmlns="http://www.w3.org/2000/svg" width={props.width} height={props.height} fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} viewBox="0 0 24 24" {...props}><path d="M10.17 4.193a2 2 0 0 1 3.666.013M14 21h2M15.874 7.743l1 1.732M18.849 12.952l1 1.732M21.824 18.18a2 2 0 0 1-1.835 2.824M4.024 21a2 2 0 0 1-1.839-2.839M5.136 12.952l-1 1.732M8 21h2M8.102 7.743l-1 1.732" /></svg>;
+const SvgTriangleDashed = (props: SVGProps<SVGSVGElement>) => <svg xmlns="http://www.w3.org/2000/svg" width={props.width} height={props.height} fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="var(--icon-stroke-width)" viewBox="0 0 24 24" {...props}><path d="M10.17 4.193a2 2 0 0 1 3.666.013M14 21h2M15.874 7.743l1 1.732M18.849 12.952l1 1.732M21.824 18.18a2 2 0 0 1-1.835 2.824M4.024 21a2 2 0 0 1-1.839-2.839M5.136 12.952l-1 1.732M8 21h2M8.102 7.743l-1 1.732" /></svg>;
 export default SvgTriangleDashed;

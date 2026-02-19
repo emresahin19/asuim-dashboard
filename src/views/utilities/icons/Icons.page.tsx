@@ -8,11 +8,10 @@ import styles from './icons.module.scss';
 type IconTileProps = {
     name: IconName;
     copied: boolean;
-    strokeWidth: number;
     onCopy: (name: IconName) => void;
 };
 
-const IconTile = memo(function IconTile({ name, copied, strokeWidth, onCopy }: IconTileProps) {
+const IconTile = memo(function IconTile({ name, copied, onCopy }: IconTileProps) {
     const tileRef = useRef<HTMLButtonElement | null>(null);
     const [isVisible, setIsVisible] = useState(false);
 
@@ -54,7 +53,6 @@ const IconTile = memo(function IconTile({ name, copied, strokeWidth, onCopy }: I
                     <Icon
                         name={name}
                         className={styles.itemIcon}
-                        strokeWidth={strokeWidth}
                     />
                 ) : null}
             </Card>
@@ -162,7 +160,6 @@ export default function IconsPage() {
                         key={name}
                         name={name}
                         copied={copiedName === name}
-                        strokeWidth={strokeWidth}
                         onCopy={handleCopy}
                     />
                 ))}

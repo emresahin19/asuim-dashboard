@@ -1,7 +1,5 @@
 import * as Icons from './icons';
 import { IconName } from '@/types';
-import { clsx } from '@/utils';
-import styles from './icon.module.scss';
 
 type IconProps = {
   name: IconName;
@@ -52,22 +50,11 @@ export function Icon({
 
   if (!Component) return null;
 
-  const iconStyle: React.CSSProperties & {
-    '--icon-stroke-width'?: string;
-  } = {
-    ...style,
-    ...(size !== undefined ? { fontSize: size } : {}),
-    ...(strokeWidth !== undefined
-      ? { '--icon-stroke-width': `${strokeWidth}px` }
-      : {}),
-  };
-
   return (
     <Component
       width="1em"
       height="1em"
-      className={clsx(styles.root, className)}
-      style={iconStyle}
+      className={className}
       {...rest}
     />
   );
