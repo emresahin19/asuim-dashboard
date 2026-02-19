@@ -20,7 +20,8 @@ import {
   Smile as SmileIcon, 
   Zap as ZapIcon, 
   Cpu as CpuIcon, 
-  Accessibility as AccessibilityIcon } from '@/components/ui/icon/icons';
+  Accessibility as AccessibilityIcon 
+} from '@/components/ui/icon/icons';
 
 const navTree: SidebarNavNode[] = [
   { id: 'overview', label: 'Overview', role: 'section' },
