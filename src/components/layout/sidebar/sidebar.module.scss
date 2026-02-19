@@ -124,11 +124,12 @@
 
     .label {
       color: var(--color-accent-text);
-      font-weight: 500;
+      font-weight: 600;
     }
 
     svg {
       color: var(--color-accent);
+      --icon-stroke-width: 3px;
     }
   }
 }
