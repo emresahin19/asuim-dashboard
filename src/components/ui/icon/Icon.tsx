@@ -28,11 +28,6 @@ export function Icon({
       width="1em"
       height="1em"
       className={className}
-      style={{
-        ...style,
-        ...(size !== undefined ? { fontSize: size } : {}),
-        ...(strokeWidth !== undefined ? { strokeWidth } : {}),
-      }}
       {...rest}
     />
   );
