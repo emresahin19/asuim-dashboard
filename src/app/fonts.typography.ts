@@ -1,3 +1,4 @@
+import { clsx } from '@/utils'
 import {
   Bayon,
   Bebas_Neue,
@@ -73,7 +74,7 @@ const bayon = Bayon({
   preload: false,
 })
 
-export const typographyFontVariables = [
+export const typographyFontVariables = clsx(
   dmSans.variable,
   manrope.variable,
   plusJakartaSans.variable,
@@ -82,4 +83,4 @@ export const typographyFontVariables = [
   robotoSerif.variable,
   bebasNeue.variable,
   bayon.variable,
-].join(' ')
+)

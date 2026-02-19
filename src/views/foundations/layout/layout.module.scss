@@ -1,0 +1,78 @@
+@use "@/styles/tokens/breakpoints" as bp;
+
+.hero {
+	padding: 0;
+
+	global {
+		h1 {
+			margin: 0;
+			color: var(--color-text);
+			font-size: 1.5rem;
+			line-height: 1.25;
+		}
+
+		p {
+			margin: 0;
+			color: var(--color-text-soft);
+			max-width: 80ch;
+		}
+	}
+}
+
+.heroContent {
+	display: grid;
+	gap: 0.75rem;
+	padding: 1rem;
+}
+
+.section {
+	display: grid;
+	gap: 0.75rem;
+}
+
+.sectionCard {
+	display: grid;
+	gap: 1rem;
+	padding: 1rem;
+
+	@include bp.up(md) {
+		padding: 1.25rem;
+	}
+}
+
+.sectionHeader {
+	display: grid;
+	gap: 0.25rem;
+
+	h2 {
+		margin: 0;
+		color: var(--color-text);
+		font-size: 1.0625rem;
+	}
+
+	p {
+		margin: 0;
+		color: var(--color-text-muted);
+		font-size: 0.95rem;
+	}
+}
+
+.sectionBody {
+	display: grid;
+	gap: 1rem;
+}
+
+.stack {
+	display: grid;
+	gap: 0.75rem;
+}
+
+.itemCard {
+	display: grid;
+	place-items: center;
+	min-height: 3rem;
+	padding: 0.75rem;
+	color: var(--color-text-soft);
+	font-weight: 600;
+	font-size: 0.95rem;
+}

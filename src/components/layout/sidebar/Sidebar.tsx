@@ -89,7 +89,11 @@ export function Sidebar({ initialOpenGroups }: { initialOpenGroups: string[] }) 
       <aside ref={sidebarRef} {...gesture} className={styles.root}>
 
         <div className={styles.header}>
-          <div className={styles.logo}>LOGO</div>
+          <div className={styles.logo}>
+            <span className={styles.asimText}>asim</span>
+            <span className={styles.theText}>the</span>
+            <span className={styles.catText}>cat</span>
+          </div>
         </div>
 
         <nav className={styles.nav}>

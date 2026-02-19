@@ -17,7 +17,7 @@
   --layout-hamburger-inline-offset: calc(var(--layout-unit) * 2.5); // 28px
   --layout-hamburger-size: calc(var(--layout-unit) * 5); // 24px
 
-  --layout-box-shadow: var(--card-shadow);
+  --layout-box-shadow: var(--layaout-box-shadow);
   --layout-icon-box-shadow: var(--icon-shadow);
   --layout-transform: translateX(0);
   --layout-offscreen-translate: calc(-100% - var(--layout-gap));

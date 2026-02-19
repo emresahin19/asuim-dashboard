@@ -2,7 +2,7 @@
 @use "@/styles/tokens/breakpoints" as bp;
 
 @mixin cq-up($name) {
-  $min: map.get(bp.$asuim-breakpoints, $name);
+  $min: map.get(bp.$breakpoints, $name);
   @if $min == null { @error "Unknown breakpoint: #{$name}"; }
 
   @if $min == 0 { @content; }
@@ -15,7 +15,6 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   width: 100%;
-  transition: gap var(--layout-transition), padding var(--layout-transition);
 }
 
 .withGap {
@@ -55,7 +54,7 @@
 .span-3 { grid-column: span 3; }
 .span-4 { grid-column: span 4; }
 
-@each $name, $min in bp.$asuim-breakpoints {
+@each $name, $min in bp.$breakpoints {
   @include cq-up($name) {
     .#{$name}-1 { grid-column: span 1; }
     .#{$name}-2 { grid-column: span 2; }

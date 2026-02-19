@@ -1,0 +1,8 @@
+
+.root {
+  background: var(--color-sidebar-bg);
+  border-radius: calc(var(--layout-radius) * 0.5);
+  box-shadow: var(--card-shadow);
+  transition: background var(--layout-transition), border-color var(--layout-transition),
+    box-shadow var(--layout-transition);
+}

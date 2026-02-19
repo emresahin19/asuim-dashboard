@@ -44,4 +44,10 @@
   --color-accent-muted: var(--primary-700);
   --color-accent-text: var(--primary-300);
   --color-accent-contrast: var(--primary-900);
+  --color-accent-inverse: var(--primary-100);
+
+  /* Shadows */
+  --card-shadow: 0 0 0 1px var(--base-800);
+  --layout-box-shadow: 0 0 0 1px var(--base-800);
+  --icon-shadow: 0 0 0 1px var(--base-800);
 }

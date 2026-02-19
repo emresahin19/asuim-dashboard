@@ -1,10 +1,15 @@
+@use "sass:map";
+@use "@/styles/tokens/breakpoints" as bp;
+
 .root {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  position: relative;
 
   background: var(--color-bg-app);
   color: var(--color-text);
+  padding-bottom: var(--layout-footer-height);
 }
 
 .body {
@@ -14,7 +19,20 @@
   padding-top: var(--layout-vertical-offset);
 }
 
+.page {
+	display: grid;
+	gap: 1.5rem;
+  max-width: map.get(bp.$breakpoints, xl);
+  width: 100%;
+
+	@include bp.up(md) {
+		gap: 2rem;
+	}
+}
+
 .main {
+  display: flex;
+  flex-direction: column;
   height: var(--layout-content-height);
   overflow: auto;
 
@@ -27,7 +45,7 @@
   margin-inline-start: var(--layout-main-inline-offset);
 }
 
-@media (max-width: 768px) {
+@include bp.down(md) {
   .main {
     margin-inline-start: 0;
     transform: none;
@@ -49,6 +67,7 @@
     background: oklch(0 0 0 / 0);
     backdrop-filter: blur(0);
   }
+
   to {
     background: oklch(0 0 0 / 0.45);
     backdrop-filter: blur(3px);

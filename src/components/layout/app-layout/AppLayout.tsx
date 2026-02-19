@@ -21,7 +21,9 @@ export function AppLayout({
 
       <main className={clsx('layout-main', styles.main)}>
         <BreadCrumbs />
-        {children}
+        <div className={styles.page}>
+          {children}
+        </div>
       </main>
 
       <Footer />
