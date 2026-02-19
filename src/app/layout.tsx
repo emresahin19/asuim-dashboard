@@ -24,6 +24,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
     const initialTheme = getInitialTheme(storedTheme);
 
     const initialSidebar = viewport === 'mobile' ? 'closed' : (initialTheme.sidebarState || 'open');
+    initialTheme.sidebarState = initialSidebar;
     const pathname = headersList.get('x-pathname') || '/';
     const initialThemeColors = getThemeColorStyle(initialTheme);
 
