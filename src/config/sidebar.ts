@@ -1,5 +1,26 @@
 import { SidebarItem, SidebarNavNode } from '@/types'
 import { toSidebarItem } from '@/utils';
+import { 
+  Activity as ActivityIcon, 
+  ChartBar as ChartBarIcon, 
+  LayoutDashboard as LayoutDashboardIcon, 
+  TextCursorInput as TextCursorInputIcon, 
+  FilePen as FilePenIcon, 
+  MousePointerClick as MousePointerClickIcon, 
+  Box as BoxIcon, 
+  Navigation as NavigationIcon, 
+  BadgeCheck as BadgeCheckIcon, 
+  Palette as PaletteIcon, 
+  Moon as MoonIcon, 
+  Layers as LayersIcon, 
+  Type as TypeIcon, 
+  TextAlignCenter as TextAlignCenterIcon, 
+  Wrench as WrenchIcon, 
+  Droplet as DropletIcon, 
+  Smile as SmileIcon, 
+  Zap as ZapIcon, 
+  Cpu as CpuIcon, 
+  Accessibility as AccessibilityIcon } from '@/components/ui/icon/icons';
 
 const navTree: SidebarNavNode[] = [
   { id: 'overview', label: 'Overview', role: 'section' },
@@ -8,14 +29,14 @@ const navTree: SidebarNavNode[] = [
     id: 'dashboard',
     label: 'Dashboard',
     role: 'item',
-    icon: 'chart-bar',
+    icon: ChartBarIcon,
     routeId: 'dashboard',
   },
   {
     id: 'status',
     label: 'System Status',
     role: 'item',
-    icon: 'activity',
+    icon: ActivityIcon,
     routeId: 'status',
   },
 
@@ -25,11 +46,11 @@ const navTree: SidebarNavNode[] = [
     id: 'foundations',
     label: 'Foundations',
     role: 'group',
-    icon: 'layers',
+    icon: LayersIcon,
     children: [
-      { id: 'tokens', label: 'Design Tokens', role: 'item', icon: 'palette', routeId: 'tokens' },
-      { id: 'themes', label: 'Themes', role: 'item', icon: 'moon', routeId: 'themes' },
-      { id: 'layout', label: 'Grid & Layout', role: 'item', icon: 'layout-dashboard', routeId: 'layout' },
+      { id: 'tokens', label: 'Design Tokens', role: 'item', icon: PaletteIcon, routeId: 'tokens' },
+      { id: 'themes', label: 'Themes', role: 'item', icon: MoonIcon, routeId: 'themes' },
+      { id: 'layout', label: 'Grid & Layout', role: 'item', icon: LayoutDashboardIcon, routeId: 'layout' },
     ],
   },
 
@@ -37,9 +58,9 @@ const navTree: SidebarNavNode[] = [
     id: 'typography',
     label: 'Typography',
     role: 'group',
-    icon: 'type',
+    icon: TypeIcon,
     children: [
-      { id: 'type-system', label: 'Type System', role: 'item', icon: 'text-align-center', routeId: 'type-system' },
+      { id: 'type-system', label: 'Type System', role: 'item', icon: TextAlignCenterIcon, routeId: 'type-system' },
     ],
   },
 
@@ -47,16 +68,16 @@ const navTree: SidebarNavNode[] = [
     id: 'components',
     label: 'Components',
     role: 'group',
-    icon: 'box',
+    icon: BoxIcon,
     children: [
-      { id: 'buttons', label: 'Buttons', role: 'item', icon: 'mouse-pointer-click', routeId: 'buttons' },
+      { id: 'buttons', label: 'Buttons', role: 'item', icon: MousePointerClickIcon, routeId: 'buttons' },
       {
-        id: 'components-form', label: 'Form', role: 'item', icon: 'file-pen', children: [
-          { id: 'components-form-input', label: 'Input', role: 'item', icon: 'text-cursor-input', routeId: 'components-form-input' },
-          { id: 'components-form-checkbox', label: 'Checkbox', role: 'item', icon: 'badge-check', routeId: 'components-form-checkbox' },
+        id: 'components-form', label: 'Form', role: 'item', icon: FilePenIcon, children: [
+          { id: 'components-form-input', label: 'Input', role: 'item', icon: TextCursorInputIcon, routeId: 'components-form-input' },
+          { id: 'components-form-checkbox', label: 'Checkbox', role: 'item', icon: BadgeCheckIcon, routeId: 'components-form-checkbox' },
         ]
       },
-      { id: 'navigation', label: 'Navigation', role: 'item', icon: 'navigation', routeId: 'navigation' },
+      { id: 'navigation', label: 'Navigation', role: 'item', icon: NavigationIcon, routeId: 'navigation' },
     ],
   },
 
@@ -64,10 +85,10 @@ const navTree: SidebarNavNode[] = [
     id: 'utilities',
     label: 'Utilities',
     role: 'group',
-    icon: 'wrench',
+    icon: WrenchIcon,
     children: [
-      { id: 'icons', label: 'Icons', role: 'item', icon: 'smile', routeId: 'icons' },
-      { id: 'colors', label: 'Colors', role: 'item', icon: 'droplet', routeId: 'colors' },
+      { id: 'icons', label: 'Icons', role: 'item', icon: SmileIcon, routeId: 'icons' },
+      { id: 'colors', label: 'Colors', role: 'item', icon: DropletIcon, routeId: 'colors' },
     ],
   },
 
@@ -77,10 +98,10 @@ const navTree: SidebarNavNode[] = [
     id: 'system-pages',
     label: 'System',
     role: 'group',
-    icon: 'cpu',
+    icon: CpuIcon,
     children: [
-      { id: 'accessibility', label: 'Accessibility', role: 'item', icon: 'accessibility', routeId: 'accessibility' },
-      { id: 'performance', label: 'Performance', role: 'item', icon: 'zap', routeId: 'performance' },
+      { id: 'accessibility', label: 'Accessibility', role: 'item', icon: AccessibilityIcon, routeId: 'accessibility' },
+      { id: 'performance', label: 'Performance', role: 'item', icon: ZapIcon, routeId: 'performance' },
     ],
   },
 ];

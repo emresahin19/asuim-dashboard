@@ -8,6 +8,7 @@ import { getThemeSwatchStyle } from '@/context/theme/theme.css-vars'
 
 import styles from './theme-settings.module.scss'
 import { colors, palettes } from '@/config'
+import { Settings as SettingsIcon } from '@/components/ui/icon/icons'
 
 export function ThemeSettings() {
   const [open, setOpen] = useState(false)
@@ -22,7 +23,7 @@ export function ThemeSettings() {
         aria-label="Toggle theme settings"
         onClick={() => setOpen((v) => !v)}
       >
-        <Icon name="settings" size={22} />
+        <Icon icon={SettingsIcon} size={22} />
       </button>
 
       {open && (

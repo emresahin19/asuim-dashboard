@@ -3,6 +3,7 @@ import { clsx } from "@/utils";
 import Link from "next/link";
 import styles from '../sidebar.module.scss';
 import { Icon } from "@/components";
+import { ChevronDown as ChevronDownIcon } from "@/components/ui/icon/icons";
 
 export function SidebarLeafRow({
   item,
@@ -34,12 +35,12 @@ export function SidebarLeafRow({
       )}
       onClick={onToggle}
     >
-      {item.icon && <Icon name={item.icon} size={18} />}
+      {item.icon && <Icon icon={item.icon} size={18} />}
       <span className={styles.label}>{item.label}</span>
 
       {isGroup && (
         <Icon
-          name="chevron-down"
+          icon={ChevronDownIcon}
           size={14}
           className={clsx(styles.chevron, isOpen && styles.chevronOpen)}
         />
