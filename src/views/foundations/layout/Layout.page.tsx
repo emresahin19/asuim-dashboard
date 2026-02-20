@@ -31,16 +31,6 @@ export default function GridPage() {
 
   return (
     <>
-      <Card className={styles.hero}>
-        <div className={styles.heroContent}>
-          <h1>AsUIm Grid System</h1>
-          <p>
-            Bu sayfa 4 kolonlu temel sistemi, breakpoint davranışını ve iç içe
-            yerleşim senaryolarını aynı örnek üzerinde gösterir.
-          </p>
-        </div>
-      </Card>
-
       <Section
         title="1. 4x4 Base Layout"
         description="Her satır 4 kolondan oluşur; GridItem varsayılanı span=4’tür."

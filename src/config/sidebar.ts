@@ -1,27 +1,26 @@
 import { SidebarItem, SidebarNavNode } from '@/types'
 import { toSidebarItem } from '@/utils';
-import { 
-  Activity as ActivityIcon, 
-  ChartBar as ChartBarIcon, 
-  LayoutDashboard as LayoutDashboardIcon, 
-  TextCursorInput as TextCursorInputIcon, 
-  FilePen as FilePenIcon, 
-  MousePointerClick as MousePointerClickIcon, 
-  Box as BoxIcon, 
-  Navigation as NavigationIcon, 
-  BadgeCheck as BadgeCheckIcon, 
-  Palette as PaletteIcon, 
-  Moon as MoonIcon, 
-  Layers as LayersIcon, 
-  Type as TypeIcon, 
-  TextAlignCenter as TextAlignCenterIcon, 
-  Wrench as WrenchIcon, 
-  Droplet as DropletIcon, 
-  Smile as SmileIcon, 
-  Zap as ZapIcon, 
-  Cpu as CpuIcon, 
-  Accessibility as AccessibilityIcon 
-} from '@/components/ui/icon/icons';
+
+import ActivityIcon from '@/components/ui/icon/icons/Activity'
+import ChartBarIcon from '@/components/ui/icon/icons/ChartBar'
+import LayoutDashboardIcon from '@/components/ui/icon/icons/LayoutDashboard'
+import TextCursorInputIcon from '@/components/ui/icon/icons/TextCursorInput'
+import FilePenIcon from '@/components/ui/icon/icons/FilePen'
+import MousePointerClickIcon from '@/components/ui/icon/icons/MousePointerClick'
+import BoxIcon from '@/components/ui/icon/icons/Box'
+import NavigationIcon from '@/components/ui/icon/icons/Navigation'
+import BadgeCheckIcon from '@/components/ui/icon/icons/BadgeCheck'
+import PaletteIcon from '@/components/ui/icon/icons/Palette'
+import MoonIcon from '@/components/ui/icon/icons/Moon'
+import LayersIcon from '@/components/ui/icon/icons/Layers'
+import TypeIcon from '@/components/ui/icon/icons/Type'
+import TextAlignCenterIcon from '@/components/ui/icon/icons/TextAlignCenter'
+import WrenchIcon from '@/components/ui/icon/icons/Wrench'
+import DropletIcon from '@/components/ui/icon/icons/Droplet'
+import SmileIcon from '@/components/ui/icon/icons/Smile'
+import ZapIcon from '@/components/ui/icon/icons/Zap'
+import CpuIcon from '@/components/ui/icon/icons/Cpu'
+import AccessibilityIcon from '@/components/ui/icon/icons/Accessibility'
 
 const navTree: SidebarNavNode[] = [
   { id: 'overview', label: 'Overview', role: 'section' },

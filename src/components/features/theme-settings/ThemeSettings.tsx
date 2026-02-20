@@ -8,7 +8,7 @@ import { getThemeSwatchStyle } from '@/context/theme/theme.css-vars'
 
 import styles from './theme-settings.module.scss'
 import { colors, palettes } from '@/config'
-import { Settings as SettingsIcon } from '@/components/ui/icon/icons'
+import SettingsIcon from '@/components/ui/icon/icons/Settings'
 
 export function ThemeSettings() {
   const [open, setOpen] = useState(false)

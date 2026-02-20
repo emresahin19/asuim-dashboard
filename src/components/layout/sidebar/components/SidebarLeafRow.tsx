@@ -3,7 +3,7 @@ import { clsx } from "@/utils";
 import Link from "next/link";
 import styles from '../sidebar.module.scss';
 import { Icon } from "@/components";
-import { ChevronDown as ChevronDownIcon } from "@/components/ui/icon/icons";
+import ChevronDownIcon from "@/components/ui/icon/icons/ChevronDown";
 
 export function SidebarLeafRow({
   item,
