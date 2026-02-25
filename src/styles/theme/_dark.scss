@@ -6,6 +6,8 @@
   --color-bg-surface: var(--base-900);
   --color-bg-card: var(--base-900);
   --color-bg-elevated: var(--base-800);
+  --color-bg-subtle: var(--base-800);
+  --color-bg-surface-active: var(--base-800);
 
   /* Text */
   --color-text: var(--base-100);
@@ -13,6 +15,8 @@
   --color-text-muted: var(--base-400);
   --color-text-disabled: var(--base-500);
   --color-text-inverse: var(--base-900);
+  --color-text-primary: var(--color-text);
+  --color-text-secondary: var(--color-text-soft);
 
   /* Borders */
   --color-border: var(--base-800);
@@ -38,13 +42,30 @@
   --color-disabled-bg: var(--base-800);
   --color-disabled-text: var(--base-500);
 
+  --color-success: oklch(0.723 0.219 149.579);
+  --color-warning: oklch(0.769 0.188 70.08);
+  --color-danger: oklch(0.637 0.237 25.331);
+
+  --color-success-bg: oklch(0.266 0.065 152.934);
+  --color-warning-bg: oklch(0.279 0.077 45.635);
+  --color-danger-bg: oklch(0.258 0.092 26.042);
+
+  --color-success-text: oklch(0.905 0.093 164.15);
+  --color-warning-text: oklch(0.924 0.12 95.746);
+  --color-danger-text: oklch(0.885 0.062 18.334);
+
   --color-accent: var(--primary-600);
   --color-accent-hover: var(--primary-600);
   --color-accent-soft: var(--primary-900);
+  --color-accent-dark: var(--primary-300);
   --color-accent-muted: var(--primary-700);
   --color-accent-text: var(--primary-300);
-  --color-accent-contrast: var(--primary-900);
+  --color-accent-contrast: var(--color-white);
   --color-accent-inverse: var(--primary-100);
+
+  --color-backdrop: oklch(0 0 0 / 0.55);
+  --color-backdrop-transparent: oklch(0 0 0 / 0);
+  --color-overlay-soft: oklch(1 0 0 / 0.15);
 
   /* Shadows */
   --card-shadow: 0 0 0 1px var(--base-800);

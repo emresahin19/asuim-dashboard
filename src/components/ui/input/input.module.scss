@@ -4,41 +4,41 @@
 
 .container {
   // Base Tokens
-  --color-base-bg: var(--color-bg-surface, #ffffff);
-  --color-base-text: var(--color-text-primary, #1e293b);
-  --color-base-placeholder: var(--color-text-muted, #94a3b8);
-  --color-base-label: var(--color-text-secondary, #64748b);
+  --color-base-bg: var(--color-bg-surface);
+  --color-base-text: var(--color-text-primary);
+  --color-base-placeholder: var(--color-text-muted);
+  --color-base-label: var(--color-text-secondary);
 
-  --state-border-color: var(--color-text-soft, #e2e8f0);
+  --state-border-color: var(--color-border);
   --state-label-color: var(--color-base-label);
   --state-bg-color: var(--color-base-bg);
   --state-active-line-scale: 0;
-  --state-active-line-color: var(--color-accent, #3b82f6);
+  --state-active-line-color: var(--color-accent);
 
   --input-radius: var(--input-radius-md, 8px);
   --transition-speed: 200ms cubic-bezier(0.4, 0, 0.2, 1);
   --active-line-height: 2px;
 
   &:hover:not(.disabled) {
-    --state-border-color: color-mix(in srgb, var(--color-text-soft, #e2e8f0) 85%, black);
+    --state-border-color: var(--color-border-strong);
   }
 
   &:focus-within {
-    --state-border-color: var(--color-accent, #3b82f6);
-    --state-label-color: var(--color-accent, #3b82f6);
-    --state-bg-color: var(--color-bg-surface-active, #ffffff);
+    --state-border-color: var(--color-accent);
+    --state-label-color: var(--color-accent);
+    --state-bg-color: var(--color-bg-surface-active);
     --state-active-line-scale: 1; // Çizgiyi aç
   }
 
   // State: ERROR (Hata varsa - JS'den class eklenmeli)
   &.error {
-    --state-border-color: var(--color-danger, #ef4444);
-    --state-label-color: var(--color-danger, #ef4444);
-    --state-active-line-color: var(--color-danger, #ef4444);
+    --state-border-color: var(--color-danger);
+    --state-label-color: var(--color-danger);
+    --state-active-line-color: var(--color-danger);
 
     // Hata durumunda focus rengi de kırmızı kalsın
     &:focus-within {
-      --state-border-color: var(--color-danger, #ef4444);
+      --state-border-color: var(--color-danger);
     }
   }
 
@@ -199,14 +199,14 @@ textarea.inputControl {
 
     &:hover {
       padding-left: 8px;
-      background-color: var(--color-bg-subtle, #f1f5f9);
+      background-color: var(--color-bg-subtle);
     }
   }
 
   // Focus olunca normal input gibi davranması için variable'ları eski haline çekiyoruz
   &:focus-within {
     --state-bg-color: var(--color-base-bg);
-    --state-border-color: var(--color-accent, #3b82f6);
+    --state-border-color: var(--color-accent);
 
     .inputControl {
       padding-left: 14px;
@@ -227,7 +227,7 @@ textarea.inputControl {
   align-items: center;
   justify-content: center;
   padding: 0 12px;
-  background-color: var(--color-bg-subtle, #f8fafc);
+  background-color: var(--color-bg-subtle);
   border-left: 1px solid var(--state-border-color); // Border rengi inputla senkronize
   color: var(--state-label-color);
   border-radius: 0 calc(var(--input-radius) - 1px) calc(var(--input-radius) - 1px) 0;
@@ -257,18 +257,18 @@ textarea.inputControl {
   color: var(--color-base-placeholder);
   cursor: pointer;
   transition: all 0.2s;
-  background-color: var(--state-bg-color, #f1f5f9);
+  background-color: var(--state-bg-color);
 
   &:hover {
     color: var(--color-base-text);
-    background-color: var(--state-bg-color, #f1f5f9);
+    background-color: var(--state-bg-color);
   }
 }
 
 .errorMessage {
   font-size: 0.75rem;
   font-weight: 500;
-  color: var(--color-danger, #ef4444);
+  color: var(--color-danger);
   margin-left: 2px;
   animation: slideDown 0.2s ease-out;
 }

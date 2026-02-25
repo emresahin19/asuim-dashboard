@@ -1,13 +1,13 @@
 .wrapper {
   // AsUIm Token Mapping (Theme Injection)
-  --asuim-table-bg: var(--background-primary, #ffffff);
-  --asuim-table-bg-stripe: var(--background-secondary, #f8f9fa);
-  --asuim-table-border: var(--border-color, #e2e8f0);
-  --asuim-table-text: var(--text-primary, #1e293b);
-  --asuim-table-text-muted: var(--text-secondary, #64748b);
+  --asuim-table-bg: var(--color-bg-surface);
+  --asuim-table-bg-stripe: var(--color-bg-subtle);
+  --asuim-table-border: var(--color-border);
+  --asuim-table-text: var(--color-text);
+  --asuim-table-text-muted: var(--color-text-muted);
   --asuim-table-input-bg: transparent;
-  --asuim-table-input-border: var(--border-color, #e2e8f0);
-  --asuim-table-input-focus: var(--primary-color, #3b82f6);
+  --asuim-table-input-border: var(--color-border);
+  --asuim-table-input-focus: var(--color-accent);
   --asuim-table-radius: 8px;
 
   background-color: var(--asuim-table-bg);
@@ -55,7 +55,7 @@
       }
 
       &:hover {
-        background-color: rgba(0, 0, 0, 0.02);
+        background-color: var(--color-hover-overlay);
       }
     }
 
@@ -153,7 +153,7 @@
 
   &.active {
     background-color: var(--asuim-table-input-focus);
-    color: #fff;
+    color: var(--color-text-inverse);
     border-color: var(--asuim-table-input-focus);
   }
 

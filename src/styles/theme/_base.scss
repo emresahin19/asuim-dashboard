@@ -3,6 +3,8 @@
   --color-bg-surface: var(--base-100);
   --color-bg-card: var(--base-200);
   --color-bg-elevated: var(--base-100);
+  --color-bg-subtle: var(--base-50);
+  --color-bg-surface-active: var(--base-50);
 
 
   /* =====================================================
@@ -13,6 +15,8 @@
   --color-text-muted: var(--base-500);
   --color-text-disabled: var(--base-400);
   --color-text-inverse: var(--base-50);
+  --color-text-primary: var(--color-text);
+  --color-text-secondary: var(--color-text-soft);
 
 
   /* =====================================================
@@ -54,13 +58,17 @@
   /* =====================================================
    * FEEDBACK
    * ===================================================== */
-  --color-success-bg: var(--base-100);
-  --color-warning-bg: var(--base-100);
-  --color-danger-bg: var(--base-100);
+  --color-success: oklch(0.627 0.194 149.214);
+  --color-warning: oklch(0.666 0.179 58.318);
+  --color-danger: oklch(0.577 0.245 27.325);
 
-  --color-success-text: var(--base-700);
-  --color-warning-text: var(--base-700);
-  --color-danger-text: var(--base-700);
+  --color-success-bg: oklch(0.962 0.044 156.743);
+  --color-warning-bg: oklch(0.962 0.059 95.617);
+  --color-danger-bg: oklch(0.936 0.032 17.717);
+
+  --color-success-text: oklch(0.393 0.095 152.535);
+  --color-warning-text: oklch(0.414 0.112 45.904);
+  --color-danger-text: oklch(0.396 0.141 25.723);
 
   /* =====================================================
    * PRIMARY COLORS
@@ -74,11 +82,16 @@
   --color-accent-contrast: var(--color-white);
   --color-accent-inverse: var(--primary-900);
 
+  --color-backdrop: oklch(0 0 0 / 0.45);
+  --color-backdrop-transparent: oklch(0 0 0 / 0);
+  --color-overlay-soft: oklch(1 0 0 / 0.35);
+
   /* =====================================================
    * SHADOWS
    * ===================================================== */
   --card-shadow: rgba(17, 17, 26, 0.05) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 0px 8px;
-  --layaout-box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+  --layout-box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+  --layaout-box-shadow: var(--layout-box-shadow);
   --icon-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
 
   --icon-stroke-width: 2px;

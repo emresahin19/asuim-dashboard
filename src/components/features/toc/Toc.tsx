@@ -150,7 +150,7 @@ function Toc({ containerRef, activeIndex, direction, tokens }: TocProps) {
 
         el.style.transition = `stroke-dashoffset ${drawDuration}ms ease-in-out`
         el.style.strokeDashoffset = '0'
-        strokeColorRef.current = 'var(--primary-500)'
+        strokeColorRef.current = 'var(--color-accent)'
 
         const start = performance.now()
 

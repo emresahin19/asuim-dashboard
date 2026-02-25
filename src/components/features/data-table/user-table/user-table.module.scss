@@ -9,18 +9,18 @@
 
   // Variant Mapping
   &[data-status="active"] {
-    background-color: var(--asuim-success-bg, #dcfce7);
-    color: var(--asuim-success-text, #166534);
+    background-color: var(--color-success-bg);
+    color: var(--color-success-text);
   }
 
   &[data-status="pending"] {
-    background-color: var(--asuim-warning-bg, #fef9c3);
-    color: var(--asuim-warning-text, #854d0e);
+    background-color: var(--color-warning-bg);
+    color: var(--color-warning-text);
   }
 
   &[data-status="banned"] {
-    background-color: var(--asuim-danger-bg, #fee2e2);
-    color: var(--asuim-danger-text, #991b1b);
+    background-color: var(--color-danger-bg);
+    color: var(--color-danger-text);
   }
 }
 
@@ -31,15 +31,15 @@
   width: 32px;
   height: 32px;
   border-radius: 4px;
-  border: 1px solid var(--asuim-border, #e2e8f0);
+  border: 1px solid var(--color-border);
   background: transparent;
   cursor: pointer;
-  color: var(--asuim-text-muted, #64748b);
+  color: var(--color-text-muted);
   transition: all 0.2s;
 
   &:hover {
-    color: var(--asuim-primary, #3b82f6);
-    border-color: var(--asuim-primary, #3b82f6);
-    background-color: var(--asuim-primary-light, #eff6ff);
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+    background-color: var(--color-accent-soft);
   }
 }

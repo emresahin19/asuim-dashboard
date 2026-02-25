@@ -23,9 +23,9 @@ export default function InputsPage() {
     return (
         <div style={{ padding: "40px", maxWidth: "1000px", margin: "0 auto", fontFamily: "var(--font-sans)" }}>
             
-            <header style={{ marginBottom: "40px", borderBottom: "1px solid #e2e8f0", paddingBottom: "20px" }}>
+            <header style={{ marginBottom: "40px", borderBottom: "1px solid var(--color-border)", paddingBottom: "20px" }}>
                 <h1 style={{ fontSize: "24px", fontWeight: "bold", marginBottom: "8px" }}>Input Gallery</h1>
-                <p style={{ color: "#64748b" }}>AsUIm Native Input Component Varyasyonları</p>
+                <p style={{ color: "var(--color-text-muted)" }}>AsUIm Native Input Component Varyasyonları</p>
             </header>
 
             <div style={{ display: "flex", flexDirection: "column", gap: "48px" }}>

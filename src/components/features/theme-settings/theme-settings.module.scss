@@ -218,7 +218,7 @@
     display: inline-block;
     padding: 1px 6px;
     border-radius: 999px;
-    background: oklch(1 0 0 / 0.35);
+    background: var(--color-overlay-soft);
   }
 }
 
