@@ -1,0 +1,176 @@
+.wrapper {
+  // AsUIm Token Mapping (Theme Injection)
+  --asuim-table-bg: var(--background-primary, #ffffff);
+  --asuim-table-bg-stripe: var(--background-secondary, #f8f9fa);
+  --asuim-table-border: var(--border-color, #e2e8f0);
+  --asuim-table-text: var(--text-primary, #1e293b);
+  --asuim-table-text-muted: var(--text-secondary, #64748b);
+  --asuim-table-input-bg: transparent;
+  --asuim-table-input-border: var(--border-color, #e2e8f0);
+  --asuim-table-input-focus: var(--primary-color, #3b82f6);
+  --asuim-table-radius: 8px;
+
+  background-color: var(--asuim-table-bg);
+  border: 1px solid var(--asuim-table-border);
+  border-radius: var(--asuim-table-radius);
+  color: var(--asuim-table-text);
+  font-family: inherit;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; // Border-radius taşmasını önler
+}
+
+.tableContainer {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.875rem;
+
+  thead {
+    background-color: var(--asuim-table-bg-stripe);
+    border-bottom: 1px solid var(--asuim-table-border);
+
+    th {
+      padding: 0.75rem 1rem;
+      font-weight: 600;
+      color: var(--asuim-table-text);
+      vertical-align: top;
+      white-space: nowrap;
+    }
+  }
+
+  tbody {
+    tr {
+      border-bottom: 1px solid var(--asuim-table-border);
+      transition: background-color 0.2s;
+
+      &:nth-child(even) {
+        background-color: var(--asuim-table-bg-stripe);
+      }
+
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.02);
+      }
+    }
+
+    td {
+      padding: 0.75rem 1rem;
+      color: var(--asuim-table-text);
+      vertical-align: middle;
+    }
+  }
+}
+
+// --- Sub Components ---
+
+.headerCell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.headerContent {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  
+  &.sortable {
+    cursor: pointer;
+    user-select: none;
+    
+    &:hover {
+      color: var(--asuim-table-input-focus);
+    }
+  }
+}
+
+.nativeInput,
+.nativeSelect {
+  width: 100%;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid var(--asuim-table-input-border);
+  border-radius: 4px;
+  background-color: var(--asuim-table-bg);
+  color: var(--asuim-table-text);
+  font-size: 0.8rem;
+  outline: none;
+  min-width: 80px; // Daralmayı önle
+
+  &:focus {
+    border-color: var(--asuim-table-input-focus);
+    box-shadow: 0 0 0 1px var(--asuim-table-input-focus);
+  }
+}
+
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-top: 1px solid var(--asuim-table-border);
+  background-color: var(--asuim-table-bg);
+  flex-wrap: wrap;
+  gap: 1rem;
+
+  .pages {
+    display: flex;
+    gap: 0.25rem;
+  }
+
+  .controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.8rem;
+    color: var(--asuim-table-text-muted);
+  }
+}
+
+.pageBtn {
+  min-width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--asuim-table-border);
+  background: var(--asuim-table-bg);
+  border-radius: 4px;
+  cursor: pointer;
+  color: var(--asuim-table-text);
+  font-size: 0.875rem;
+  transition: all 0.2s;
+
+  &:hover:not(:disabled) {
+    border-color: var(--asuim-table-input-focus);
+    color: var(--asuim-table-input-focus);
+  }
+
+  &.active {
+    background-color: var(--asuim-table-input-focus);
+    color: #fff;
+    border-color: var(--asuim-table-input-focus);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.editActions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .pagination {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
