@@ -1,0 +1,286 @@
+/* * AsUIm Native Input Styling
+ * Version: 2.1 (State Machine Edition)
+ */
+
+.container {
+  // Base Tokens
+  --color-base-bg: var(--color-bg-surface, #ffffff);
+  --color-base-text: var(--color-text-primary, #1e293b);
+  --color-base-placeholder: var(--color-text-muted, #94a3b8);
+  --color-base-label: var(--color-text-secondary, #64748b);
+
+  --state-border-color: var(--color-text-soft, #e2e8f0);
+  --state-label-color: var(--color-base-label);
+  --state-bg-color: var(--color-base-bg);
+  --state-active-line-scale: 0;
+  --state-active-line-color: var(--color-accent, #3b82f6);
+
+  --input-radius: var(--input-radius-md, 8px);
+  --transition-speed: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  --active-line-height: 2px;
+
+  &:hover:not(.disabled) {
+    --state-border-color: color-mix(in srgb, var(--color-text-soft, #e2e8f0) 85%, black);
+  }
+
+  &:focus-within {
+    --state-border-color: var(--color-accent, #3b82f6);
+    --state-label-color: var(--color-accent, #3b82f6);
+    --state-bg-color: var(--color-bg-surface-active, #ffffff);
+    --state-active-line-scale: 1; // Çizgiyi aç
+  }
+
+  // State: ERROR (Hata varsa - JS'den class eklenmeli)
+  &.error {
+    --state-border-color: var(--color-danger, #ef4444);
+    --state-label-color: var(--color-danger, #ef4444);
+    --state-active-line-color: var(--color-danger, #ef4444);
+
+    // Hata durumunda focus rengi de kırmızı kalsın
+    &:focus-within {
+      --state-border-color: var(--color-danger, #ef4444);
+    }
+  }
+
+  // State: DISABLED
+  &.disabled {
+    opacity: 0.6;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  // ---------------------------------------------------------------------------
+  // 3. LAYOUT & STRUCTURE
+  // ---------------------------------------------------------------------------
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  position: relative;
+  width: 100%;
+  font-family: var(--font-sans);
+
+  &.fullWidth {
+    width: 100%;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// 4. COMPONENT STYLING (CONSUMERS)
+// -----------------------------------------------------------------------------
+
+.label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-left: 2px;
+  color: var(--state-label-color); // Dynamic
+  transition: color var(--transition-speed);
+}
+
+.wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-bottom: var(--active-line-height) solid var(--state-border-color);
+    height: 16px;
+
+    transform: scaleX(var(--state-active-line-scale));
+    transform-origin: center;
+    transition: transform var(--transition-speed);
+
+    z-index: 2;
+    pointer-events: none;
+    border-radius: var(--input-radius);
+  }
+}
+
+/* Input Control: Ana giriş alanı */
+.inputControl {
+  width: 100%;
+  appearance: none;
+
+  // State variables tüketiliyor
+  background-color: var(--state-bg-color);
+  border: 1px solid var(--state-border-color);
+  color: var(--color-base-text);
+  border-radius: var(--input-radius);
+
+  font-weight: 400;
+  transition: all var(--transition-speed);
+  outline: none; // Focus'u biz yönetiyoruz
+
+  &::placeholder {
+    color: var(--color-base-placeholder);
+    opacity: 1;
+  }
+
+  &[type="number"] {
+    appearance: textfield;
+    -moz-appearance: textfield;
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+  }
+
+  &[type="date"][value=""]:not(:focus) {
+    opacity: 0;
+  }
+
+}
+
+// -----------------------------------------------------------------------------
+// 5. MODIFIERS (Sizes & Variants)
+// -----------------------------------------------------------------------------
+
+.sm {
+  --active-line-height: 2px;
+
+  .inputControl {
+    height: 36px;
+    padding-left: 12px;
+    padding-right: 12px;
+    font-size: 0.875rem;
+  }
+}
+
+.md {
+  --active-line-height: 3px;
+
+  .inputControl {
+    height: 44px;
+    padding-left: 14px;
+    padding-right: 14px;
+    font-size: 0.9375rem;
+  }
+}
+
+.lg {
+  --active-line-height: 4px;
+
+  .inputControl {
+    height: 52px;
+    padding-left: 18px;
+    padding-right: 18px;
+    font-size: 1rem;
+  }
+}
+
+textarea.inputControl {
+  height: auto;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  resize: vertical;
+  min-height: 80px;
+}
+
+.withActions .inputControl {
+  padding-right: 28px;
+}
+
+/* Variants: Sadece başlangıç değişkenlerini ezer */
+.ghost {
+  // Ghost için default border ve bg şeffaf olsun
+  --state-border-color: transparent;
+  --state-bg-color: transparent;
+
+  .inputControl {
+    padding-left: 0; // Metin gibi dursun
+
+    &:hover {
+      padding-left: 8px;
+      background-color: var(--color-bg-subtle, #f1f5f9);
+    }
+  }
+
+  // Focus olunca normal input gibi davranması için variable'ları eski haline çekiyoruz
+  &:focus-within {
+    --state-bg-color: var(--color-base-bg);
+    --state-border-color: var(--color-accent, #3b82f6);
+
+    .inputControl {
+      padding-left: 14px;
+    }
+  }
+}
+
+// -----------------------------------------------------------------------------
+// 6. UTILITIES (Suffix & Actions)
+// -----------------------------------------------------------------------------
+
+.unit {
+  position: absolute;
+  right: 1px;
+  top: 1px;
+  bottom: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 12px;
+  background-color: var(--color-bg-subtle, #f8fafc);
+  border-left: 1px solid var(--state-border-color); // Border rengi inputla senkronize
+  color: var(--state-label-color);
+  border-radius: 0 calc(var(--input-radius) - 1px) calc(var(--input-radius) - 1px) 0;
+  pointer-events: none;
+  transition: border-color var(--transition-speed);
+}
+
+.actions {
+  align-items: center;
+  gap: 4px;
+  height: 100%;
+  display: flex;
+  position: absolute;
+  right: 1px;
+  border-radius: 0 var(--input-radius) var(--input-radius) 0;
+}
+
+.actionButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  border: none;
+  background: transparent;
+  color: var(--color-base-placeholder);
+  cursor: pointer;
+  transition: all 0.2s;
+  background-color: var(--state-bg-color, #f1f5f9);
+
+  &:hover {
+    color: var(--color-base-text);
+    background-color: var(--state-bg-color, #f1f5f9);
+  }
+}
+
+.errorMessage {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--color-danger, #ef4444);
+  margin-left: 2px;
+  animation: slideDown 0.2s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
