@@ -1,19 +1,19 @@
 .wrapper {
   // AsUIm Token Mapping (Theme Injection)
-  --asuim-table-bg: var(--color-bg-surface);
-  --asuim-table-bg-stripe: var(--color-bg-subtle);
-  --asuim-table-border: var(--color-border);
-  --asuim-table-text: var(--color-text);
-  --asuim-table-text-muted: var(--color-text-muted);
-  --asuim-table-input-bg: transparent;
-  --asuim-table-input-border: var(--color-border);
-  --asuim-table-input-focus: var(--color-accent);
-  --asuim-table-radius: 8px;
+  --table-bg: var(--color-bg-surface);
+  --table-bg-stripe: var(--color-bg-subtle);
+  --table-border: var(--color-border);
+  --table-text: var(--color-text);
+  --table-text-muted: var(--color-text-muted);
+  --table-input-bg: transparent;
+  --table-input-border: var(--color-border);
+  --table-input-focus: var(--color-accent);
+  --table-radius: 8px;
 
-  background-color: var(--asuim-table-bg);
-  border: 1px solid var(--asuim-table-border);
-  border-radius: var(--asuim-table-radius);
-  color: var(--asuim-table-text);
+  background-color: var(--table-bg);
+  border: 1px solid var(--table-border);
+  border-radius: var(--table-radius);
+  color: var(--table-text);
   font-family: inherit;
   width: 100%;
   display: flex;
@@ -33,13 +33,13 @@
   font-size: 0.875rem;
 
   thead {
-    background-color: var(--asuim-table-bg-stripe);
-    border-bottom: 1px solid var(--asuim-table-border);
+    background-color: var(--table-bg-stripe);
+    border-bottom: 1px solid var(--table-border);
 
     th {
       padding: 0.75rem 1rem;
       font-weight: 600;
-      color: var(--asuim-table-text);
+      color: var(--table-text);
       vertical-align: top;
       white-space: nowrap;
     }
@@ -47,11 +47,11 @@
 
   tbody {
     tr {
-      border-bottom: 1px solid var(--asuim-table-border);
+      border-bottom: 1px solid var(--table-border);
       transition: background-color 0.2s;
 
       &:nth-child(even) {
-        background-color: var(--asuim-table-bg-stripe);
+        background-color: var(--table-bg-stripe);
       }
 
       &:hover {
@@ -61,7 +61,7 @@
 
     td {
       padding: 0.75rem 1rem;
-      color: var(--asuim-table-text);
+      color: var(--table-text);
       vertical-align: middle;
     }
   }
@@ -85,7 +85,7 @@
     user-select: none;
     
     &:hover {
-      color: var(--asuim-table-input-focus);
+      color: var(--table-input-focus);
     }
   }
 }
@@ -94,17 +94,17 @@
 .nativeSelect {
   width: 100%;
   padding: 0.25rem 0.5rem;
-  border: 1px solid var(--asuim-table-input-border);
+  border: 1px solid var(--table-input-border);
   border-radius: 4px;
-  background-color: var(--asuim-table-bg);
-  color: var(--asuim-table-text);
+  background-color: var(--table-bg);
+  color: var(--table-text);
   font-size: 0.8rem;
   outline: none;
   min-width: 80px; // Daralmayı önle
 
   &:focus {
-    border-color: var(--asuim-table-input-focus);
-    box-shadow: 0 0 0 1px var(--asuim-table-input-focus);
+    border-color: var(--table-input-focus);
+    box-shadow: 0 0 0 1px var(--table-input-focus);
   }
 }
 
@@ -113,8 +113,8 @@
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
-  border-top: 1px solid var(--asuim-table-border);
-  background-color: var(--asuim-table-bg);
+  border-top: 1px solid var(--table-border);
+  background-color: var(--table-bg);
   flex-wrap: wrap;
   gap: 1rem;
 
@@ -128,7 +128,7 @@
     align-items: center;
     gap: 1rem;
     font-size: 0.8rem;
-    color: var(--asuim-table-text-muted);
+    color: var(--table-text-muted);
   }
 }
 
@@ -138,23 +138,21 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid var(--asuim-table-border);
-  background: var(--asuim-table-bg);
+  border: 1px solid var(--table-border);
+  background: var(--table-bg);
   border-radius: 4px;
   cursor: pointer;
-  color: var(--asuim-table-text);
+  color: var(--table-text);
   font-size: 0.875rem;
   transition: all 0.2s;
 
   &:hover:not(:disabled) {
-    border-color: var(--asuim-table-input-focus);
-    color: var(--asuim-table-input-focus);
+    border-color: var(--table-input-focus);
   }
 
   &.active {
-    background-color: var(--asuim-table-input-focus);
-    color: var(--color-text-inverse);
-    border-color: var(--asuim-table-input-focus);
+    background-color: var(--table-input-focus);
+    border-color: var(--table-input-focus);
   }
 
   &:disabled {
