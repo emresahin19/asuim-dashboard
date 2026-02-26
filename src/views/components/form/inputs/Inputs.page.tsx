@@ -1,8 +1,49 @@
 "use client";
 
-import { Card, Grid, GridItem, Input } from "@/components";
-import { useState } from "react";
+import { Card, Grid, GridItem, Input, Select, SelectLite, SelectOption, SelectValue } from "@/components";
+import { useEffect, useState } from "react";
 import styles from "./inputs.module.scss";
+
+const FRAMEWORKS: SelectOption[] = [
+    { label: "React", value: "react" },
+    { label: "Vue.js", value: "vue" },
+    { label: "Angular", value: "angular" },
+    { label: "Svelte", value: "svelte" },
+    { label: "Next.js", value: "nextjs" },
+    { label: "Nuxt.js", value: "nuxtjs" },
+];
+
+const GROUPED_OPTIONS = [
+    {
+        label: "Frontend",
+        options: [
+            { label: "React", value: "react" },
+            { label: "Vue", value: "vue" },
+        ],
+    },
+    {
+        label: "Backend",
+        options: [
+            { label: "Node.js", value: "node" },
+            { label: "Python", value: "python" },
+            { label: "Go", value: "go" },
+        ],
+    },
+    {
+        label: "DevOps",
+        options: [
+            { label: "Docker", value: "docker" },
+            { label: "Kubernetes", value: "k8s" },
+            { label: "AWS", value: "aws" },
+        ],
+    },
+];
+
+const ROLES = [
+    { label: "Admin", value: "admin" },
+    { label: "User", value: "user" },
+    { label: "Guest", value: "guest", disabled: true },
+];
 
 export default function InputsPage() {
     const [formData, setFormData] = useState({
@@ -25,6 +66,17 @@ export default function InputsPage() {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
     };
+
+    const [singleValue, setSingleValue] = useState<SelectValue>(null);
+    const [multiValue, setMultiValue] = useState<SelectValue>([]);
+    const [groupedValue, setGroupedValue] = useState<SelectValue>(null);
+    const [role, setRole] = useState<string | undefined>(undefined);
+    const [isSelectLoading, setIsSelectLoading] = useState(true);
+
+    useEffect(() => {
+        const timer = setTimeout(() => setIsSelectLoading(false), 1500);
+        return () => clearTimeout(timer);
+    }, []);
 
     return (
         <div className={styles.page}>
@@ -219,6 +271,156 @@ export default function InputsPage() {
                                 fullWidth
                                 label="Full Width"
                                 placeholder="Container genişliğine yayılır"
+                            />
+                        </div>
+                    </Card>
+                </GridItem>
+
+                <GridItem xs={1} sm={2}>
+                    <Card className={styles.sectionCard}>
+                        <div className={styles.sectionHead}>
+                            <h2>Select Sizes</h2>
+                            <p>sm, md, lg ve single select</p>
+                        </div>
+
+                        <div className={styles.formGrid}>
+                            <Select
+                                size="sm"
+                                label="Small Select (sm)"
+                                placeholder="Framework seç..."
+                                options={FRAMEWORKS}
+                                value={singleValue}
+                                onChange={setSingleValue}
+                            />
+                            <Select
+                                size="md"
+                                label="Medium Select (md)"
+                                placeholder="Framework seç..."
+                                options={FRAMEWORKS}
+                                value={singleValue}
+                                onChange={setSingleValue}
+                            />
+                            <Select
+                                size="lg"
+                                label="Large Select (lg)"
+                                placeholder="Framework seç..."
+                                options={FRAMEWORKS}
+                                value={singleValue}
+                                onChange={setSingleValue}
+                            />
+                        </div>
+                    </Card>
+                </GridItem>
+
+                <GridItem xs={1} sm={2}>
+                    <Card className={styles.sectionCard}>
+                        <div className={styles.sectionHead}>
+                            <h2>Select Modes</h2>
+                            <p>multi, searchable, grouped</p>
+                        </div>
+
+                        <div className={styles.formGridTwo}>
+                            <Select
+                                isMulti
+                                isSearchable
+                                label="Multi + Searchable"
+                                placeholder="Teknoloji seç..."
+                                options={FRAMEWORKS}
+                                value={multiValue}
+                                onChange={setMultiValue}
+                            />
+
+                            <Select
+                                isSearchable
+                                label="Grouped Options"
+                                placeholder="Alan seç..."
+                                options={GROUPED_OPTIONS}
+                                value={groupedValue}
+                                onChange={setGroupedValue}
+                            />
+                        </div>
+                    </Card>
+                </GridItem>
+
+                <GridItem xs={1} sm={2}>
+                    <Card className={styles.sectionCard}>
+                        <div className={styles.sectionHead}>
+                            <h2>Select States</h2>
+                            <p>loading, disabled, error</p>
+                        </div>
+
+                        <div className={styles.formGridTwo}>
+                            <Select
+                                isLoading={isSelectLoading}
+                                label="Loading State"
+                                placeholder={isSelectLoading ? "Yükleniyor..." : "Hazır"}
+                                options={FRAMEWORKS}
+                                value={null}
+                                onChange={() => { }}
+                                disabled={isSelectLoading}
+                            />
+
+                            <Select
+                                disabled
+                                label="Disabled State"
+                                placeholder="Seçim yapılamaz"
+                                options={FRAMEWORKS}
+                                value={FRAMEWORKS[0]}
+                                onChange={() => { }}
+                            />
+
+                            <Select
+                                error="Lütfen geçerli bir seçim yapınız."
+                                label="Error State"
+                                placeholder="Hatalı durum"
+                                options={FRAMEWORKS}
+                                value={null}
+                                onChange={() => { }}
+                            />
+
+                            <SelectLite
+                                label="Select Lite"
+                                placeholder="Rol seçiniz..."
+                                size="md"
+                                options={ROLES}
+                                value={role}
+                                onChange={(e) => setRole(e.target.value)}
+                            />
+                        </div>
+                    </Card>
+                </GridItem>
+
+                <GridItem xs={1} sm={2}>
+                    <Card className={styles.sectionCard}>
+                        <div className={styles.sectionHead}>
+                            <h2>Select Lite Sizes</h2>
+                            <p>native select: sm, md, lg</p>
+                        </div>
+
+                        <div className={styles.formGridThree}>
+                            <SelectLite
+                                label="Role (sm)"
+                                placeholder="Rol seçiniz..."
+                                size="sm"
+                                options={ROLES}
+                                value={role}
+                                onChange={(e) => setRole(e.target.value)}
+                            />
+                            <SelectLite
+                                label="Role (md)"
+                                placeholder="Rol seçiniz..."
+                                size="md"
+                                options={ROLES}
+                                value={role}
+                                onChange={(e) => setRole(e.target.value)}
+                            />
+                            <SelectLite
+                                label="Role (lg)"
+                                placeholder="Rol seçiniz..."
+                                size="lg"
+                                options={ROLES}
+                                value={role}
+                                onChange={(e) => setRole(e.target.value)}
                             />
                         </div>
                     </Card>

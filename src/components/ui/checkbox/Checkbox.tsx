@@ -5,18 +5,30 @@ import { CheckboxProps } from './checkbox.types';
 export const Checkbox = ({
   className = '',
   label,
+  description,
   id,
   error = false,
   size = 'md',
+  color = 'primary',
+  variant = 'default',
+  align = 'start',
+  reverse = false,
   disabled = false,
+  icon,
+  children, // Custom içerik için (örn: görsel eklemek istersen)
   ...props
 }: CheckboxProps) => {
   const generatedId = useId();
   const inputId = id || generatedId;
 
+  // Class Construction
   const containerClasses = [
     styles.container,
     styles[size],
+    styles[color],
+    styles[variant],
+    styles[`align-${align}`],
+    reverse ? styles.reverse : '',
     error ? styles.error : '',
     disabled ? styles.disabled : '',
     className
@@ -24,24 +36,37 @@ export const Checkbox = ({
 
   return (
     <div className={containerClasses}>
-      <div className={styles.inputWrapper}>
+      <div className={styles.controlWrapper}>
         <input
           id={inputId}
           type="checkbox"
           className={styles.nativeInput}
           disabled={disabled}
           aria-invalid={!!error}
+          aria-describedby={description ? `${inputId}-desc` : undefined}
           {...props}
         />
-        {/* Animated SVG Path */}
-        <svg className={styles.checkboxSvg} viewBox="0 0 21 21">
-          <path d="M5,10.75 L8.5,14.25 L19.4,2.3 C18.8333333,1.43333333 18.0333333,1 17,1 L4,1 C2.35,1 1,2.35 1,4 L1,17 C1,18.65 2.35,20 4,20 L17,20 C18.65,20 20,18.65 20,17 L20,7.99769186"></path>
-        </svg>
+        
+        {/* Visual Box (Animasyonlu Kutu) */}
+        <div className={styles.visualBox}>
+          {icon || (
+            <svg className={styles.checkIcon} viewBox="0 0 16 16">
+              <polyline points="3 8 7 12 13 4" />
+            </svg>
+          )}
+        </div>
       </div>
 
-      {label && (
-        <label htmlFor={inputId} className={styles.label}>
-          {label}
+      {/* Content Area */}
+      {(label || description || children) && (
+        <label htmlFor={inputId} className={styles.content}>
+          {label && <span className={styles.labelTitle}>{label}</span>}
+          {description && (
+            <span id={`${inputId}-desc`} className={styles.description}>
+              {description}
+            </span>
+          )}
+          {children}
         </label>
       )}
     </div>
