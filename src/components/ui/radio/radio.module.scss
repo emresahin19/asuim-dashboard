@@ -1,0 +1,170 @@
+/* * AsUIm Radio System
+ * Architecture: [Control] + [Content] -> Wrapped in [Container]
+ */
+
+.container {
+  // --- 1. CONFIGURATION ---
+  --rb-size: 20px;
+  --rb-bg: var(--color-bg-surface, #fff);
+  --rb-border: var(--color-border, #e2e8f0);
+  
+  // Dynamic Colors (Default: Primary)
+  --rb-active-color: var(--color-accent, #3b82f6);
+  --rb-dot-color: #fff; // Nokta rengi
+  
+  display: flex;
+  gap: 12px;
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+  width: fit-content;
+  min-height: var(--rb-size);
+
+  &.disabled {
+    opacity: 0.6;
+    pointer-events: none;
+    cursor: not-allowed;
+  }
+
+  &.reverse {
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    width: 100%;
+    .content { text-align: left; }
+  }
+
+  &.align-start { align-items: flex-start; }
+  &.align-center { align-items: center; }
+
+  &.hideIndicator {
+    .controlWrapper {
+      width: 0;
+      overflow: hidden;
+    }
+  }
+}
+
+/* --- 2. THE VISUAL BOX (Daire) --- */
+.controlWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  height: auto;
+}
+
+.nativeInput {
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  z-index: 2;
+  margin: 0;
+
+  // Focus Ring
+  &:focus-visible + .visualBox {
+    box-shadow: 0 0 0 2px var(--color-bg-surface), 0 0 0 4px var(--rb-active-color);
+  }
+
+  // Checked State Logic
+  &:checked + .visualBox {
+    border-color: var(--rb-active-color);
+    background-color: var(--rb-active-color); // İçi dolar
+    
+    .dot {
+      transform: scale(1); // Nokta büyür
+      opacity: 1;
+    }
+  }
+}
+
+.visualBox {
+  width: var(--rb-size);
+  height: var(--rb-size);
+  border: 2px solid var(--rb-border);
+  border-radius: 50%; // RADIO ÖZEL: Tam yuvarlak
+  background-color: var(--rb-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+// İçteki Nokta
+.dot {
+  width: 40%; // Dairenin %40'ı kadar nokta
+  height: 40%;
+  background-color: var(--rb-dot-color);
+  border-radius: 50%;
+  transform: scale(0); // Başlangıçta yok
+  opacity: 0;
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); // Bouncy pop effect
+}
+
+/* --- 3. CONTENT --- */
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  cursor: pointer;
+  flex: 1;
+}
+
+.labelTitle {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--color-text-primary, #1e293b);
+  line-height: 1.4;
+}
+
+.description {
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary, #64748b);
+  line-height: 1.4;
+}
+
+/* --- 4. VARIANTS --- */
+
+// Variant: CARD (Tailux Style Radio Card)
+.card {
+  padding: 16px;
+  border: 1px solid var(--rb-border);
+  border-radius: 12px;
+  background-color: var(--rb-bg);
+  transition: all 0.2s ease;
+  width: 100%;
+
+  &:hover {
+    border-color: color-mix(in srgb, var(--rb-active-color) 50%, transparent);
+    background-color: var(--color-bg-subtle, #f8fafc);
+  }
+
+  // Parent Selector Magic: Eğer içindeki radio seçiliyse kartı boya
+  &:has(.nativeInput:checked) {
+    border-color: var(--rb-active-color);
+    background-color: color-mix(in srgb, var(--rb-active-color) 4%, transparent);
+    box-shadow: 0 0 0 1px var(--rb-active-color);
+  }
+}
+
+// Variant: GHOST
+.ghost {
+  .visualBox {
+    border-color: transparent;
+    background-color: transparent;
+  }
+  .nativeInput:checked + .visualBox {
+    background-color: transparent;
+    .dot { background-color: var(--rb-active-color); }
+  }
+}
+
+/* --- 5. COLORS --- */
+.success { --rb-active-color: var(--color-success, #22c55e); }
+.danger { --rb-active-color: var(--color-danger, #ef4444); }
+.neutral { --rb-active-color: var(--color-text-primary, #1e293b); }
+
+/* --- 6. SIZES --- */
+.sm { --rb-size: 16px; .labelTitle { font-size: 0.875rem; } }
+.lg { --rb-size: 24px; .labelTitle { font-size: 1rem; } }

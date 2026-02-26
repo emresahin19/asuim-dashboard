@@ -123,7 +123,7 @@ export default function IconsPage() {
     }, [deferredQuery, iconEntries]);
 
     const handleCopy = async (entry: IconEntry) => {
-        const snippet = `import { ${entry.exportName} as ${entry.exportName}Icon } from '@/components/ui/icon/icons'\n\n<Icon icon={${entry.exportName}Icon} size={${iconSize}} strokeWidth={${strokeWidth}} />`;
+        const snippet = `import ${entry.exportName}Icon from '@/components/ui/icon/icons/${entry.exportName}'\n\n<Icon icon={${entry.exportName}Icon} size={${iconSize}} strokeWidth={${strokeWidth}} />`;
 
         try {
             await navigator.clipboard.writeText(snippet);
