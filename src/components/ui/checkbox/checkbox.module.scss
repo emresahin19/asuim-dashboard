@@ -1,0 +1,136 @@
+/* * AsUIm Native Checkbox Styling
+ * Version: 2.0 (SVG Path Animation)
+ */
+
+.container {
+  // ---------------------------------------------------------------------------
+  // 1. CONFIGURATION LAYER
+  // ---------------------------------------------------------------------------
+  --checkbox-size: 18px; // Default md
+  --checkbox-color: var(--color-text-soft, #ddd); // Default border
+  --checkbox-active: var(--color-accent, #3b82f6); // Active color
+  --checkbox-bg: var(--color-bg-surface, #ffffff);
+  
+  --anim-speed: 0.4s;
+  --anim-ease: cubic-bezier(0.65, 0, 0.45, 1);
+
+  display: inline-flex;
+  align-items: flex-start; // Label çok satırlı olursa yukarı hizala
+  gap: 8px;
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+  width: fit-content;
+
+  // Disabled State
+  &.disabled {
+    opacity: 0.6;
+    pointer-events: none;
+    cursor: not-allowed;
+  }
+
+  // Error State
+  &.error {
+    --checkbox-color: var(--color-danger, #ef4444);
+    --checkbox-active: var(--color-danger, #ef4444);
+    
+    .label {
+      color: var(--color-danger, #ef4444);
+    }
+  }
+}
+
+.inputWrapper {
+  position: relative;
+  width: var(--checkbox-size);
+  height: var(--checkbox-size);
+  flex-shrink: 0; // Label uzarsa kutu büzüşmesin
+}
+
+/* * Native Input (Gizli Kahraman)
+ * Görünürlüğü SVG'ye bırakıyoruz ama erişilebilirlik için orada duruyor.
+ */
+.nativeInput {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: var(--checkbox-bg);
+  border-radius: 4px; // SVG ile uyumlu radius
+  cursor: pointer;
+  outline: none;
+  
+  // Border (Unchecked State)
+  box-shadow: inset 0 0 0 1px var(--checkbox-color);
+  transition: box-shadow 0.1s;
+
+  &:hover {
+    --checkbox-color: color-mix(in srgb, var(--color-text-soft, #ddd) 80%, black);
+  }
+
+  &:focus-visible {
+    box-shadow: inset 0 0 0 1px var(--checkbox-active), 0 0 0 2px rgba(59, 130, 246, 0.2);
+  }
+
+  // CHECKED STATE TRIGGER
+  &:checked {
+    --checkbox-color: var(--checkbox-active);
+    
+    // SVG Animasyonunu tetikleyen sihirli değişkenler
+    & + .checkboxSvg {
+      --dash-array: 16.1 86.12;
+      --dash-offset: 102.22;
+    }
+  }
+}
+
+/* * Animated SVG
+ * Orijinal kodundaki stroke mantığı
+ */
+.checkboxSvg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  fill: none;
+  stroke: var(--checkbox-active);
+  stroke-width: 2px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+
+  // Animasyon Değerleri (Initial State)
+  stroke-dasharray: var(--dash-array, 86.12);
+  stroke-dashoffset: var(--dash-offset, 86.12);
+  transition: stroke-dasharray var(--anim-speed) var(--anim-ease), 
+              stroke-dashoffset var(--anim-speed) var(--anim-ease);
+}
+
+.label {
+  font-family: var(--font-sans);
+  font-size: 0.875rem; // 14px
+  line-height: var(--checkbox-size); // Kutuyla aynı hizada başlasın
+  color: var(--color-text-primary, #1e293b);
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+/* * Sizes
+ */
+.sm {
+  --checkbox-size: 16px;
+  .label { font-size: 0.8125rem; }
+}
+
+.md {
+  --checkbox-size: 20px; // Standardı biraz büyüttük (UX için)
+  .label { font-size: 0.875rem; }
+}
+
+.lg {
+  --checkbox-size: 24px;
+  .label { font-size: 1rem; }
+}

@@ -1,0 +1,228 @@
+/* * AsUIm Native Select Styling
+ * Architecture: Control + Menu + Option
+ */
+
+.container {
+  // CONFIGURATION (Input ile aynı variable setini kullanıyoruz)
+  --select-bg: var(--color-bg-surface, #ffffff);
+  --select-border: var(--color-border, #e2e8f0);
+  --select-focus: var(--color-accent, #3b82f6);
+  --select-text: var(--color-text-primary, #1e293b);
+  --select-placeholder: var(--color-text-muted, #94a3b8);
+  --select-radius: var(--asuim-radius-md, 8px);
+  --z-index-menu: 50;
+
+  position: relative;
+  width: 100%;
+  font-family: var(--font-sans);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  &.disabled {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  &.error {
+    --select-border: var(--color-danger, #ef4444);
+    --select-focus: var(--color-danger, #ef4444);
+    .label { color: var(--color-danger, #ef4444); }
+  }
+}
+
+.label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text-secondary, #64748b);
+  margin-left: 2px;
+}
+
+/* * THE CONTROL BOX (Tıklanabilir alan) */
+.control {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 44px; // Default MD height
+  padding: 4px 8px; // Padding'i küçülttük, içerdeki input halledecek
+  background-color: var(--select-bg);
+  border: 1px solid var(--select-border);
+  border-radius: var(--select-radius);
+  cursor: pointer;
+  transition: all 0.2s;
+
+  .open & {
+    border-color: var(--select-focus);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--select-focus) 20%, transparent);
+  }
+}
+
+.valueContainer {
+  display: flex;
+  flex-wrap: wrap; // Chipler sığmazsa aşağı kayar
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  padding: 2px 4px;
+}
+
+/* * INPUT (Gizli Kahraman)
+ * Control kutusunun içinde, şeffaf bir input.
+ * Yazı yazmayı bu sağlar.
+ */
+.input {
+  background: transparent;
+  border: none;
+  color: var(--select-text);
+  min-width: 2px;
+  width: 100%; // Varsayılan olarak genişler
+  outline: none;
+  padding: 0;
+  margin: 0;
+  font-size: inherit;
+  font-family: inherit;
+  
+  // Chip varsa input küçülsün, yoksa %100 olsun
+  // Flexbox bunu otomatik hallediyor (flex: 1 vermediğimiz için)
+  
+  &::placeholder {
+    color: var(--select-placeholder);
+  }
+
+  &:read-only {
+    cursor: pointer; // Search kapalıysa text cursor çıkmasın
+  }
+}
+
+/* * CHIPS (Multi Select Tags) */
+.chip {
+  display: flex;
+  align-items: center;
+  background-color: var(--color-bg-subtle, #f1f5f9);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 0.85em;
+  color: var(--select-text);
+  gap: 4px;
+
+  .chipRemove {
+    cursor: pointer;
+    color: var(--color-text-muted);
+    &:hover { color: var(--color-danger); }
+  }
+}
+
+/* * INDICATORS (Sağ İkonlar) */
+.indicators {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding-right: 4px;
+}
+
+.indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  
+  &:hover { color: var(--select-text); }
+}
+
+.separator {
+  width: 1px;
+  height: 20px;
+  background-color: var(--select-border);
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+}
+
+/* * MENU (Dropdown List) */
+.menu {
+  position: absolute;
+  top: 100%; // Tam altına
+  left: 0;
+  width: 100%;
+  margin-top: 4px;
+  background-color: var(--select-bg);
+  border: 1px solid var(--select-border);
+  border-radius: var(--select-radius);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  z-index: var(--z-index-menu);
+  max-height: 250px;
+  overflow-y: auto;
+  
+  // Animation
+  animation: scaleIn 0.1s ease-out;
+  transform-origin: top center;
+}
+
+.option {
+  padding: 10px 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--select-text);
+  font-size: 0.9375rem;
+
+  &:hover {
+    background-color: var(--color-bg-subtle, #f1f5f9);
+  }
+
+  &.selected {
+    background-color: color-mix(in srgb, var(--select-focus) 10%, transparent);
+    color: var(--select-focus);
+    font-weight: 500;
+  }
+
+  &.disabledOption {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+}
+
+.groupLabel {
+  padding: 8px 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.noOptions {
+  padding: 12px;
+  text-align: center;
+  color: var(--color-text-muted);
+}
+
+.errorMessage {
+  font-size: 0.75rem;
+  color: var(--color-danger);
+  margin-left: 2px;
+}
+
+// SIZES
+.sm {
+  .control { min-height: 36px; font-size: 0.875rem; }
+}
+.md {
+  .control { min-height: 44px; font-size: 0.9375rem; }
+}
+.lg {
+  .control { min-height: 52px; font-size: 1rem; }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scaleY(0.95); }
+  to { opacity: 1; transform: scaleY(1); }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}

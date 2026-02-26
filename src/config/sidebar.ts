@@ -75,6 +75,7 @@ const navTree: SidebarNavNode[] = [
         id: 'components-form', label: 'Form', role: 'item', icon: FilePenIcon, children: [
           { id: 'components-form-input', label: 'Input', role: 'item', icon: TextCursorInputIcon, routeId: 'components-form-input' },
           { id: 'components-form-checkbox', label: 'Checkbox', role: 'item', icon: BadgeCheckIcon, routeId: 'components-form-checkbox' },
+          { id: 'components-form-select', label: 'Select', role: 'item', icon: TextAlignCenterIcon, routeId: 'components-form-select' },
         ]
       },
       { id: 'navigation', label: 'Navigation', role: 'item', icon: NavigationIcon, routeId: 'navigation' },

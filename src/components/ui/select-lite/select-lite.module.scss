@@ -1,0 +1,125 @@
+/* * AsUIm Native Select Lite
+ * Strategy: Native <select> with Custom Appearance
+ */
+
+.container {
+  // Input Component ile aynı variable'ları çeker
+  --input-bg: var(--color-bg-surface, #ffffff);
+  --input-border: var(--color-border, #e2e8f0);
+  --input-focus: var(--color-accent, #3b82f6);
+  --input-text: var(--color-text-primary, #1e293b);
+  --input-radius: var(--asuim-radius-md, 8px);
+  --input-height-md: 44px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  position: relative;
+  width: fit-content; // Default olarak içeriğe göre, fullWidth ile değişir
+  min-width: 150px;
+  font-family: var(--font-sans);
+
+  &.fullWidth { width: 100%; }
+  
+  &.disabled {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+}
+
+.label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text-secondary, #64748b);
+  margin-left: 2px;
+}
+
+.wrapper {
+  position: relative;
+  width: 100%;
+}
+
+/* * THE NATIVE SELECT 
+ * Varsayılan stili sıfırla, bizim stile uydur.
+ */
+.nativeSelect {
+  width: 100%;
+  appearance: none;        // Standart ok işaretini gizle
+  -webkit-appearance: none; 
+  -moz-appearance: none;
+
+  background-color: var(--input-bg);
+  border: 1px solid var(--input-border);
+  border-radius: var(--input-radius);
+  color: var(--input-text);
+  
+  padding-right: 32px; // İkon için yer aç
+  cursor: pointer;
+  outline: none;
+  font-family: inherit;
+  
+  // Text overflow yönetimi
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  transition: all 0.2s;
+
+  &:hover:not(:disabled) {
+    border-color: color-mix(in srgb, var(--input-border) 80%, black);
+  }
+
+  &:focus {
+    border-color: var(--input-focus);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--input-focus) 20%, transparent);
+  }
+  
+  // Placeholder rengi (Option disabled ise)
+  &:invalid {
+    color: var(--color-text-muted, #94a3b8);
+  }
+}
+
+/* * CUSTOM ICON WRAPPER
+ * Select'in üzerine biner ama tıklanamaz (click-through)
+ */
+.iconWrapper {
+  position: absolute;
+  top: 0;
+  right: 10px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  pointer-events: none; // Tıklamayı alttaki select'e geçirir!
+  color: var(--color-text-muted, #94a3b8);
+}
+
+.errorMessage {
+  font-size: 0.75rem;
+  color: var(--color-danger, #ef4444);
+  margin-left: 2px;
+}
+
+.error {
+  .nativeSelect { border-color: var(--color-danger, #ef4444); }
+  .label { color: var(--color-danger, #ef4444); }
+}
+
+/* * SIZES */
+.sm .nativeSelect {
+  height: 36px;
+  padding-left: 12px;
+  font-size: 0.875rem;
+}
+
+.md .nativeSelect {
+  height: 44px;
+  padding-left: 14px;
+  font-size: 0.9375rem;
+}
+
+.lg .nativeSelect {
+  height: 52px;
+  padding-left: 16px;
+  font-size: 1rem;
+}
