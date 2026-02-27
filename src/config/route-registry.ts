@@ -18,6 +18,7 @@ export const routeRegistry: RouteDefinition[] = [
     { id: 'components-form-radio', path: '/components/form/radio', title: 'Radio' },
     { id: 'components-form-switch', path: '/components/form/switch', title: 'Switch' },
     { id: 'components-form-range', path: '/components/form/range', title: 'Range' },
+    { id: 'components-form-date-picker', path: '/components/form/date-picker', title: 'Date Picker' },
     { id: 'navigation', path: '/components/navigation', title: 'Navigation' },
 
     { id: 'icons', path: '/utilities/icons', title: 'Icons' },

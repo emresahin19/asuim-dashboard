@@ -1,49 +1,8 @@
 "use client";
 
 import { Card, Grid, GridItem, Input, Select, SelectLite, SelectOption, SelectValue } from "@/components";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styles from "./inputs.module.scss";
-
-const FRAMEWORKS: SelectOption[] = [
-    { label: "React", value: "react" },
-    { label: "Vue.js", value: "vue" },
-    { label: "Angular", value: "angular" },
-    { label: "Svelte", value: "svelte" },
-    { label: "Next.js", value: "nextjs" },
-    { label: "Nuxt.js", value: "nuxtjs" },
-];
-
-const GROUPED_OPTIONS = [
-    {
-        label: "Frontend",
-        options: [
-            { label: "React", value: "react" },
-            { label: "Vue", value: "vue" },
-        ],
-    },
-    {
-        label: "Backend",
-        options: [
-            { label: "Node.js", value: "node" },
-            { label: "Python", value: "python" },
-            { label: "Go", value: "go" },
-        ],
-    },
-    {
-        label: "DevOps",
-        options: [
-            { label: "Docker", value: "docker" },
-            { label: "Kubernetes", value: "k8s" },
-            { label: "AWS", value: "aws" },
-        ],
-    },
-];
-
-const ROLES = [
-    { label: "Admin", value: "admin" },
-    { label: "User", value: "user" },
-    { label: "Guest", value: "guest", disabled: true },
-];
 
 export default function InputsPage() {
     const [formData, setFormData] = useState({
@@ -62,21 +21,11 @@ export default function InputsPage() {
         disabled: "Bu alana veri girilemez"
     });
 
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
     };
-
-    const [singleValue, setSingleValue] = useState<SelectValue>(null);
-    const [multiValue, setMultiValue] = useState<SelectValue>([]);
-    const [groupedValue, setGroupedValue] = useState<SelectValue>(null);
-    const [role, setRole] = useState<string | undefined>(undefined);
-    const [isSelectLoading, setIsSelectLoading] = useState(true);
-
-    useEffect(() => {
-        const timer = setTimeout(() => setIsSelectLoading(false), 1500);
-        return () => clearTimeout(timer);
-    }, []);
 
     return (
         <div className={styles.page}>

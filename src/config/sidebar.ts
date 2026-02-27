@@ -25,6 +25,7 @@ import CircleDotIcon from '@/components/ui/icon/icons/CircleDot'
 import AlignVerticalSpaceAroundIcon from '@/components/ui/icon/icons/AlignVerticalSpaceAround'
 import CheckCheckIcon from '@/components/ui/icon/icons/CheckCheck'
 import SlidersHorizontal from '@/components/ui/icon/icons/SlidersHorizontal'
+import CalendarIcon from '@/components/ui/icon/icons/Calendar'
 
 const navTree: SidebarNavNode[] = [
   { id: 'overview', label: 'Overview', role: 'section' },
@@ -83,6 +84,7 @@ const navTree: SidebarNavNode[] = [
           { id: 'components-form-radio', label: 'Radio', role: 'item', icon: CircleDotIcon, routeId: 'components-form-radio' },
           { id: 'components-form-switch', label: 'Switch', role: 'item', icon: CheckCheckIcon, routeId: 'components-form-switch' },
           { id: 'components-form-range', label: 'Range', role: 'item', icon: SlidersHorizontal, routeId: 'components-form-range' },
+          { id: 'components-form-date-picker', label: 'Date Picker', role: 'item', icon: CalendarIcon, routeId: 'components-form-date-picker' },
         ]
       },
       { id: 'navigation', label: 'Navigation', role: 'item', icon: NavigationIcon, routeId: 'navigation' },

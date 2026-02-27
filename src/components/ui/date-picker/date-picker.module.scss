@@ -1,0 +1,419 @@
+/* * AsUIm Native DatePicker */
+
+.container {
+  --dp-bg: var(--color-bg-subtle, #ffffff);
+  --dp-text: var(--color-text-primary, #1e293b);
+  --dp-placeholder: var(--color-text-muted, #94a3b8);
+  --dp-label: var(--color-text-secondary, #64748b);
+  --dp-border: var(--color-border, #e2e8f0);
+  --dp-focus: var(--color-accent, #3b82f6);
+  --dp-radius: var(--input-radius-md, 8px);
+  --dp-z-index: 50;
+  --dp-trigger-height: 44px;
+
+  position: relative;
+  width: 100%;
+  font-family: var(--font-sans);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  &:hover:not(.disabled) {
+    --dp-border: var(--color-border-strong, #cbd5e1);
+  }
+
+  &.open {
+    --dp-border: var(--dp-focus);
+    --dp-label: var(--dp-focus);
+  }
+
+  &.error {
+    --dp-border: var(--color-danger, #ef4444);
+    --dp-focus: var(--color-danger, #ef4444);
+    --dp-label: var(--color-danger, #ef4444);
+  }
+
+  &.disabled {
+    opacity: 0.6;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  &.fullWidth {
+    width: 100%;
+  }
+}
+
+.label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-left: 2px;
+  color: var(--dp-label);
+  transition: color 0.2s;
+}
+
+.trigger {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: var(--dp-trigger-height);
+  padding: 0 12px;
+  border: 1px solid var(--dp-border);
+  border-radius: var(--dp-radius);
+  background-color: var(--dp-bg);
+  color: var(--dp-text);
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
+  outline: none;
+
+  &:focus-visible {
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--dp-focus) 20%, transparent);
+  }
+
+  .open & {
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--dp-focus) 20%, transparent);
+  }
+}
+
+.icon {
+  color: var(--dp-placeholder);
+  flex-shrink: 0;
+}
+
+.triggerInput {
+  flex: 1;
+  width: 100%;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  font-size: 0.9375rem;
+  line-height: 1.4;
+  color: var(--dp-text);
+  font-family: inherit;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  outline: none;
+  cursor: pointer;
+  padding: 0;
+
+  &::selection {
+    background: transparent;
+  }
+}
+
+.placeholder {
+  color: var(--dp-placeholder);
+}
+
+.clearBtn {
+  border: none;
+  background: transparent;
+  width: 24px;
+  height: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  color: var(--dp-placeholder);
+  cursor: pointer;
+  transition: color 0.2s, background-color 0.2s;
+
+  &:hover {
+    color: var(--color-danger, #ef4444);
+    background-color: color-mix(in srgb, var(--color-danger, #ef4444) 12%, transparent);
+  }
+}
+
+.popover {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  width: max-content;
+  max-width: min(100vw - 2rem, 760px);
+  background-color: var(--color-bg-surface, #ffffff);
+  border: 1px solid var(--dp-border);
+  border-radius: var(--dp-radius);
+  box-shadow: 0 12px 30px color-mix(in srgb, var(--color-text-primary, #1e293b) 16%, transparent);
+  z-index: var(--dp-z-index);
+  padding: 14px;
+  display: flex;
+  gap: 14px;
+  animation: fadeIn 0.15s ease-out;
+}
+
+.presets {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border-right: 1px solid var(--dp-border);
+  padding-right: 14px;
+  min-width: 128px;
+
+  button {
+    border: none;
+    background: transparent;
+    text-align: left;
+    font-size: 0.875rem;
+    color: var(--dp-text);
+    padding: 8px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: var(--color-bg-subtle, #f1f5f9);
+    }
+  }
+}
+
+.calendarWrapper {
+  min-width: 0;
+}
+
+/* React Day Picker v9 */
+.rdpRoot {
+  margin: 0;
+}
+
+.rdpMonths {
+  display: flex;
+  gap: 14px;
+  position: relative;
+}
+
+.rdpMonth {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.rdpMonthGrid {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.rdpDropdowns {
+  padding: 0 36px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.rdpDropdown {
+  appearance: none;
+  background-color: transparent;
+  border: none;
+  border-radius: 6px;
+  color: var(--dp-text);
+  font-family: inherit;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  padding: 4px 8px;
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: var(--color-bg-subtle, #f1f5f9);
+    color: var(--dp-focus);
+  }
+
+  &:focus-visible {
+    box-shadow: 0 0 0 2px var(--dp-focus);
+    border-radius: 4px;
+  }
+
+  // Option stilleri (Sadece bazı browserlarda çalışır, native'dir)
+  option {
+    background-color: var(--dp-bg);
+    color: var(--dp-text);
+  }
+}
+
+.rdpDropdownMonth {
+  padding: 0 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// Scrollbar gizleme (Firefox)
+.rdpDropdown {
+  scrollbar-width: none; 
+}
+// Scrollbar gizleme (Chrome)
+.rdpDropdown::-webkit-scrollbar {
+  display: none;
+}
+
+.rdpCaptionLabel {
+  display: none;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--dp-text);
+}
+
+.rdpNav {
+  display: flex;
+  align-items: center;
+  position: absolute; // Caption içinde absolute konumlandır
+  width: 100%;
+  left: 0;
+  justify-content: space-between;
+  pointer-events: none;
+  padding: 4px 0;
+}
+
+.rdpNavButton {
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 6px;
+  color: var(--dp-text);
+  cursor: pointer;
+  pointer-events: auto; // Butonlar tıklanabilsin
+  transition: all 0.2s;
+
+  &:hover {
+    border-color: var(--dp-focus);
+    color: var(--dp-focus);
+    background-color: var(--color-bg-subtle, #f1f5f9);
+  }
+}
+
+.rdpNavButtonPrev {
+  margin-right: auto; // Sola yapıştır
+}
+
+.rdpNavButtonNext {
+  margin-left: auto; // Sağa yapıştır
+}
+
+.rdpChevron {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+}
+
+.rdpWeekdays {
+  display: flex;
+}
+
+.rdpWeekday {
+  width: 38px;
+  height: 30px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--dp-placeholder);
+  text-align: center;
+}
+
+.rdpWeeks {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.rdpWeek {
+  display: flex;
+}
+
+.rdpDayCell {
+  width: 38px;
+  height: 36px;
+  text-align: center;
+  position: relative;
+}
+
+.rdpDayButton {
+  width: 34px;
+  height: 34px;
+  margin: 1px 2px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--dp-text);
+  font-size: 0.875rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.15s, color 0.15s;
+
+  &:hover {
+    background-color: var(--color-accent-hover, #f1f5f9);
+  }
+}
+
+.rdpSelected .rdpDayButton {
+  background-color: var(--dp-focus);
+  color: #fff;
+  font-weight: 600;
+}
+
+.rdpToday .rdpDayButton {
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--dp-focus) 45%, transparent);
+}
+
+.rdpOutside .rdpDayButton {
+  color: color-mix(in srgb, var(--dp-placeholder) 75%, transparent);
+}
+
+.rdpDisabled .rdpDayButton {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.rdpRangeMiddle .rdpDayButton {
+  background-color: color-mix(in srgb, var(--dp-focus) 14%, transparent);
+  color: var(--dp-focus);
+  border-radius: 0;
+  width: 38px;
+  margin: 0;
+}
+
+.rdpRangeStart .rdpDayButton {
+  border-radius: 8px 0 0 8px;
+  width: 38px;
+  margin: 0;
+}
+
+.rdpRangeEnd .rdpDayButton {
+  border-radius: 0 8px 8px 0;
+  width: 38px;
+  margin: 0;
+}
+
+.errorMessage {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--color-danger, #ef4444);
+  margin-left: 2px;
+}
+
+@media (max-width: 900px) {
+  .popover {
+    max-width: min(100vw - 1rem, 680px);
+    overflow-x: auto;
+  }
+
+  .rdpMonths {
+    gap: 8px;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
