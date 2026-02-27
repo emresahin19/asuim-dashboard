@@ -26,6 +26,7 @@ import AlignVerticalSpaceAroundIcon from '@/components/ui/icon/icons/AlignVertic
 import CheckCheckIcon from '@/components/ui/icon/icons/CheckCheck'
 import SlidersHorizontal from '@/components/ui/icon/icons/SlidersHorizontal'
 import CalendarIcon from '@/components/ui/icon/icons/Calendar'
+import TableIcon from '@/components/ui/icon/icons/Table'
 
 const navTree: SidebarNavNode[] = [
   { id: 'overview', label: 'Overview', role: 'section' },
@@ -76,6 +77,7 @@ const navTree: SidebarNavNode[] = [
     icon: BoxIcon,
     children: [
       { id: 'buttons', label: 'Buttons', role: 'item', icon: MousePointerClickIcon, routeId: 'buttons' },
+      { id: 'table', label: 'Table', role: 'item', icon: TableIcon, routeId: 'table' },
       {
         id: 'components-form', label: 'Form', role: 'item', icon: FilePenIcon, children: [
           { id: 'components-form-input', label: 'Input', role: 'item', icon: TextCursorInputIcon, routeId: 'components-form-input' },

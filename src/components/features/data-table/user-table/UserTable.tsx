@@ -103,7 +103,9 @@ export const UserTable = () => {
     {
       key: 'lastLogin',
       label: 'Son Giriş',
-      sortable: false,
+      sortable: true,
+      type: 'date',
+      filterable: true,
       render: (item) => new Date(item.lastLogin).toLocaleDateString('tr-TR')
     }
   ];

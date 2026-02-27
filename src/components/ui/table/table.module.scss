@@ -1,7 +1,7 @@
 .wrapper {
   // AsUIm Token Mapping (Theme Injection)
   --table-bg: var(--color-bg-surface);
-  --table-bg-stripe: var(--color-bg-subtle);
+  --table-bg-stripe: var(--color-bg-surface-active);
   --table-border: var(--color-border);
   --table-text: var(--color-text);
   --table-text-muted: var(--color-text-muted);
@@ -67,8 +67,6 @@
   }
 }
 
-// --- Sub Components ---
-
 .headerCell {
   display: flex;
   flex-direction: column;
@@ -87,24 +85,6 @@
     &:hover {
       color: var(--table-input-focus);
     }
-  }
-}
-
-.nativeInput,
-.nativeSelect {
-  width: 100%;
-  padding: 0.25rem 0.5rem;
-  border: 1px solid var(--table-input-border);
-  border-radius: 4px;
-  background-color: var(--table-bg);
-  color: var(--table-text);
-  font-size: 0.8rem;
-  outline: none;
-  min-width: 80px; // Daralmayı önle
-
-  &:focus {
-    border-color: var(--table-input-focus);
-    box-shadow: 0 0 0 1px var(--table-input-focus);
   }
 }
 
