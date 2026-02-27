@@ -9,14 +9,15 @@
   --input-focus: var(--color-accent, #3b82f6);
   --input-text: var(--color-text-primary, #1e293b);
   --input-radius: var(--radius-md, 8px);
+  --input-font-size: 0.9375rem;
+  --input-font-weight: 500;
   --input-height-md: 44px;
 
   display: flex;
   flex-direction: column;
   gap: 6px;
   position: relative;
-  width: fit-content; // Default olarak içeriğe göre, fullWidth ile değişir
-  min-width: 150px;
+  width: fit-content;
   font-family: var(--font-sans);
 
   &.fullWidth { width: 100%; }
@@ -28,9 +29,9 @@
 }
 
 .label {
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: var(--color-text-secondary, #64748b);
+  font-size: var(--input-font-size);
+  font-weight: var(--input-font-weight);
+  color: var(--input-text, #64748b);
   margin-left: 2px;
 }
 
@@ -71,7 +72,6 @@
 
   &:focus {
     border-color: var(--input-focus);
-    box-shadow: 0 0 0 3px color-mix(in srgb, var(--input-focus) 20%, transparent);
   }
   
   // Placeholder rengi (Option disabled ise)
@@ -80,9 +80,6 @@
   }
 }
 
-/* * CUSTOM ICON WRAPPER
- * Select'in üzerine biner ama tıklanamaz (click-through)
- */
 .iconWrapper {
   position: absolute;
   top: 0;
@@ -90,12 +87,12 @@
   height: 100%;
   display: flex;
   align-items: center;
-  pointer-events: none; // Tıklamayı alttaki select'e geçirir!
+  pointer-events: none; 
   color: var(--color-text-muted, #94a3b8);
 }
 
 .errorMessage {
-  font-size: 0.75rem;
+  font-size: var(--input-font-size);
   color: var(--color-danger, #ef4444);
   margin-left: 2px;
 }
@@ -109,17 +106,17 @@
 .sm .nativeSelect {
   height: 36px;
   padding-left: 12px;
-  font-size: 0.875rem;
+  font-size: var(--input-font-size);
 }
 
 .md .nativeSelect {
   height: 44px;
   padding-left: 14px;
-  font-size: 0.9375rem;
+  font-size: var(--input-font-size);
 }
 
 .lg .nativeSelect {
   height: 52px;
   padding-left: 16px;
-  font-size: 1rem;
+  font-size: var(--input-font-size);
 }

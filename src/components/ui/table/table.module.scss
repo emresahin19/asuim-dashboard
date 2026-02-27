@@ -147,6 +147,20 @@
   }
 }
 
+.perPageSelect {
+  --input-bg: var(--table-bg) !important;
+  --input-border: transparent !important;
+  --input-font-size: .8rem !important;
+  --input-font-weight: 500;
+  --input-text: var(--table-text-muted) !important;
+  flex-direction: row !important;
+  align-items: center;
+
+  label {
+    min-width: fit-content;
+  }
+}
+
 .editActions {
   display: flex;
   gap: 0.5rem;

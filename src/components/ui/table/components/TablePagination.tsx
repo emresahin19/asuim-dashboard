@@ -5,6 +5,7 @@ import Ellipsis from '@/components/ui/icon/icons/Ellipsis'
 import { TableState } from '../table.types';
 import styles from '../table.module.scss';
 import { Icon } from '@/components/ui/icon';
+import { SelectLite } from '../../select-lite';
 
 interface PaginationProps<T> {
   tableState: TableState<T>;
@@ -38,14 +39,20 @@ export const TablePagination = <T,>({ tableState, onPageChange, onPerPageChange 
     <div className={styles.pagination}>
       <div className={styles.controls}>
         <span>Toplam: <strong>{total}</strong> kayıt</span>
-        <select
-          className={styles.nativeSelect}
+
+        <SelectLite
+          size="sm"
+          label="Sayfa başına kayıt"
+          className={styles.perPageSelect}
+          options={[
+            { label: '10', value: 10 },
+            { label: '20', value: 20 },
+            { label: '50', value: 50 },
+            { label: '100', value: 100 },
+          ]}
           value={perPage}
-          onChange={(e) => onPerPageChange?.(Number(e.target.value))}
-          style={{ width: 'auto' }}
-        >
-          {[10, 20, 50, 100].map(v => <option key={v} value={v}>{v} / Sayfa</option>)}
-        </select>
+          onChange={(e) => onPerPageChange?.(Number(e.target.value))} // Native event döner!
+        />
       </div>
 
       <div className={styles.pages}>
