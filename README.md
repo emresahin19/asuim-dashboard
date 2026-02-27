@@ -106,7 +106,7 @@ Design token sistemi bir API sözleşmesi olarak kabul edilir.
 
 -   Componentler doğrudan SCSS map'lerine erişemez.
 -   Componentler yalnızca CSS Variable kullanır.
--   Tüm variable isimleri `--asuim-` prefixi ile başlar.
+-   Tüm variable isimleri `--` prefixi ile başlar.
 -   Token silmek breaking change olarak değerlendirilir.
 -   Token yeniden adlandırmak major versiyon değişikliğidir.
 

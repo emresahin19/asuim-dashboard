@@ -208,6 +208,7 @@ export default function InputsPage() {
                                 options={ROLES}
                                 value={role}
                                 onChange={(e) => setRole(e.target.value)} // Native event döner!
+                                fullWidth
                             />
 
                             <SelectLite
@@ -217,6 +218,7 @@ export default function InputsPage() {
                                 options={ROLES}
                                 value={role}
                                 onChange={(e) => setRole(e.target.value)} // Native event döner!
+                                fullWidth
                             />
 
                             <SelectLite
@@ -226,6 +228,7 @@ export default function InputsPage() {
                                 options={ROLES}
                                 value={role}
                                 onChange={(e) => setRole(e.target.value)} // Native event döner!
+                                fullWidth
                             />
                         </div>
                     </Card>

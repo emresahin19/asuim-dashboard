@@ -8,6 +8,6 @@ $asuim-grid-gap: (
 
 :root {
   @each $bp, $value in $asuim-grid-gap {
-    --asuim-grid-gap-#{$bp}: #{$value};
+    --grid-gap-#{$bp}: #{$value};
   }
 }

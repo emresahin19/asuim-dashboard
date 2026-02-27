@@ -18,32 +18,32 @@
 }
 
 .withGap {
-  gap: var(--asuim-grid-gap-xs);
-  @include cq-up(sm) { gap: var(--asuim-grid-gap-sm); }
-  @include cq-up(md) { gap: var(--asuim-grid-gap-md); }
-  @include cq-up(lg) { gap: var(--asuim-grid-gap-lg); }
-  @include cq-up(xl) { gap: var(--asuim-grid-gap-xl); }
+  gap: var(--grid-gap-xs);
+  @include cq-up(sm) { gap: var(--grid-gap-sm); }
+  @include cq-up(md) { gap: var(--grid-gap-md); }
+  @include cq-up(lg) { gap: var(--grid-gap-lg); }
+  @include cq-up(xl) { gap: var(--grid-gap-xl); }
 }
 
 .withPadding {
-  padding-left: var(--asuim-grid-gap-xs);
-  padding-right: var(--asuim-grid-gap-xs);
+  padding-left: var(--grid-gap-xs);
+  padding-right: var(--grid-gap-xs);
   
   @include cq-up(sm) {
-    padding-left: var(--asuim-grid-gap-sm);
-    padding-right: var(--asuim-grid-gap-sm);
+    padding-left: var(--grid-gap-sm);
+    padding-right: var(--grid-gap-sm);
   }
   @include cq-up(md) {
-    padding-left: var(--asuim-grid-gap-md);
-    padding-right: var(--asuim-grid-gap-md);
+    padding-left: var(--grid-gap-md);
+    padding-right: var(--grid-gap-md);
   }
   @include cq-up(lg) {
-    padding-left: var(--asuim-grid-gap-lg);
-    padding-right: var(--asuim-grid-gap-lg);
+    padding-left: var(--grid-gap-lg);
+    padding-right: var(--grid-gap-lg);
   }
   @include cq-up(xl) {
-    padding-left: var(--asuim-grid-gap-xl);
-    padding-right: var(--asuim-grid-gap-xl);
+    padding-left: var(--grid-gap-xl);
+    padding-right: var(--grid-gap-xl);
   }
 }
 
