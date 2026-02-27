@@ -23,11 +23,6 @@ body {
     color 0.2s ease;
 }
 
-/* Text selection */
-::selection {
-  background: var(--color-active-overlay);
-}
-
 /* Focus ring (keyboard users için adam gibi) */
 :focus-visible {
   outline: 2px solid var(--color-focus-ring);

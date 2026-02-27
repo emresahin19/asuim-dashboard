@@ -1,7 +1,7 @@
 import { InputHTMLAttributes, ReactNode } from 'react';
 
 export type CheckboxSize = 'sm' | 'md' | 'lg';
-export type CheckboxColor = 'primary' | 'success' | 'danger' | 'neutral';
+export type CheckboxColor = 'primary' | 'success' | 'danger' | 'neutral' | 'info' | 'warning';
 export type CheckboxVariant = 'default' | 'card' | 'ghost'; // Card: Çerçeveli seçim kutusu
 
 export interface CheckboxProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> {

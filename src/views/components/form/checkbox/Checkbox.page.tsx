@@ -42,12 +42,14 @@ export default function CheckboxPage() {
                     <Card className={styles.sectionCard}>
                         <div className={styles.sectionHead}>
                             <h2>Colors</h2>
-                            <p>primary, success, danger, neutral</p>
+                            <p>primary, success, info, warning, danger, neutral</p>
                         </div>
 
                         <div className={styles.formGridTwo}>
                             <Checkbox color="primary" label="Primary" defaultChecked />
                             <Checkbox color="success" label="Success" defaultChecked />
+                            <Checkbox color="info" label="Info" defaultChecked />
+                            <Checkbox color="warning" label="Warning" defaultChecked />
                             <Checkbox color="danger" label="Danger" defaultChecked />
                             <Checkbox color="neutral" label="Neutral" defaultChecked />
                         </div>

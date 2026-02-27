@@ -125,7 +125,7 @@
 .itemContent {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 4px;
   padding: 4px var(--layout-gap);
   height: var(--layout-sidebar-icon-width);
   border-radius: 6px;
@@ -135,7 +135,7 @@
   }
 
   svg {
-    font-size: 20px;
+    font-size: 18px;
   }
 
   &.active {
@@ -157,7 +157,7 @@
   flex: 1;
   padding: 6px 8px;
   border-radius: 4px;
-  font-size: 14px;
+  font-size: 13px;
   color: var(--color-sidebar-text);
 }
 

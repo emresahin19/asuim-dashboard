@@ -70,17 +70,6 @@
   grid-template-columns: 1fr;
 }
 
-.customIcon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  font-size: 0.75rem;
-  line-height: 1;
-  font-weight: 700;
-}
-
 @media (min-width: 768px) {
   .heroCard {
     padding: 1.5rem;

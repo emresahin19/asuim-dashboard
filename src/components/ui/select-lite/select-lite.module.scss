@@ -4,7 +4,7 @@
 
 .container {
   // Input Component ile aynı variable'ları çeker
-  --input-bg: var(--color-bg-surface, #ffffff);
+  --input-bg: var(--color-bg-subtle, #ffffff);
   --input-border: var(--color-border, #e2e8f0);
   --input-focus: var(--color-accent, #3b82f6);
   --input-text: var(--color-text-primary, #1e293b);

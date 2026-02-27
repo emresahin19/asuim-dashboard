@@ -6,7 +6,6 @@ import styles from "./radio.module.scss";
 
 export default function RadioPage() {
     const [plan, setPlan] = useState("starter");
-    const [theme, setTheme] = useState("system");
 
     return (
         <div className={styles.page}>
@@ -38,14 +37,16 @@ export default function RadioPage() {
                     <Card className={styles.sectionCard}>
                         <div className={styles.sectionHead}>
                             <h2>Colors</h2>
-                            <p>primary, success, danger, neutral</p>
+                            <p>primary, success, info, warning, danger, neutral</p>
                         </div>
 
                         <div className={styles.formGridTwo}>
-                            <Radio name="colors" color="primary" label="Primary" defaultChecked />
-                            <Radio name="colors" color="success" label="Success" />
-                            <Radio name="colors" color="danger" label="Danger" />
-                            <Radio name="colors" color="neutral" label="Neutral" />
+                            <Radio name="colors1" color="primary" label="Primary" defaultChecked />
+                            <Radio name="colors2" color="success" label="Success" defaultChecked />
+                            <Radio name="colors3" color="info" label="Info" defaultChecked />
+                            <Radio name="colors4" color="warning" label="Warning" defaultChecked />
+                            <Radio name="colors5" color="danger" label="Danger" defaultChecked />
+                            <Radio name="colors6" color="neutral" label="Neutral" defaultChecked />
                         </div>
                     </Card>
                 </GridItem>

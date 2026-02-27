@@ -23,6 +23,8 @@ import CpuIcon from '@/components/ui/icon/icons/Cpu'
 import AccessibilityIcon from '@/components/ui/icon/icons/Accessibility'
 import CircleDotIcon from '@/components/ui/icon/icons/CircleDot'
 import AlignVerticalSpaceAroundIcon from '@/components/ui/icon/icons/AlignVerticalSpaceAround'
+import CheckCheckIcon from '@/components/ui/icon/icons/CheckCheck'
+import SlidersHorizontal from '@/components/ui/icon/icons/SlidersHorizontal'
 
 const navTree: SidebarNavNode[] = [
   { id: 'overview', label: 'Overview', role: 'section' },
@@ -79,6 +81,8 @@ const navTree: SidebarNavNode[] = [
           { id: 'components-form-checkbox', label: 'Checkbox', role: 'item', icon: BadgeCheckIcon, routeId: 'components-form-checkbox' },
           { id: 'components-form-select', label: 'Select', role: 'item', icon: AlignVerticalSpaceAroundIcon, routeId: 'components-form-select' },
           { id: 'components-form-radio', label: 'Radio', role: 'item', icon: CircleDotIcon, routeId: 'components-form-radio' },
+          { id: 'components-form-switch', label: 'Switch', role: 'item', icon: CheckCheckIcon, routeId: 'components-form-switch' },
+          { id: 'components-form-range', label: 'Range', role: 'item', icon: SlidersHorizontal, routeId: 'components-form-range' },
         ]
       },
       { id: 'navigation', label: 'Navigation', role: 'item', icon: NavigationIcon, routeId: 'navigation' },

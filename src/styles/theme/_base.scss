@@ -1,10 +1,13 @@
 :root {
   --color-bg-app: var(--base-100);
-  --color-bg-surface: var(--base-100);
-  --color-bg-card: var(--base-200);
+  --color-bg-card: var(--base-50);
+  --color-bg-gradient: linear-gradient(180deg, var(--color-bg-surface), var(--color-bg-card));
   --color-bg-elevated: var(--base-100);
-  --color-bg-subtle: var(--base-50);
+  
+  --color-bg-surface: var(--base-100);
   --color-bg-surface-active: var(--base-50);
+  --color-bg-subtle: var(--base-100);
+  --color-bg-subtle-active: var(--base-50);
 
 
   /* =====================================================
@@ -61,14 +64,17 @@
   --color-success: oklch(0.627 0.194 149.214);
   --color-warning: oklch(0.666 0.179 58.318);
   --color-danger: oklch(0.577 0.245 27.325);
+  --color-info: oklch(0.681 0.219 257.829);
 
   --color-success-bg: oklch(0.962 0.044 156.743);
   --color-warning-bg: oklch(0.962 0.059 95.617);
   --color-danger-bg: oklch(0.936 0.032 17.717);
+  --color-info-bg: oklch(0.962 0.044 257.418);
 
   --color-success-text: oklch(0.393 0.095 152.535);
   --color-warning-text: oklch(0.414 0.112 45.904);
   --color-danger-text: oklch(0.396 0.141 25.723);
+  --color-info-text: oklch(0.393 0.095 258.334);
 
   /* =====================================================
    * PRIMARY COLORS

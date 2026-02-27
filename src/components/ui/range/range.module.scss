@@ -1,0 +1,213 @@
+/* * AsUIm Native Range Slider
+ * Technology: CSS Variables + Linear Gradient Masking
+ */
+
+.container {
+  // --- CONFIGURATION ---
+  --range-bg: var(--color-bg-subtle, #e2e8f0);      // Boş kısım rengi
+  --range-fill: var(--color-accent, #3b82f6);      // Dolu kısım rengi
+  --thumb-color: #ffffff;                           // Topuz içi
+  --thumb-border: var(--color-accent, #3b82f6);    // Topuz çerçevesi
+  
+  --track-height: 6px;
+  --thumb-size: 20px;
+  
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  position: relative;
+  font-family: var(--font-sans);
+
+  &.disabled {
+    opacity: 0.6;
+    pointer-events: none;
+    cursor: not-allowed;
+    
+    // Disabled iken renkler grileşsin
+    --range-fill: var(--color-text-muted, #94a3b8);
+    --thumb-border: var(--color-text-muted, #94a3b8);
+  }
+}
+
+/* --- HEADER & FOOTER --- */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text-primary, #1e293b);
+}
+
+.valueDisplay {
+  font-size: 0.875rem;
+  font-weight: 600;
+  font-feature-settings: "tnum"; // Rakamlar titremesin (Tabular Num)
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-subtle, #f1f5f9);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--color-text-muted, #94a3b8);
+  margin-top: -4px; // Track'e biraz yaklaştır
+}
+
+/* --- NATIVE RANGE INPUT RESET & STYLE --- */
+.trackWrapper {
+  position: relative;
+  height: var(--thumb-size);
+  display: flex;
+  align-items: center;
+}
+
+.nativeRange {
+  -webkit-appearance: none; // Standart stili öldür
+  appearance: none;
+  width: 100%;
+  background: transparent; // Arkaplanı biz yöneteceğiz
+  cursor: pointer;
+  margin: 0;
+  
+  &:focus {
+    outline: none;
+  }
+
+  // --- WEBKIT (Chrome, Safari, Edge) ---
+  
+  // 1. The Track
+  &::-webkit-slider-runnable-track {
+    width: 100%;
+    height: var(--track-height);
+    border-radius: 999px;
+    
+    // THE MAGIC GRADIENT: Soldan sağa, progress kadar dolu, gerisi boş
+    background: linear-gradient(
+      to right, 
+      var(--range-fill) 0%, 
+      var(--range-fill) var(--range-progress, 0%), 
+      var(--range-bg) var(--range-progress, 0%), 
+      var(--range-bg) 100%
+    );
+    
+    transition: background 0.1s; // Renk değişimi yumuşak olsun
+  }
+
+  // 2. The Thumb (Topuz)
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: var(--thumb-size);
+    width: var(--thumb-size);
+    border-radius: 50%;
+    background: var(--range-thumb, none) center / cover no-repeat, var(--thumb-color);
+    border: 2px solid var(--thumb-border);
+    margin-top: calc((var(--track-height) - var(--thumb-size)) / 2); // Ortalamak için
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.1s, box-shadow 0.1s;
+  }
+
+  // Interaction
+  &:hover::-webkit-slider-thumb {
+    transform: scale(1.1);
+  }
+  
+  &:active::-webkit-slider-thumb {
+    transform: scale(0.95);
+    background: var(--range-fill); // Basınca içi dolsun
+    border-color: var(--range-fill);
+  }
+
+  &:focus-visible::-webkit-slider-thumb {
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2); // Focus ring
+  }
+
+  // --- FIREFOX (Moz) ---
+  
+  &::-moz-range-track {
+    width: 100%;
+    height: var(--track-height);
+    border-radius: 999px;
+    background: var(--range-bg); // Firefox kendi fill özelliğine sahip ama gradient daha güvenli
+  }
+
+  // Firefox'un kendi progress barı vardır, gradient yerine bunu kullanabiliriz
+  &::-moz-range-progress {
+    background-color: var(--range-fill);
+    height: var(--track-height);
+    border-radius: 999px;
+  }
+
+  &::-moz-range-thumb {
+    height: var(--thumb-size);
+    width: var(--thumb-size);
+    border: 2px solid var(--thumb-border);
+    border-radius: 50%;
+    background: var(--range-thumb, none) center / cover no-repeat, var(--thumb-color);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.1s;
+  }
+
+  &:hover::-moz-range-thumb {
+    transform: scale(1.1);
+  }
+}
+
+/* --- SIZES --- */
+.sm {
+  --thumb-size: 8px;
+  --track-height: 4px;
+}
+
+.md {
+  --thumb-size: 12px;
+  --track-height: 6px;
+}
+
+.lg {
+  --thumb-size: 16px;
+  --track-height: 8px;
+}
+
+/* --- COLORS --- */
+.success { --range-fill: var(--color-success, #22c55e); --thumb-border: var(--color-success, #22c55e); }
+.info    { --range-fill: var(--color-info, #0ea5e9);    --thumb-border: var(--color-info, #0ea5e9); }
+.warning { --range-fill: var(--color-warning, #f59e0b); --thumb-border: var(--color-warning, #f59e0b); }
+.danger  { --range-fill: var(--color-danger, #ef4444);  --thumb-border: var(--color-danger, #ef4444); }
+.neutral { --range-fill: var(--color-text-primary, #1e293b); --thumb-border: var(--color-text-primary, #1e293b); }
+
+/* --- ERROR STATE --- */
+.error {
+  --range-fill: var(--color-danger, #ef4444);
+  --thumb-border: var(--color-danger, #ef4444);
+  
+  .label { color: var(--color-danger); }
+  .valueDisplay {
+    color: var(--color-danger, #ef4444);
+    background-color: color-mix(in srgb, var(--color-danger, #ef4444) 10%, var(--color-bg-subtle, #f1f5f9));
+  }
+
+  .footer {
+    color: color-mix(in srgb, var(--color-danger, #ef4444) 65%, var(--color-text-muted, #94a3b8));
+  }
+
+  .nativeRange:focus-visible::-webkit-slider-thumb {
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-danger, #ef4444) 28%, transparent);
+  }
+
+  .nativeRange:focus-visible::-moz-range-thumb {
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-danger, #ef4444) 28%, transparent);
+  }
+}
+
+.errorMessage {
+  font-size: 0.75rem;
+  color: var(--color-danger);
+}

@@ -4,7 +4,7 @@
 
 .container {
   // CONFIGURATION (Input ile aynı variable setini kullanıyoruz)
-  --select-bg: var(--color-bg-surface, #ffffff);
+  --select-bg: var(--color-bg-subtle, #ffffff);
   --select-border: var(--color-border, #e2e8f0);
   --select-focus: var(--color-accent, #3b82f6);
   --select-text: var(--color-text-primary, #1e293b);
@@ -98,7 +98,7 @@
 .chip {
   display: flex;
   align-items: center;
-  background-color: var(--color-bg-subtle, #f1f5f9);
+  background-color: var(--color-bg-subtle-active, #f1f5f9);
   border-radius: 4px;
   padding: 2px 6px;
   font-size: 0.85em;
@@ -158,6 +158,26 @@
   // Animation
   animation: scaleIn 0.1s ease-out;
   transform-origin: top center;
+  
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-accent-soft) var(--color-bg-surface);
+
+  &::-webkit-scrollbar {
+    width: 0;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: transparent;
+  }
+
+  &:-webkit-scrollbar-thumb:hover {
+    background-color: var(--color-accent);
+  }
+
 }
 
 .option {
@@ -170,7 +190,7 @@
   font-size: 0.9375rem;
 
   &:hover {
-    background-color: var(--color-bg-subtle, #f1f5f9);
+    background-color: var(--color-bg-subtle-active, #f1f5f9);
   }
 
   &.selected {

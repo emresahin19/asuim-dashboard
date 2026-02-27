@@ -1,0 +1,156 @@
+/* * AsUIm Native Switch
+ * Design: iOS Style Sliding Toggle
+ */
+
+.container {
+  // --- CONFIGURATION ---
+  --sw-width: 44px;
+  --sw-height: 24px;
+  --sw-padding: 2px;
+  
+  --sw-bg-off: var(--color-bg-subtle, #e2e8f0);
+  --sw-bg-on: var(--color-accent);
+  
+  --thumb-size: calc(var(--sw-height) - (var(--sw-padding) * 2));
+  --thumb-color: #ffffff;
+  
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  position: relative;
+  width: fit-content;
+  user-select: none;
+
+  &.disabled {
+    opacity: 0.6;
+    pointer-events: none;
+    cursor: not-allowed;
+  }
+
+  &.reverse {
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    width: 100%;
+    .content { text-align: left; }
+  }
+}
+
+/* --- TRACK & THUMB --- */
+.trackWrapper {
+  position: relative;
+  width: var(--sw-width);
+  height: var(--sw-height);
+  flex-shrink: 0;
+}
+
+.nativeInput {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  z-index: 2;
+  cursor: pointer;
+  margin: 0;
+
+  // Focus Ring
+  &:focus-visible + .track {
+    box-shadow: var(--icon-shadow);
+  }
+
+  // CHECKED STATE Logic
+  &:checked + .track {
+    background-color: var(--sw-bg-on);
+    
+    .thumb {
+      // Topuzu sağa kaydır: (Track Genişliği) - (Topuz Genişliği) - (Padding)
+      transform: translateX(calc(var(--sw-width) - var(--thumb-size) - var(--sw-padding)));
+    }
+  }
+}
+
+.track {
+  width: 100%;
+  height: 100%;
+  background-color: var(--sw-bg-off);
+  border-radius: 9999px; // Pill shape
+  padding: var(--sw-padding);
+  transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center; // Topuzu dikey ortala
+}
+
+.thumb {
+  width: calc(var(--thumb-size) - 2px);
+  height: calc(var(--thumb-size) - 2px);
+  background-color: var(--thumb-color);
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); // Hafif gölge (Elevation)
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.spinner {
+  width: 70%;
+  height: 70%;
+  color: var(--sw-bg-on); // Spinner rengi track rengiyle uyumlu olsun
+  animation: spin 1s linear infinite;
+}
+
+/* --- CONTENT --- */
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  cursor: pointer;
+  // Label'ı switch'in ortasına hizala (eğer tek satırsa)
+  justify-content: center;
+  min-height: var(--sw-height);
+}
+
+.labelTitle {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--color-text-primary, #1e293b);
+  line-height: 1.4;
+}
+
+.description {
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary, #64748b);
+  line-height: 1.4;
+}
+
+/* --- VARIANTS --- */
+
+// Colors
+.primary { --sw-bg-on: var(--color-accent, #3b82f6); .spinner { color: var(--color-accent); } }
+.success { --sw-bg-on: var(--color-success, #22c55e); .spinner { color: var(--color-success); } }
+.danger  { --sw-bg-on: var(--color-danger, #ef4444);  .spinner { color: var(--color-danger); } }
+.info    { --sw-bg-on: var(--color-info, #3b82f6); .spinner { color: var(--color-info); } }
+.warning { --sw-bg-on: var(--color-warning, #f59e0b); .spinner { color: var(--color-warning); } }
+.neutral { --sw-bg-on: var(--color-text-primary, #1e293b); }
+
+// Sizes
+.sm {
+  --sw-width: 36px;
+  --sw-height: 20px;
+  .labelTitle { font-size: 0.875rem; }
+}
+
+.md {
+  --sw-width: 44px; // Standart iOS boyutu
+  --sw-height: 24px;
+}
+
+.lg {
+  --sw-width: 52px;
+  --sw-height: 28px;
+  .labelTitle { font-size: 1rem; }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}

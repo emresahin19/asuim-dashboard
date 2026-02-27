@@ -16,6 +16,8 @@ export const routeRegistry: RouteDefinition[] = [
     { id: 'components-form-checkbox', path: '/components/form/checkbox', title: 'Checkbox' },
     { id: 'components-form-select', path: '/components/form/select', title: 'Select' },
     { id: 'components-form-radio', path: '/components/form/radio', title: 'Radio' },
+    { id: 'components-form-switch', path: '/components/form/switch', title: 'Switch' },
+    { id: 'components-form-range', path: '/components/form/range', title: 'Range' },
     { id: 'navigation', path: '/components/navigation', title: 'Navigation' },
 
     { id: 'icons', path: '/utilities/icons', title: 'Icons' },

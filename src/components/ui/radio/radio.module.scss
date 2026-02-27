@@ -5,7 +5,7 @@
 .container {
   // --- 1. CONFIGURATION ---
   --rb-size: 20px;
-  --rb-bg: var(--color-bg-surface, #fff);
+  --rb-bg: var(--color-bg-subtle, #fff);
   --rb-border: var(--color-border, #e2e8f0);
   
   // Dynamic Colors (Default: Primary)
@@ -64,7 +64,7 @@
 
   // Focus Ring
   &:focus-visible + .visualBox {
-    box-shadow: 0 0 0 2px var(--color-bg-surface), 0 0 0 4px var(--rb-active-color);
+    box-shadow: 0 0 0 2px var(--color-bg-subtle), 0 0 0 4px var(--rb-active-color);
   }
 
   // Checked State Logic
@@ -164,6 +164,35 @@
 .success { --rb-active-color: var(--color-success, #22c55e); }
 .danger { --rb-active-color: var(--color-danger, #ef4444); }
 .neutral { --rb-active-color: var(--color-text-primary, #1e293b); }
+.info { --rb-active-color: var(--color-info, #3b82f6); }
+.warning { --rb-active-color: var(--color-warning, #f59e0b); }
+
+/* --- 6. ERROR --- */
+.error {
+  --rb-active-color: var(--color-danger, #ef4444);
+  --rb-border: var(--color-danger, #ef4444);
+
+  .labelTitle {
+    color: var(--color-danger, #ef4444);
+  }
+
+  .description {
+    color: color-mix(in srgb, var(--color-danger, #ef4444) 80%, var(--color-text-secondary, #64748b));
+  }
+
+  .visualBox {
+    border-color: var(--color-danger, #ef4444);
+  }
+
+  .nativeInput:focus-visible + .visualBox {
+    box-shadow: 0 0 0 2px var(--color-bg-subtle), 0 0 0 4px color-mix(in srgb, var(--color-danger, #ef4444) 32%, transparent);
+  }
+
+  &.card {
+    border-color: color-mix(in srgb, var(--color-danger, #ef4444) 60%, transparent);
+    background-color: color-mix(in srgb, var(--color-danger, #ef4444) 4%, transparent);
+  }
+}
 
 /* --- 6. SIZES --- */
 .sm { --rb-size: 16px; .labelTitle { font-size: 0.875rem; } }

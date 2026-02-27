@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useId } from 'react';
 import ChevronDown from '@/components/ui/icon/icons/ChevronDown';
 import styles from './select-lite.module.scss';
 import { Icon } from '../icon';
@@ -18,17 +18,18 @@ export interface SelectLiteProps extends Omit<React.SelectHTMLAttributes<HTMLSel
   placeholder?: string;
 }
 
-export const SelectLite = ({
-  options,
-  label,
-  error = false,
-  size = 'md',
-  className = '',
-  fullWidth = false,
-  placeholder,
-  disabled,
-  ...props
-}: SelectLiteProps) => {
+export const SelectLite = forwardRef<HTMLSelectElement, SelectLiteProps>(
+  ({ 
+    options, 
+    label, 
+    error = false, 
+    size = 'md', 
+    className = '', 
+    fullWidth = false,
+    placeholder,
+    disabled,
+    ...props 
+  }, ref) => {
 
   const containerClasses = [
     styles.container,
@@ -39,12 +40,16 @@ export const SelectLite = ({
     className
   ].filter(Boolean).join(' ');
 
+  const uniqueId = useId();
+
   return (
     <div className={containerClasses}>
-      {label && <label className={styles.label}>{label}</label>}
+      {label && <label htmlFor={uniqueId} className={styles.label}>{label}</label>}
 
       <div className={styles.wrapper}>
         <select
+          ref={ref}
+          id={uniqueId}
           className={styles.nativeSelect}
           disabled={disabled}
           defaultValue={placeholder}
@@ -76,4 +81,4 @@ export const SelectLite = ({
       {typeof error === 'string' && <span className={styles.errorMessage}>{error}</span>}
     </div>
   );
-}
+});

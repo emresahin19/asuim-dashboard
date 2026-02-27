@@ -6,11 +6,11 @@
   // --- 1. CONFIGURATION ---
   --cb-size: 20px;
   --cb-radius: 6px;
-  --cb-bg: var(--color-bg-surface, #fff);
+  --cb-bg: var(--color-bg-subtle, #fff);
   --cb-border: var(--color-border, #e2e8f0);
   
   // Dynamic Colors (Default: Primary)
-  --cb-active-color: var(--color-primary, #3b82f6);
+  --cb-active-color: var(--color-accent, #3b82f6);
   --cb-active-fg: #fff;
   
   // Layout
@@ -65,7 +65,7 @@
 
   // Focus Visible
   &:focus-visible + .visualBox {
-    box-shadow: 0 0 0 2px var(--color-bg-surface), 0 0 0 4px var(--cb-active-color);
+    box-shadow: 0 0 0 2px var(--color-bg-subtle), 0 0 0 4px var(--cb-active-color);
   }
 
   // Checked State
@@ -169,7 +169,36 @@
 /* --- 5. COLORS --- */
 .success { --cb-active-color: var(--color-success, #22c55e); }
 .danger { --cb-active-color: var(--color-danger, #ef4444); }
+.info { --cb-active-color: var(--color-info, #3b82f6); }
+.warning { --cb-active-color: var(--color-warning, #f59e0b); }
 .neutral { --cb-active-color: var(--color-text-primary, #1e293b); }
+
+/* --- 6. ERROR --- */
+.error {
+  --cb-active-color: var(--color-danger, #ef4444);
+  --cb-border: var(--color-danger, #ef4444);
+
+  .labelTitle {
+    color: var(--color-danger, #ef4444);
+  }
+
+  .description {
+    color: color-mix(in srgb, var(--color-danger, #ef4444) 80%, var(--color-text-secondary, #64748b));
+  }
+
+  .visualBox {
+    border-color: var(--color-danger, #ef4444);
+  }
+
+  .nativeInput:focus-visible + .visualBox {
+    box-shadow: 0 0 0 2px var(--color-bg-subtle), 0 0 0 4px color-mix(in srgb, var(--color-danger, #ef4444) 32%, transparent);
+  }
+
+  &.card {
+    border-color: color-mix(in srgb, var(--color-danger, #ef4444) 60%, transparent);
+    background-color: color-mix(in srgb, var(--color-danger, #ef4444) 4%, transparent);
+  }
+}
 
 /* --- 6. SIZES --- */
 .sm { --cb-size: 16px; .labelTitle { font-size: 0.875rem; } }

@@ -4,7 +4,7 @@
 
 .container {
   // Base Tokens
-  --color-base-bg: var(--color-bg-surface);
+  --color-base-bg: var(--color-bg-subtle);
   --color-base-text: var(--color-text-primary);
   --color-base-placeholder: var(--color-text-muted);
   --color-base-label: var(--color-text-secondary);
@@ -26,7 +26,7 @@
   &:focus-within {
     --state-border-color: var(--color-accent);
     --state-label-color: var(--color-accent);
-    --state-bg-color: var(--color-bg-surface-active);
+    --state-bg-color: var(--color-bg-subtle-active);
     --state-active-line-scale: 1; // Çizgiyi aç
   }
 
