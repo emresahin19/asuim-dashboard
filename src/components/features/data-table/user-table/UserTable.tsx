@@ -135,16 +135,18 @@ export const UserTable = () => {
         onEditSave={handleEditSave}
         renderActionButtons={(item) => (
           <div style={{ display: 'flex', gap: '8px' }}>
-            <button className={styles.actionBtn} title="Detay">
+            <button className={styles.actionBtn} title="Detay" aria-label={`${item.fullName} detaylarını görüntüle`}>
               <Icon
                 icon={Eye}
                 size={16}
+                decorative
               />
             </button>
-            <button className={styles.actionBtn} title="Sil">
+            <button className={styles.actionBtn} title="Sil" aria-label={`${item.fullName} kaydını sil`}>
               <Icon
                 icon={Trash2}
                 size={16}
+                decorative
               />
             </button>
           </div>

@@ -8,6 +8,7 @@ export interface DatePickerProps {
   onChange?: (date: Date | DateRange | undefined) => void;
   
   label?: string;
+  ariaLabel?: string;
   placeholder?: string;
   error?: boolean | string;
   disabled?: boolean;

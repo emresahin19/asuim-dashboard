@@ -43,19 +43,22 @@ export const TableBody = <T,>({
                         className={styles.nativeInput}
                         value={item[col.key] as string}
                         type={col.type === 'number' ? 'number' : 'text'}
+                        aria-label={`${String(col.label)} alanını düzenle`}
                         onChange={(e) => onEditChange?.(item, e.target.value)}
                       />
                       <div className={styles.editActions}>
-                        <button className={styles.pageBtn} onClick={(e) => { e.stopPropagation(); onEditSave?.(item); }}>
+                        <button className={styles.pageBtn} aria-label="Değişikliği kaydet" onClick={(e) => { e.stopPropagation(); onEditSave?.(item); }}>
                           <Icon
                             size={14}
                             icon={Check}
+                            decorative
                           />
                         </button>
-                        <button className={styles.pageBtn} onClick={(e) => { e.stopPropagation(); onEditCancel?.(item); }}>
+                        <button className={styles.pageBtn} aria-label="Düzenlemeyi iptal et" onClick={(e) => { e.stopPropagation(); onEditCancel?.(item); }}>
                           <Icon
                             size={14}
                             icon={X}
+                            decorative
                           />
                         </button>
                       </div>

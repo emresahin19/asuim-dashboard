@@ -47,6 +47,7 @@ export const TableFilter = <T,>({
             value={value ? new Date(value) : undefined}
             onChange={(date) => onFilterChange?.(column.key, date ? String(date) : '')}
             className={styles.filterInput}
+            ariaLabel={column.label}
             placeholder={column.label}
           />
         );

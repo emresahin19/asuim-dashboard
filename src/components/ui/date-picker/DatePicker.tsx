@@ -20,6 +20,7 @@ export const DatePicker = ({
   value,
   onChange,
   label,
+  ariaLabel,
   placeholder = "Tarih seçiniz",
   error = false,
   disabled = false,
@@ -35,7 +36,9 @@ export const DatePicker = ({
   const generatedId = useId();
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
-  const triggerId = `${generatedId}-trigger`;
+  const inputId = `${generatedId}-input`;
+  const popoverId = `${generatedId}-popover`;
+  const errorId = typeof error === 'string' ? `${generatedId}-error` : undefined;
 
   const resolveMonthFromValue = (input: Date | DateRange | undefined): Date => {
     if (!input) return new Date();
@@ -109,53 +112,61 @@ export const DatePicker = ({
 
   return (
     <div ref={containerRef} className={containerClasses}>
-      {label && <label className={styles.label}>{label}</label>}
+      {label && <label htmlFor={inputId} className={styles.label}>{label}</label>}
 
       {/* TRIGGER INPUT */}
       <div
         className={styles.trigger}
         onClick={() => !disabled && setIsOpen(true)}
+        role="button"
+        tabIndex={disabled ? -1 : 0}
+        aria-haspopup="dialog"
         aria-expanded={isOpen}
-        aria-controls={isOpen ? triggerId : undefined}
+        aria-controls={popoverId}
+        aria-disabled={disabled || undefined}
+        onKeyDown={(event) => {
+          if (disabled) return;
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            setIsOpen(true);
+          }
+          if (event.key === 'Escape') {
+            setIsOpen(false);
+          }
+        }}
       >
-        <Icon icon={CalendarIcon} size={18} className={styles.icon} />
+        <Icon icon={CalendarIcon} size={18} className={styles.icon} decorative />
 
         <input
+          id={inputId}
           className={clsx(styles.triggerInput, !displayValue && styles.placeholder)}
           readOnly
           value={displayValue || placeholder}
           onFocus={() => !disabled && setIsOpen(true)}
-          onKeyDown={(event) => {
-            if (disabled) return;
-            if (event.key === 'Enter' || event.key === ' ') {
-              event.preventDefault();
-              setIsOpen(true);
-            }
-            if (event.key === 'Escape') {
-              setIsOpen(false);
-            }
-          }}
           aria-haspopup="dialog"
           aria-expanded={isOpen}
-          aria-controls={isOpen ? triggerId : undefined}
+          aria-controls={popoverId}
+          aria-label={label || ariaLabel || placeholder}
+          aria-invalid={!!error}
+          aria-describedby={errorId}
         />
 
         {displayValue && !disabled && (
-          <button type="button" className={styles.clearBtn} onClick={handleClear}>
-            <Icon icon={X} size={14} />
+          <button type="button" className={styles.clearBtn} onClick={handleClear} aria-label="Tarihi temizle">
+            <Icon icon={X} size={14} decorative />
           </button>
         )}
       </div>
 
       {/* POPOVER CALENDAR */}
       {isOpen && !disabled && (
-        <div className={styles.popover} id={triggerId}>
+        <div className={styles.popover} id={popoverId} role="dialog" aria-modal="false" aria-label="Tarih seçici">
           {showPresets && mode === 'range' && (
             <div className={styles.presets}>
-              <button onClick={() => applyPreset(0)}>Bugün</button>
-              <button onClick={() => applyPreset(7)}>Son 7 Gün</button>
-              <button onClick={() => applyPreset(30)}>Son 30 Gün</button>
-              <button onClick={() => applyPreset(90)}>Son 3 Ay</button>
+              <button type="button" onClick={() => applyPreset(0)}>Bugün</button>
+              <button type="button" onClick={() => applyPreset(7)}>Son 7 Gün</button>
+              <button type="button" onClick={() => applyPreset(30)}>Son 30 Gün</button>
+              <button type="button" onClick={() => applyPreset(90)}>Son 3 Ay</button>
             </div>
           )}
 
@@ -211,7 +222,7 @@ export const DatePicker = ({
           </div>
         </div>
       )}
-      {typeof error === 'string' && <span className={styles.errorMessage}>{error}</span>}
+      {typeof error === 'string' && <span id={errorId} className={styles.errorMessage} role="alert" aria-live="polite">{error}</span>}
     </div>
   );
 };
