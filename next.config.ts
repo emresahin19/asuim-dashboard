@@ -11,9 +11,9 @@ const nextConfig: NextConfig = {
     ];
   },
   reactStrictMode: false,
-  assetPrefix: process.env.NODE_ENV === "production"
-    ? "https://cdn.asimthecat.com/asuim-dashboard"
-    : undefined,
+  // assetPrefix: process.env.NODE_ENV === "production"
+  //   ? "https://cdn.asimthecat.com/asuim-dashboard"
+  //   : undefined,
 };
 
 export default nextConfig;
