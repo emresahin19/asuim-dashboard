@@ -1,7 +1,7 @@
 import { AppLayout } from '../app-layout';
 
 import { ThemeProvider, BreakpointProvider } from '@/context'
-import { ThemeSettings } from '@/components';
+import { ThemeSettings } from '@/components/features/theme-settings';
 import { ThemeState } from '@/types';
 
 export default function RootLayout({

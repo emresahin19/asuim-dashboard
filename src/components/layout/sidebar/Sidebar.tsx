@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
 
 import { sidebarConfig } from '@/config';
-import { Hamburger } from '@/components';
+import { Hamburger } from '@/components/ui/hamburger';
 import { useTheme } from '@/context';
 
 import { useSidebarGesture } from './utils/use-sidebar-gesture';

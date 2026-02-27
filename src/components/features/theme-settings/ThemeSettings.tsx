@@ -2,7 +2,7 @@
 
 import { useRef, useState } from 'react'
 
-import { Icon } from '@/components'
+import { Icon } from '@/components/ui/icon'
 import { useTheme, getThemeSwatchStyle } from '@/context'
 import { colors, palettes } from '@/config'
 import { useClickOutside } from '@/hooks'

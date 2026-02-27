@@ -1,5 +1,6 @@
 import { typographyFontVariables } from '@/app/fonts.typography'
-import { Card, CodeBlock } from '@/components'
+import { Card } from '@/components/ui/card'
+import { CodeBlock } from '@/components/ui/code-block'
 import styles from './typography-system.module.scss'
 import { clsx } from '@/utils'
 

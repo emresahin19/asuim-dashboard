@@ -2,7 +2,7 @@ import { Footer } from '../footer';
 import { Header } from '../header';
 import { Sidebar } from '../sidebar';
 
-import { BreadCrumbs } from '@/components';
+import { BreadCrumbs } from '@/components/layout/bread-crumbs';
 
 import styles from './app-layout.module.scss';
 import { clsx } from '@/utils';

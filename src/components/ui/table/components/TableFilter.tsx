@@ -1,6 +1,8 @@
 "use client";
 
-import { DatePicker, Input, Select } from '@/components';
+import { DatePicker } from '@/components/ui/date-picker';
+import { Input } from '@/components/ui/input';
+import { Select } from '@/components/ui/select';
 import { TableColumn, TableState } from '../table.types';
 import styles from '../table.module.scss';
 

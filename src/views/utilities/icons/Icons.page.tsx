@@ -1,7 +1,9 @@
 "use client";
 
 import { memo, useDeferredValue, useEffect, useMemo, useRef, useState } from 'react';
-import { Card, Grid, GridItem, Icon } from '@/components';
+import { Grid, GridItem } from '@/components/layout/grid';
+import { Card } from '@/components/ui/card';
+import { Icon } from '@/components/ui/icon';
 
 import styles from './icons.module.scss';
 
@@ -103,7 +105,6 @@ export default function IconsPage() {
                     name: toKebabCaseIconName(exportName),
                     component: component as SvgIconComponent,
                 }))
-                .sort((first, second) => first.name.localeCompare(second.name));
             setIconEntries(entries);
         });
 

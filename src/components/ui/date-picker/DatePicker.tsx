@@ -9,7 +9,7 @@ import styles from './date-picker.module.scss';
 import { DatePickerProps } from './date-picker.types';
 
 import { useClickOutside } from '@/hooks';
-import { Icon } from '@/components';
+import { Icon } from '@/components/ui/icon';
 
 import CalendarIcon from '@/components/ui/icon/icons/Calendar';
 import X from '@/components/ui/icon/icons/X';
