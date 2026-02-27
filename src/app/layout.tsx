@@ -1,6 +1,7 @@
 import '@/styles/globals.scss';
 
 import { cookies, headers } from 'next/headers';
+import { Metadata } from 'next';
 import RootLayout from '@/components/layout/root-layout/RootLayout';
 import { getInitialTheme, readStoredTheme, THEME_STORAGE_KEY } from '@/context';
 import { collectActiveGroupIds } from '@/components/layout/sidebar/utils/toc.utils';
@@ -8,9 +9,36 @@ import { sidebarConfig } from '@/config';
 import { getThemeColorStyle } from '@/context/theme/theme.css-vars';
 import { globalFontVariables } from './fonts';
 
-export const metadata = {
-    title: 'AsUIm Dashboard',
-    description: 'Performance-first dashboard template',
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+
+export const metadata: Metadata = {
+    metadataBase: new URL(siteUrl),
+    title: {
+        default: 'AsUIm Dashboard',
+        template: '%s | AsUIm Dashboard',
+    },
+    description: 'Performance-first dashboard template for component and design system documentation.',
+    applicationName: 'AsUIm Dashboard',
+    alternates: {
+        canonical: '/',
+    },
+    openGraph: {
+        type: 'website',
+        locale: 'tr_TR',
+        url: siteUrl,
+        siteName: 'AsUIm Dashboard',
+        title: 'AsUIm Dashboard',
+        description: 'Performance-first dashboard template for component and design system documentation.',
+    },
+    twitter: {
+        card: 'summary_large_image',
+        title: 'AsUIm Dashboard',
+        description: 'Performance-first dashboard template for component and design system documentation.',
+    },
+    robots: {
+        index: true,
+        follow: true,
+    },
 };
 
 export default async function Layout({ children }: { children: React.ReactNode }) {

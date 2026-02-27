@@ -9,12 +9,16 @@ interface IconProps extends Omit<React.SVGProps<SVGSVGElement>, 'width' | 'heigh
   icon: SvgIconComponent;
   size?: number | string;
   strokeWidth?: number;
+  decorative?: boolean;
+  label?: string;
 }
 
 export function Icon({
   icon: IconComponent, // Prop ismini içeride kullanmak için alias atadık
   size = 24,           // Default değerler verebilirsiniz
   strokeWidth,
+  decorative = true,
+  label,
   className,
   style,
   ...rest
@@ -28,6 +32,9 @@ export function Icon({
       width="1em"
       height="1em"
       className={className}
+      role={decorative ? undefined : 'img'}
+      aria-hidden={decorative ? true : undefined}
+      aria-label={!decorative ? label : undefined}
       {...rest}
     />
   );

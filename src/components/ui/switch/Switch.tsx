@@ -21,6 +21,9 @@ export const Switch = ({
 }: SwitchProps) => {
   const generatedId = useId();
   const inputId = id || generatedId;
+  const descriptionId = description ? `${inputId}-desc` : undefined;
+  const errorId = typeof error === 'string' ? `${inputId}-error` : undefined;
+  const describedBy = [descriptionId, errorId].filter(Boolean).join(' ') || undefined;
   
   // Loading ise disabled sayılır
   const isDisabled = disabled || loading;
@@ -48,13 +51,15 @@ export const Switch = ({
           checked={checked}
           defaultChecked={defaultChecked}
           aria-invalid={!!error}
+          aria-describedby={describedBy}
+          aria-busy={loading || undefined}
           {...props}
         />
         
         <div className={styles.track}>
           <span className={styles.thumb}>
              {/* Loading ise topuzun içinde spinner dönsün */}
-             {loading && <Icon icon={Loader} className={styles.spinner} />}
+             {loading && <Icon icon={Loader} className={styles.spinner} decorative />}
           </span>
         </div>
       </div>
@@ -63,8 +68,13 @@ export const Switch = ({
       {(label || description) && (
         <label htmlFor={inputId} className={styles.content}>
           {label && <span className={styles.labelTitle}>{label}</span>}
-          {description && <span className={styles.description}>{description}</span>}
+          {description && <span id={descriptionId} className={styles.description}>{description}</span>}
         </label>
+      )}
+      {typeof error === 'string' && (
+        <span id={errorId} className={styles.description} role="alert" aria-live="polite">
+          {error}
+        </span>
       )}
     </div>
   );

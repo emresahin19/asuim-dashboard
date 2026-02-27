@@ -41,6 +41,7 @@ export const SelectLite = forwardRef<HTMLSelectElement, SelectLiteProps>(
   ].filter(Boolean).join(' ');
 
   const uniqueId = useId();
+  const errorId = typeof error === 'string' ? `${uniqueId}-error` : undefined;
 
   return (
     <div className={containerClasses}>
@@ -52,6 +53,8 @@ export const SelectLite = forwardRef<HTMLSelectElement, SelectLiteProps>(
           id={uniqueId}
           className={styles.nativeSelect}
           disabled={disabled}
+          aria-invalid={!!error}
+          aria-describedby={errorId}
           defaultValue={placeholder}
           {...props}
         >
@@ -73,12 +76,12 @@ export const SelectLite = forwardRef<HTMLSelectElement, SelectLiteProps>(
           ))}
         </select>
 
-        <div className={styles.iconWrapper}>
-          <Icon icon={ChevronDown} size={16} />
+        <div className={styles.iconWrapper} aria-hidden="true">
+          <Icon icon={ChevronDown} size={16} decorative />
         </div>
       </div>
 
-      {typeof error === 'string' && <span className={styles.errorMessage}>{error}</span>}
+      {typeof error === 'string' && <span id={errorId} className={styles.errorMessage} role="alert" aria-live="polite">{error}</span>}
     </div>
   );
 });

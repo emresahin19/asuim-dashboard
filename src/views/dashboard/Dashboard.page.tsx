@@ -1,7 +1,7 @@
 export default function DashboardPage() {
   return (
-    <div>
-      DashboardPage
-    </div>
+    <section aria-labelledby="dashboard-title">
+      <h1 id="dashboard-title">Dashboard</h1>
+    </section>
   );
 }

@@ -12,6 +12,23 @@
   padding-bottom: var(--layout-footer-height);
 }
 
+.skipLink {
+  position: absolute;
+  top: 0;
+  inset-inline-start: 0;
+  transform: translateY(-120%);
+  background: var(--color-bg-surface);
+  color: var(--color-text);
+  padding: 0.5rem 0.75rem;
+  border-radius: 0 0 6px 0;
+  z-index: 1000;
+  text-decoration: none;
+
+  &:focus-visible {
+    transform: translateY(0);
+  }
+}
+
 .body {
   flex: 1;
   display: flex;

@@ -36,6 +36,7 @@ export const TableHeader = <T,>({
         <Icon
           size={14}
           icon={ArrowUpDown}
+          decorative
         />
       )
     }
@@ -43,10 +44,12 @@ export const TableHeader = <T,>({
       ? <Icon
         size={14}
         icon={ArrowUp}
+        decorative
       />
       : <Icon
         size={14}
         icon={ArrowDown}
+        decorative
       />;
   };
 
@@ -54,7 +57,15 @@ export const TableHeader = <T,>({
     <thead>
       <tr>
         {columns.map((col, i) => col.isVisible !== false && (
-          <th key={`${String(col.key)}-${i}`} scope="col">
+          <th
+            key={`${String(col.key)}-${i}`}
+            scope="col"
+            aria-sort={
+              tableState.orderBy === col.key
+                ? (tableState.orderDirection === 'ASC' ? 'ascending' : 'descending')
+                : 'none'
+            }
+          >
             <div className={styles.headerCell}>
               <TableFilter
                 column={col}
@@ -63,12 +74,14 @@ export const TableHeader = <T,>({
               />
 
               {col.sortable && (
-                <div
+                <button
+                  type="button"
                   className={styles.sortTrigger}
                   onClick={() => handleSort(col.key)}
+                  aria-label={`${String(col.label)} sütununu sırala`}
                 >
                   {getSortIcon(col.key)}
-                </div>
+                </button>
               )}
             </div>
           </th>

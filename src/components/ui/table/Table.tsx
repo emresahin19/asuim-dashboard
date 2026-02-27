@@ -51,7 +51,7 @@ export const Table = <T extends { id?: string | number }>({
   return (
     <div className={`${styles.wrapper} ${className}`}>
       <div className={styles.tableContainer}>
-        <table className={styles.table}>
+        <table className={styles.table} aria-busy={isLoading}>
           <TableHeader
             columns={columns}
             tableState={tableState}
@@ -63,7 +63,7 @@ export const Table = <T extends { id?: string | number }>({
             <tbody>
               <tr>
                 <td colSpan={columns.length + (renderActionButtons ? 1 : 0)} style={{ textAlign: 'center', padding: '2rem' }}>
-                  Yükleniyor...
+                  <span role="status" aria-live="polite">Yükleniyor...</span>
                 </td>
               </tr>
             </tbody>

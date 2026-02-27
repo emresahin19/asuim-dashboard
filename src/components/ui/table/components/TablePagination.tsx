@@ -60,10 +60,12 @@ export const TablePagination = <T,>({ tableState, onPageChange, onPerPageChange 
           className={styles.pageBtn}
           disabled={page === 1}
           onClick={() => onPageChange?.(page - 1)}
+          aria-label="Önceki sayfa"
         >
           <Icon
             size={16}
             icon={ChevronLeft}
+            decorative
           />
         </button>
 
@@ -73,6 +75,7 @@ export const TablePagination = <T,>({ tableState, onPageChange, onPerPageChange 
               <Icon
                 size={14}
                 icon={Ellipsis}
+                decorative
               />
             </span>
           ) : (
@@ -80,6 +83,8 @@ export const TablePagination = <T,>({ tableState, onPageChange, onPerPageChange 
               key={p}
               className={`${styles.pageBtn} ${p === page ? styles.active : ''}`}
               onClick={() => onPageChange?.(Number(p))}
+              aria-label={`${p}. sayfaya git`}
+              aria-current={p === page ? 'page' : undefined}
             >
               {p}
             </button>
@@ -90,10 +95,12 @@ export const TablePagination = <T,>({ tableState, onPageChange, onPerPageChange 
           className={styles.pageBtn}
           disabled={page === totalPages}
           onClick={() => onPageChange?.(page + 1)}
+          aria-label="Sonraki sayfa"
         >
           <Icon
             size={14}
             icon={ChevronRight}
+            decorative
           />
         </button>
       </div>

@@ -1,6 +1,6 @@
 import { RouteDefinition } from "@/types";
 
-export const routeRegistry: RouteDefinition[] = [
+const routes: RouteDefinition[] = [
     { id: 'dashboard', path: '/dashboard', title: 'Dashboard' },
     { id: 'status', path: '/status', title: 'System Status' },
 
@@ -28,3 +28,8 @@ export const routeRegistry: RouteDefinition[] = [
     { id: 'accessibility', path: '/system/accessibility', title: 'Accessibility' },
     { id: 'performance', path: '/system/performance', title: 'Performance' },
 ];
+
+export const routeRegistry: RouteDefinition[] = routes.map((route) => ({
+    ...route,
+    description: route.description || `${route.title} sayfası - AsUIm Dashboard`,
+}));

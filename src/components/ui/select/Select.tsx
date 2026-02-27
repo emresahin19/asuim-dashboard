@@ -1,6 +1,6 @@
 "use client";
 // src/components/ui/select/Select.tsx
-import React, { useState, useRef, useId, useMemo, useEffect } from 'react';
+import React, { useState, useRef, useId, useMemo } from 'react';
 import ChevronDown from '@/components/ui/icon/icons/ChevronDown';
 import X from '@/components/ui/icon/icons/X';
 import Check from '@/components/ui/icon/icons/Check';
@@ -36,6 +36,8 @@ export const Select = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const uniqueId = useId();
+  const menuId = `${uniqueId}-menu`;
+  const errorId = typeof error === 'string' ? `${uniqueId}-error` : undefined;
   const isFloating = variant === 'floating' && !!label;
   const hasSelection = isMulti
     ? Array.isArray(value) && value.length > 0
@@ -116,9 +118,12 @@ export const Select = ({
       key={option.value}
       className={`${styles.option} ${isSelected(option) ? styles.selected : ''} ${option.disabled ? styles.disabledOption : ''}`}
       onClick={() => handleSelect(option)}
+      role="option"
+      aria-selected={isSelected(option)}
+      aria-disabled={option.disabled || undefined}
     >
       <span>{option.label}</span>
-      {isSelected(option) && <Icon icon={Check} size={16} className={styles.checkIcon} />}
+      {isSelected(option) && <Icon icon={Check} size={16} className={styles.checkIcon} decorative />}
     </div>
   );
 
@@ -142,6 +147,12 @@ export const Select = ({
       <div 
         className={styles.control} 
         onClick={() => !disabled && setIsOpen(prev => !prev)}
+        role="combobox"
+        aria-expanded={isOpen}
+        aria-haspopup="listbox"
+        aria-controls={menuId}
+        aria-invalid={!!error}
+        aria-describedby={errorId}
       >
         {isFloating && <label htmlFor={uniqueId} className={styles.floatingLabel}>{label}</label>}
 
@@ -150,12 +161,14 @@ export const Select = ({
           {isMulti && Array.isArray(value) && value.map(val => (
             <span key={val.value} className={styles.chip}>
               {val.label}
-              <Icon
-                icon={X}
-                size={14} 
-                className={styles.chipRemove} 
-                onClick={(e) => removeChip(e, val.value)} 
-              />
+              <button
+                type="button"
+                className={styles.chipRemove}
+                onClick={(e) => removeChip(e, val.value)}
+                aria-label={`${val.label} seçimini kaldır`}
+              >
+                <Icon icon={X} size={14} decorative />
+              </button>
             </span>
           ))}
 
@@ -179,6 +192,10 @@ export const Select = ({
             }
             readOnly={!isSearchable} // Search kapalıysa klavye açılmasın
             disabled={disabled}
+            role="searchbox"
+            aria-controls={menuId}
+            aria-describedby={errorId}
+            aria-invalid={!!error}
           />
         </div>
 
@@ -187,20 +204,20 @@ export const Select = ({
           {isClearable && value && (
              (Array.isArray(value) ? value.length > 0 : true)
           ) && (
-            <div className={styles.indicator} onClick={handleClear}>
-              <Icon icon={X} size={16} />
-            </div>
+            <button type="button" className={styles.indicator} onClick={handleClear} aria-label="Seçimi temizle">
+              <Icon icon={X} size={16} decorative />
+            </button>
           )}
           <div className={styles.separator} />
-          <div className={styles.indicator}>
-            {isLoading ? <Icon icon={Loader} size={16} className={styles.spinner} /> : <Icon icon={ChevronDown} size={16} />}
+          <div className={styles.indicator} aria-hidden="true">
+            {isLoading ? <Icon icon={Loader} size={16} className={styles.spinner} decorative /> : <Icon icon={ChevronDown} size={16} decorative />}
           </div>
         </div>
       </div>
 
       {/* MENU (Dropdown) */}
       {isOpen && !disabled && (
-        <div className={styles.menu}>
+        <div className={styles.menu} id={menuId} role="listbox" aria-multiselectable={isMulti || undefined}>
           {filteredOptions.length === 0 ? (
             <div className={styles.noOptions}>No options found</div>
           ) : (
@@ -219,7 +236,7 @@ export const Select = ({
         </div>
       )}
       
-      {typeof error === 'string' && <span className={styles.errorMessage}>{error}</span>}
+      {typeof error === 'string' && <span id={errorId} className={styles.errorMessage} role="alert" aria-live="polite">{error}</span>}
     </div>
   );
 };

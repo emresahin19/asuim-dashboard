@@ -26,7 +26,7 @@ export function BreadCrumbs() {
                   {item.title}
                 </Link>
               ) : (
-                <span>{item.title}</span>
+                <span aria-current="page">{item.title}</span>
               )}
 
               {!isLast && (

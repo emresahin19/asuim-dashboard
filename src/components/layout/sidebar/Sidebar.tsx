@@ -82,11 +82,17 @@ export function Sidebar({ initialOpenGroups }: { initialOpenGroups: string[] }) 
 
   return (
     <>
-      <button className={styles.hamburger} onClick={toggleSidebar}>
+      <button
+        className={styles.hamburger}
+        onClick={toggleSidebar}
+        aria-label="Navigasyon menüsünü aç/kapat"
+        aria-controls="main-sidebar"
+        aria-expanded={sidebarState === 'open'}
+      >
         <Hamburger />
       </button>
 
-      <aside ref={sidebarRef} {...gesture} className={styles.root}>
+      <aside id="main-sidebar" ref={sidebarRef} {...gesture} className={styles.root}>
 
         <div className={styles.header}>
           <div className={styles.logo}>
@@ -96,7 +102,7 @@ export function Sidebar({ initialOpenGroups }: { initialOpenGroups: string[] }) 
           </div>
         </div>
 
-        <nav className={styles.nav}>
+        <nav className={styles.nav} aria-label="Ana navigasyon">
           {activeIndex !== null && (
             <TocLazy
               containerRef={listRef}

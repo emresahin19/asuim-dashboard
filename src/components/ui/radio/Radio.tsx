@@ -20,6 +20,9 @@ export const Radio = ({
 }: RadioProps) => {
   const generatedId = useId();
   const inputId = id || generatedId;
+  const descriptionId = description ? `${inputId}-desc` : undefined;
+  const errorId = typeof error === 'string' ? `${inputId}-error` : undefined;
+  const describedBy = [descriptionId, errorId].filter(Boolean).join(' ') || undefined;
 
   const containerClasses = [
     styles.container,
@@ -43,7 +46,7 @@ export const Radio = ({
           className={styles.nativeInput}
           disabled={disabled}
           aria-invalid={!!error}
-          aria-describedby={description ? `${inputId}-desc` : undefined}
+          aria-describedby={describedBy}
           {...props}
         />
         
@@ -58,12 +61,17 @@ export const Radio = ({
         <label htmlFor={inputId} className={styles.content}>
           {label && <span className={styles.labelTitle}>{label}</span>}
           {description && (
-            <span id={`${inputId}-desc`} className={styles.description}>
+            <span id={descriptionId} className={styles.description}>
               {description}
             </span>
           )}
           {children}
         </label>
+      )}
+      {typeof error === 'string' && (
+        <span id={errorId} className={styles.description} role="alert" aria-live="polite">
+          {error}
+        </span>
       )}
     </div>
   );

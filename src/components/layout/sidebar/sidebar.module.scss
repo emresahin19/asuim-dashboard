@@ -129,6 +129,14 @@
   padding: 4px var(--layout-gap);
   height: var(--layout-sidebar-icon-width);
   border-radius: 6px;
+  width: 100%;
+  text-decoration: none;
+  border: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
 
   &:hover {
     background: var(--color-accent-soft);

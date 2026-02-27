@@ -16,10 +16,11 @@ export function AppLayout({
 }) {
   return (
     <div className={styles.root}>
+      <a href="#main-content" className={styles.skipLink}>İçeriğe geç</a>
       <Header />
       <Sidebar initialOpenGroups={initialOpenGroups} />
 
-      <main className={clsx('layout-main', styles.main)}>
+      <main id="main-content" className={clsx('layout-main', styles.main)}>
         <BreadCrumbs />
         <div className={styles.page}>
           {children}

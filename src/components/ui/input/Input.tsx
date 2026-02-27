@@ -33,6 +33,7 @@ export const Input = ({
 }: InputProps) => {
   const uniqueId = useId(); // Erişilebilirlik için unique ID
   const [showPassword, setShowPassword] = useState(false);
+  const errorId = typeof error === 'string' ? `${uniqueId}-error` : undefined;
 
   const isPassword = type === 'password';
   const currentType = isPassword && showPassword ? 'text' : type;
@@ -93,6 +94,8 @@ export const Input = ({
             rows={rows}
             className={styles.inputControl}
             placeholder={placeholder}
+            aria-invalid={!!error}
+            aria-describedby={errorId}
             {...(props as any)}
           />
         ) : (
@@ -107,6 +110,7 @@ export const Input = ({
             disabled={disabled}
             className={clsx(styles.inputControl, isFloating && styles.floatingInput)}
             aria-invalid={!!error}
+            aria-describedby={errorId}
             placeholder={isFloating ? (placeholder ?? ' ') : placeholder}
             {...props}
           />
@@ -132,9 +136,8 @@ export const Input = ({
                 onClick={handleClear}
                 className={styles.actionButton}
                 aria-label="Clear input"
-                tabIndex={-1}
               >
-                <Icon icon={XIcon} size={16} />
+                <Icon icon={XIcon} size={16} decorative />
               </button>
             )}
 
@@ -145,9 +148,8 @@ export const Input = ({
                 onClick={() => setShowPassword(!showPassword)}
                 className={styles.actionButton}
                 aria-label={showPassword ? 'Hide password' : 'Show password'}
-                tabIndex={-1}
               >
-                {showPassword ? <Icon icon={EyeOffIcon} size={16} /> : <Icon icon={EyeIcon} size={16} />}
+                {showPassword ? <Icon icon={EyeOffIcon} size={16} decorative /> : <Icon icon={EyeIcon} size={16} decorative />}
               </button>
             )}
           </div>
@@ -156,7 +158,7 @@ export const Input = ({
 
       {/* Error Message Support */}
       {typeof error === 'string' && (
-        <span className={styles.errorMessage}>{error}</span>
+        <span id={errorId} className={styles.errorMessage} role="alert" aria-live="polite">{error}</span>
       )}
     </div>
   );

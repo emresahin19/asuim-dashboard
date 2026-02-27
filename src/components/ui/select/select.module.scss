@@ -158,6 +158,12 @@
   .chipRemove {
     cursor: pointer;
     color: var(--color-text-muted);
+    border: none;
+    background: transparent;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 
     &:hover {
       color: var(--color-danger);
@@ -179,6 +185,9 @@
   justify-content: center;
   color: var(--color-text-muted);
   cursor: pointer;
+  border: none;
+  background: transparent;
+  padding: 0;
 
   &:hover {
     color: var(--select-text);

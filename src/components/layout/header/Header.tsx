@@ -12,7 +12,7 @@ export function Header() {
   return (
     <header className={styles.root}>
       <div className={styles.inner}>
-         {title && <h1>{title}</h1>}
+         {title && <p aria-live="polite">{title}</p>}
       </div>
     </header>
   );
