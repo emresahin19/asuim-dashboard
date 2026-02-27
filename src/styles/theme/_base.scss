@@ -3,7 +3,7 @@
   --color-bg-card: var(--base-50);
   --color-bg-gradient: linear-gradient(180deg, var(--color-bg-surface), var(--color-bg-card));
   --color-bg-elevated: var(--base-100);
-  
+
   --color-bg-surface: var(--base-100);
   --color-bg-surface-active: var(--base-50);
   --color-bg-subtle: var(--base-100);
@@ -101,4 +101,21 @@
   --icon-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
 
   --icon-stroke-width: 2px;
+
+  /* =====================================================
+   * COMPONENT-SPECIFIC VARIABLES
+   * (can be overridden in component styles)
+   * ===================================================== */
+
+  --input-floating-pt-sm: 12px;
+  --input-floating-pb-sm: 4px;
+  --input-height-sm: 36px;
+
+  --input-floating-pt-md: 16px;
+  --input-floating-pb-md: 6px;
+  --input-select-height-md: 44px;
+
+  --input-floating-pt-lg: 20px;
+  --input-floating-pb-lg: 8px;
+  --input-select-height-lg: 52px;
 }

@@ -1,18 +1,21 @@
 'use client'
 
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 
-import { useTheme } from '@/context'
 import { Icon } from '@/components'
-import { getThemeSwatchStyle } from '@/context/theme/theme.css-vars'
+import { useTheme, getThemeSwatchStyle } from '@/context'
+import { colors, palettes } from '@/config'
+import { useClickOutside } from '@/hooks'
 
 import styles from './theme-settings.module.scss'
-import { colors, palettes } from '@/config'
 import SettingsIcon from '@/components/ui/icon/icons/Settings'
 
 export function ThemeSettings() {
   const [open, setOpen] = useState(false)
   const { theme, setTheme } = useTheme()
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useClickOutside(containerRef as React.RefObject<HTMLDivElement>, () => setOpen(false));
 
   return (
     <>
@@ -27,7 +30,7 @@ export function ThemeSettings() {
       </button>
 
       {open && (
-        <aside className={styles.root}>
+        <aside className={styles.root} ref={containerRef}>
           <header className={styles.header}>
             <h3>Appearance</h3>
             <p>Choose your visual preferences</p>

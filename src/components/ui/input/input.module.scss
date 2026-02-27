@@ -15,9 +15,12 @@
   --state-active-line-scale: 0;
   --state-active-line-color: var(--color-accent);
 
-  --input-radius: var(--input-radius-md, 8px);
+  --input-radius: var(--radius-md, 6px);
   --transition-speed: 200ms cubic-bezier(0.4, 0, 0.2, 1);
   --active-line-height: 2px;
+  --input-height: 44px;
+  --floating-pt: 0;
+  --floating-pb: 0;
 
   &:hover:not(.disabled) {
     --state-border-color: var(--color-border-strong);
@@ -117,6 +120,8 @@
   transition: all var(--transition-speed);
   outline: none; // Focus'u biz yönetiyoruz
 
+  height: var(--input-height);
+
   &::placeholder {
     color: var(--color-base-placeholder);
     opacity: 1;
@@ -145,9 +150,10 @@
 
 .sm {
   --active-line-height: 2px;
+  --input-px: 12px;
+  --input-height: 36px;
 
   .inputControl {
-    height: 36px;
     padding-left: 12px;
     padding-right: 12px;
     font-size: 0.875rem;
@@ -156,9 +162,10 @@
 
 .md {
   --active-line-height: 3px;
+  --input-px: 14px;
+  --input-height: 44px;
 
   .inputControl {
-    height: 44px;
     padding-left: 14px;
     padding-right: 14px;
     font-size: 0.9375rem;
@@ -167,9 +174,10 @@
 
 .lg {
   --active-line-height: 4px;
+  --input-px: 18px;
+  --input-height: 52px;
 
   .inputControl {
-    height: 52px;
     padding-left: 18px;
     padding-right: 18px;
     font-size: 1rem;
@@ -283,4 +291,68 @@ textarea.inputControl {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+.floating {
+  --state-bg-color: var(--color-bg-subtle-active);
+  
+  &.sm {
+    --floating-pt: var(--input-floating-pt-sm);
+    --floating-pb: var(--input-floating-pb-sm);
+    --input-height: calc(var(--input-height-sm) + var(--floating-pt) - var(--floating-pb));
+  }
+
+  &.md {
+    --floating-pt: var(--input-floating-pt-md);
+    --floating-pb: var(--input-floating-pb-md);
+    --input-height: calc(var(--input-height-md) + var(--floating-pt) - var(--floating-pb));
+  }
+
+  &.lg {
+    --floating-pt: var(--input-floating-pt-lg);
+    --floating-pb: var(--input-floating-pb-lg);
+    --input-height: calc(var(--input-height-lg) + var(--floating-pt) - var(--floating-pb));
+  }
+}
+
+.floatingWrapper {
+  .floatingLabel {
+    position: absolute;
+    top: 50%;
+    left: var(--input-px, 14px);
+    transform: translateY(-50%);
+    transform-origin: left center;
+    color: var(--state-label-color);
+    transition: transform var(--transition-speed), top var(--transition-speed), color var(--transition-speed);
+    pointer-events: none;
+    background-color: var(--state-bg-color);
+    padding: 0 4px;
+    margin-left: -4px;
+    z-index: 1;
+    font-size: 0.875rem;
+    line-height: 1;
+  }
+
+  &.hasValue .floatingLabel,
+  &:focus-within .floatingLabel {
+    background-color: var(--state-bg-color);
+    color: var(--color-accent);
+    top: 0;
+    transform: translateY(-50%) scale(0.85);
+  }
+
+  &.hasValue .floatingInput,
+  &:focus-within .floatingInput {
+    background-color: var(--state-bg-color);
+  }
+
+  .actionButton {
+    background-color: transparent;
+  }
+}
+
+.floatingInput {
+  background-color: var(--state-bg-color);
+  padding-top: var(--floating-pt);
+  padding-bottom: var(--floating-pb);
 }

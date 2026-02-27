@@ -18,7 +18,7 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  overflow: hidden; // Border-radius taşmasını önler
+  overflow: hidden;
 }
 
 .tableContainer {
@@ -37,10 +37,10 @@
     border-bottom: 1px solid var(--table-border);
 
     th {
-      padding: 0.75rem 1rem;
+      padding: 0.75rem 1rem 0.75rem;
       font-weight: 600;
       color: var(--table-text);
-      vertical-align: top;
+      vertical-align: center;
       white-space: nowrap;
     }
   }
@@ -69,7 +69,7 @@
 
 .headerCell {
   display: flex;
-  flex-direction: column;
+  align-items: center;
   gap: 0.5rem;
 }
 
@@ -77,15 +77,21 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  
+
   &.sortable {
     cursor: pointer;
     user-select: none;
-    
+
     &:hover {
       color: var(--table-input-focus);
     }
   }
+}
+
+.filterInput {
+  // --state-border-color: transparent;
+  // --select-border: transparent;
+  --dp-bg: var(--color-bg-subtle-active) !important;
 }
 
 .pagination {

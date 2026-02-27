@@ -9,8 +9,12 @@
   --select-focus: var(--color-accent, #3b82f6);
   --select-text: var(--color-text-primary, #1e293b);
   --select-placeholder: var(--color-text-muted, #94a3b8);
-  --select-radius: var(--asuim-radius-md, 8px);
+  --select-radius: var(--radius-md, 6px);
   --z-index-menu: 50;
+  --select-height: 44px;
+  --select-px: 14px;
+  --floating-pt: 1rem;
+  --floating-pb: 0.35rem;
 
   position: relative;
   width: 100%;
@@ -27,7 +31,44 @@
   &.error {
     --select-border: var(--color-danger, #ef4444);
     --select-focus: var(--color-danger, #ef4444);
-    .label { color: var(--color-danger, #ef4444); }
+
+    .label {
+      color: var(--color-danger, #ef4444);
+    }
+  }
+}
+
+// SIZES
+.sm {
+  --floating-pt: var(--input-floating-pt-sm, 12px);
+  --floating-pb: var(--input-floating-pb-sm, 4px);
+  --select-height: var(--input-select-height-sm, 36px);
+  --select-px: 12px;
+
+  .control {
+    font-size: 0.875rem;
+  }
+}
+
+.md {
+  --floating-pt: var(--input-floating-pt-md, 16px);
+  --floating-pb: var(--input-floating-pb-md, 6px);
+  --select-height: var(--input-select-height-md, 44px);
+  --select-px: 14px;
+
+  .control {
+    font-size: 0.9375rem;
+  }
+}
+
+.lg {
+  --floating-pt: var(--input-floating-pt-lg, 20px);
+  --floating-pb: var(--input-floating-pb-lg, 8px);
+  --select-height: var(--input-select-height-lg, 52px);
+  --select-px: 18px;
+
+  .control {
+    font-size: 1rem;
   }
 }
 
@@ -43,8 +84,9 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  min-height: 44px; // Default MD height
-  padding: 4px 8px; // Padding'i küçülttük, içerdeki input halledecek
+  position: relative;
+  min-height: var(--select-height);
+  padding: 0;
   background-color: var(--select-bg);
   border: 1px solid var(--select-border);
   border-radius: var(--select-radius);
@@ -53,8 +95,23 @@
 
   .open & {
     border-color: var(--select-focus);
-    box-shadow: 0 0 0 3px color-mix(in srgb, var(--select-focus) 20%, transparent);
   }
+}
+
+.floatingLabel {
+  position: absolute;
+  left: var(--select-px);
+  top: 50%;
+  transform: translateY(-50%);
+  transform-origin: left center;
+  color: var(--color-text-secondary, #64748b);
+  background-color: var(--select-bg);
+  padding: 0 4px;
+  margin-left: -4px;
+  font-size: 0.875rem;
+  line-height: 1;
+  pointer-events: none;
+  transition: transform 0.2s, top 0.2s, color 0.2s;
 }
 
 .valueContainer {
@@ -63,13 +120,9 @@
   align-items: center;
   gap: 6px;
   flex: 1;
-  padding: 2px 4px;
+  padding: var(--floating-pb) 0 var(--floating-pb) var(--select-px);
 }
 
-/* * INPUT (Gizli Kahraman)
- * Control kutusunun içinde, şeffaf bir input.
- * Yazı yazmayı bu sağlar.
- */
 .input {
   background: transparent;
   border: none;
@@ -81,10 +134,7 @@
   margin: 0;
   font-size: inherit;
   font-family: inherit;
-  
-  // Chip varsa input küçülsün, yoksa %100 olsun
-  // Flexbox bunu otomatik hallediyor (flex: 1 vermediğimiz için)
-  
+
   &::placeholder {
     color: var(--select-placeholder);
   }
@@ -108,7 +158,10 @@
   .chipRemove {
     cursor: pointer;
     color: var(--color-text-muted);
-    &:hover { color: var(--color-danger); }
+
+    &:hover {
+      color: var(--color-danger);
+    }
   }
 }
 
@@ -117,7 +170,7 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  padding-right: 4px;
+  padding-right: var(--select-px);
 }
 
 .indicator {
@@ -126,8 +179,10 @@
   justify-content: center;
   color: var(--color-text-muted);
   cursor: pointer;
-  
-  &:hover { color: var(--select-text); }
+
+  &:hover {
+    color: var(--select-text);
+  }
 }
 
 .separator {
@@ -154,11 +209,11 @@
   z-index: var(--z-index-menu);
   max-height: 250px;
   overflow-y: auto;
-  
+
   // Animation
   animation: scaleIn 0.1s ease-out;
   transform-origin: top center;
-  
+
   scrollbar-width: thin;
   scrollbar-color: var(--color-accent-soft) var(--color-bg-surface);
 
@@ -226,23 +281,52 @@
   margin-left: 2px;
 }
 
-// SIZES
-.sm {
-  .control { min-height: 36px; font-size: 0.875rem; }
-}
-.md {
-  .control { min-height: 44px; font-size: 0.9375rem; }
-}
-.lg {
-  .control { min-height: 52px; font-size: 1rem; }
+.floating {
+  --select-bg: var(--color-bg-subtle-active);
+  height: calc(var(--select-height) + var(--floating-pt) - var(--floating-pb));
+
+  input::placeholder {
+    color: var(--select-text);
+  }
+
+  .control {
+    padding-top: var(--floating-pt);
+    padding-bottom: var(--floating-pb);
+  }
+
+  &.open .floatingLabel,
+  &.hasValue .floatingLabel,
+  .control:focus-within .floatingLabel {
+    top: 0;
+    transform: translateY(-50%) scale(0.85);
+    color: var(--select-focus);
+  }
+
+  &.error {
+    .floatingLabel {
+      color: var(--color-danger, #ef4444);
+    }
+  }
 }
 
 @keyframes scaleIn {
-  from { opacity: 0; transform: scaleY(0.95); }
-  to { opacity: 1; transform: scaleY(1); }
+  from {
+    opacity: 0;
+    transform: scaleY(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: scaleY(1);
+  }
 }
 
 @keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }

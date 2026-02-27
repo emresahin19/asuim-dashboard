@@ -24,11 +24,10 @@ export const Table = <T extends { id?: string | number }>({
   renderExpandedRow,
 }: TableProps<T>) => {
 
-  // State Updates Wrapper (Optional: URL Sync burada yapılabilir)
   const handleFilterChange = (key: keyof T, value: string) => {
     setTableState(prev => ({
       ...prev,
-      page: 1, // Filtre değişince sayfa 1'e dönmeli
+      page: 1,
       filters: { ...prev.filters, [key]: value }
     }));
     onFilterChange?.(key, value);

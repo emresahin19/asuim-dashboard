@@ -1,7 +1,7 @@
-import { InputHTMLAttributes, TextareaHTMLAttributes, ChangeEvent } from 'react';
+import { CSSProperties, InputHTMLAttributes } from 'react';
 
 export type InputSize = 'sm' | 'md' | 'lg';
-export type InputVariant = 'default' | 'ghost' | 'error';
+export type InputVariant = 'default' | 'ghost' | 'error' | 'floating';
 
 interface BaseInputProps {
     label?: string;
@@ -11,6 +11,8 @@ interface BaseInputProps {
     variant?: InputVariant;
     isClearable?: boolean;
     fullWidth?: boolean;
+    containerStyle?: CSSProperties;
+    cssVars?: Partial<Record<`--${string}`, string | number>>;
 }
 
 export interface InputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'>, BaseInputProps {

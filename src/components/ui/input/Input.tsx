@@ -14,6 +14,7 @@ export const Input = ({
   className = '',
   name,
   label,
+  placeholder,
   unit,
   value,
   onChange,
@@ -26,6 +27,8 @@ export const Input = ({
   readOnly = false,
   rows = 3,
   fullWidth = false,
+  containerStyle,
+  cssVars,
   ...props
 }: InputProps) => {
   const uniqueId = useId(); // Erişilebilirlik için unique ID
@@ -34,6 +37,12 @@ export const Input = ({
   const isPassword = type === 'password';
   const currentType = isPassword && showPassword ? 'text' : type;
   const isTextarea = type === 'textarea';
+  const isFloating = variant === 'floating' && !!label && !isTextarea;
+  const hasValue = value !== undefined && value !== null && `${value}`.length > 0;
+  const resolvedContainerStyle = {
+    ...(containerStyle ?? {}),
+    ...((cssVars ?? {}) as React.CSSProperties),
+  };
 
   // Handle Clear
   const handleClear = () => {
@@ -56,8 +65,10 @@ export const Input = ({
       fullWidth ? styles.fullWidth : '',
       disabled ? styles.disabled : '',
       className
-    )}>
-      {label && (
+    )}
+      style={resolvedContainerStyle}
+    >
+      {label && !isFloating && (
         <label htmlFor={uniqueId} className={styles.label}>
           {label}
         </label>
@@ -65,7 +76,9 @@ export const Input = ({
 
       <div className={clsx(
         styles.wrapper,
-        ((isClearable && value) || isPassword) && styles.withActions,
+        isFloating && styles.floatingWrapper,
+        isFloating && hasValue && styles.hasValue,
+        (isClearable || isPassword) && styles.withActions,
         unit && styles.withUnit
       )}>
         {isTextarea ? (
@@ -79,6 +92,7 @@ export const Input = ({
             disabled={disabled}
             rows={rows}
             className={styles.inputControl}
+            placeholder={placeholder}
             {...(props as any)}
           />
         ) : (
@@ -91,10 +105,17 @@ export const Input = ({
             onPaste={onPaste}
             readOnly={readOnly}
             disabled={disabled}
-            className={styles.inputControl}
+            className={clsx(styles.inputControl, isFloating && styles.floatingInput)}
             aria-invalid={!!error}
+            placeholder={isFloating ? (placeholder ?? ' ') : placeholder}
             {...props}
           />
+        )}
+
+        {isFloating && (
+          <label htmlFor={uniqueId} className={styles.floatingLabel}>
+            {label}
+          </label>
         )}
 
         {/* Unit (Suffix) */}

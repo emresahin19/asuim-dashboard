@@ -1,7 +1,6 @@
 "use client";
 
-import React from 'react';
-import { Input } from '@/components/ui/input';
+import { DatePicker, Input, Select } from '@/components';
 import { TableColumn, TableState } from '../table.types';
 import styles from '../table.module.scss';
 
@@ -18,7 +17,6 @@ export const TableFilter = <T,>({
 }: TableFilterProps<T>) => {
   const value = tableState.filters[column.key] || '';
 
-  // Filtreleme kapalıysa sadece label döner (Senin istediğin aynı görünüm kuralı)
   if (!column.filterable) {
     return (
       <div className={styles.headerContent}>
@@ -27,31 +25,29 @@ export const TableFilter = <T,>({
     );
   }
 
-  // Type'a göre input render ediyoruz (Şimdilik Input ile başlıyoruz)
   const renderFilterInput = () => {
     switch (column.type) {
       case 'select':
-        // İleride buraya SelectBox gelecek
+        const selectedOption = column.options?.find(opt => opt.value === value);
         return (
-          <select
-            value={value}
-            onChange={(e) => onFilterChange?.(column.key, e.target.value)}
-          >
-            <option value="">{column.label}</option>
-            {column.options?.map((opt) => (
-              <option key={opt.value} value={opt.value}>{opt.label}</option>
-            ))}
-          </select>
+          <Select
+            value={selectedOption}
+            label={column.label}
+            variant="floating"
+            size='sm'
+            options={column.options || []}
+            onChange={(e) => onFilterChange?.(column.key, String(Array.isArray(e) ? e[0]?.value || '' : e?.value || ''))}
+          />
         );
 
       case 'date':
       case 'datetime':
-        // İleride buraya DatePicker gelecek
         return (
-          <input
-            type="date"
-            value={value}
-            onChange={(e) => onFilterChange?.(column.key, e.target.value)}
+          <DatePicker
+            value={value ? new Date(value) : undefined}
+            onChange={(date) => onFilterChange?.(column.key, date ? String(date) : '')}
+            className={styles.filterInput}
+            placeholder={column.label}
           />
         );
 
@@ -61,10 +57,11 @@ export const TableFilter = <T,>({
         return (
           <Input
             type={column.type === 'number' ? 'number' : 'text'}
+            className={styles.filterInput}
             isClearable
             label={column.label}
             value={value}
-            variant="ghost"
+            variant="floating"
             size="sm"
             onChange={(e) => onFilterChange?.(column.key, e.target.value)}
           />

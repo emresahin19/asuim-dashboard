@@ -9,8 +9,8 @@ import { useClickOutside } from '@/hooks/useClickOutside';
 import { SelectProps, SelectOption, SelectGroup } from './select.types';
 import styles from './select.module.scss';
 import { Icon } from '../icon';
+import { clsx } from '@/utils';
 
-// Type Guard: Bir item'ın Group olup olmadığını anlar
 const isGroup = (item: SelectOption | SelectGroup): item is SelectGroup => {
   return 'options' in item;
 };
@@ -28,6 +28,7 @@ export const Select = ({
   error = false,
   disabled = false,
   size = 'md',
+  variant = 'default',
   className = ''
 }: SelectProps) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -35,11 +36,13 @@ export const Select = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const uniqueId = useId();
+  const isFloating = variant === 'floating' && !!label;
+  const hasSelection = isMulti
+    ? Array.isArray(value) && value.length > 0
+    : !!value;
 
-  // Dışarı tıklayınca kapat
   useClickOutside(containerRef as React.RefObject<HTMLDivElement>, () => setIsOpen(false));
 
-  // ARAMA VE FİLTRELEME MANTIĞI
   const filteredOptions = useMemo(() => {
     if (!searchTerm) return options;
 
@@ -47,16 +50,13 @@ export const Select = ({
 
     return options.reduce((acc: (SelectOption | SelectGroup)[], item) => {
       if (isGroup(item)) {
-        // Grup içindeki optionları filtrele
         const filteredGroupOptions = item.options.filter(opt => 
           opt.label.toLowerCase().includes(lowerTerm)
         );
-        // Eğer grupta eşleşen varsa grubu ve eşleşenleri ekle
         if (filteredGroupOptions.length > 0) {
           acc.push({ ...item, options: filteredGroupOptions });
         }
       } else {
-        // Düz option kontrolü
         if (item.label.toLowerCase().includes(lowerTerm)) {
           acc.push(item);
         }
@@ -65,7 +65,6 @@ export const Select = ({
     }, []);
   }, [options, searchTerm]);
 
-  // SEÇİM MANTIĞI
   const handleSelect = (option: SelectOption) => {
     if (disabled || option.disabled) return;
 
@@ -80,11 +79,11 @@ export const Select = ({
         newValues = [...currentValues, option];
       }
       onChange(newValues);
-      setSearchTerm(""); // Aramayı temizle
-      inputRef.current?.focus(); // Focus inputta kalsın
+      setSearchTerm("");
+      inputRef.current?.focus();
     } else {
       onChange(option);
-      setIsOpen(false); // Tekli seçimde kapat
+      setIsOpen(false);
       setSearchTerm("");
     }
   };
@@ -126,22 +125,26 @@ export const Select = ({
   return (
     <div 
       ref={containerRef}
-      className={[
-        styles.container, 
-        styles[size], 
-        disabled ? styles.disabled : '',
-        error ? styles.error : '',
-        isOpen ? styles.open : '',
+      className={clsx(
+        styles.container,
+        styles[size],
+        styles[variant],
+        disabled && styles.disabled,
+        error && styles.error,
+        isOpen && styles.open,
+        isFloating && hasSelection && styles.hasValue,
         className
-      ].join(' ')}
+      )}
     >
-      {label && <label htmlFor={uniqueId} className={styles.label}>{label}</label>}
+      {label && !isFloating && <label htmlFor={uniqueId} className={styles.label}>{label}</label>}
 
       {/* CONTROL BOX (Input Alanı) */}
       <div 
         className={styles.control} 
         onClick={() => !disabled && setIsOpen(prev => !prev)}
       >
+        {isFloating && <label htmlFor={uniqueId} className={styles.floatingLabel}>{label}</label>}
+
         <div className={styles.valueContainer}>
           {/* MULTI: Chips */}
           {isMulti && Array.isArray(value) && value.map(val => (
@@ -168,7 +171,7 @@ export const Select = ({
               if (!isOpen) setIsOpen(true);
             }}
             placeholder={
-              (isMulti && (value as SelectOption[])?.length > 0) 
+              (isMulti && (value as SelectOption[])?.length > 0) || (isFloating && !hasSelection)
                 ? "" 
                 : (!isMulti && value && !searchTerm) 
                   ? (value as SelectOption).label 

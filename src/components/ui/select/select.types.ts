@@ -14,6 +14,7 @@ export interface SelectGroup {
 }
 
 export type SelectValue = SelectOption | SelectOption[] | null;
+export type SelectVariant = 'default' | 'floating';
 
 export interface SelectProps {
   // Data
@@ -34,4 +35,5 @@ export interface SelectProps {
   disabled?: boolean;
   className?: string;
   size?: 'sm' | 'md' | 'lg';
+  variant?: SelectVariant;
 }
