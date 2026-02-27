@@ -11,35 +11,41 @@ import { globalFontVariables } from './fonts';
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
 
-export const metadata: Metadata = {
-    metadataBase: new URL(siteUrl),
-    title: {
-        default: 'AsUIm Dashboard',
-        template: '%s | AsUIm Dashboard',
-    },
-    description: 'Performance-first dashboard template for component and design system documentation.',
-    applicationName: 'AsUIm Dashboard',
-    alternates: {
-        canonical: '/',
-    },
-    openGraph: {
-        type: 'website',
-        locale: 'tr_TR',
-        url: siteUrl,
-        siteName: 'AsUIm Dashboard',
-        title: 'AsUIm Dashboard',
+export async function generateMetadata(): Promise<Metadata> {
+    const headersList = await headers();
+    const rawPathname = headersList.get('x-pathname') || '/';
+    const normalizedPathname = rawPathname === '/' ? '/' : `/${rawPathname.replace(/^\/+|\/+$/g, '')}`;
+
+    return {
+        metadataBase: new URL(siteUrl),
+        title: {
+            default: 'AsUIm Dashboard',
+            template: '%s | AsUIm Dashboard',
+        },
         description: 'Performance-first dashboard template for component and design system documentation.',
-    },
-    twitter: {
-        card: 'summary_large_image',
-        title: 'AsUIm Dashboard',
-        description: 'Performance-first dashboard template for component and design system documentation.',
-    },
-    robots: {
-        index: true,
-        follow: true,
-    },
-};
+        applicationName: 'AsUIm Dashboard',
+        alternates: {
+            canonical: normalizedPathname,
+        },
+        openGraph: {
+            type: 'website',
+            locale: 'tr_TR',
+            url: `${siteUrl}${normalizedPathname}`,
+            siteName: 'AsUIm Dashboard',
+            title: 'AsUIm Dashboard',
+            description: 'Performance-first dashboard template for component and design system documentation.',
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title: 'AsUIm Dashboard',
+            description: 'Performance-first dashboard template for component and design system documentation.',
+        },
+        robots: {
+            index: true,
+            follow: true,
+        },
+    };
+}
 
 export default async function Layout({ children }: { children: React.ReactNode }) {
     const cookieStore = await cookies();
