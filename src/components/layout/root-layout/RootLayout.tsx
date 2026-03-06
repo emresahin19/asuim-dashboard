@@ -1,6 +1,6 @@
 import { AppLayout } from '../app-layout';
 
-import { ThemeProvider, BreakpointProvider } from '@/context'
+import { ThemeProvider, BreakpointProvider, ToasterProvider } from '@/context'
 import { ThemeSettings } from '@/components/features/theme-settings';
 import { ThemeState } from '@/types';
 
@@ -18,10 +18,12 @@ export default function RootLayout({
       <ThemeProvider 
         initialTheme={initialTheme}
       >
-        <AppLayout initialOpenGroups={openGroupsArray}>
-          {children}
-          <ThemeSettings />
-        </AppLayout>
+        <ToasterProvider>
+          <AppLayout initialOpenGroups={openGroupsArray}>
+            {children}
+            <ThemeSettings />
+          </AppLayout>
+        </ToasterProvider>
       </ThemeProvider>
     </BreakpointProvider>
   );

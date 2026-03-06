@@ -207,7 +207,7 @@ export default function InputsPage() {
                                 size="sm"
                                 options={ROLES}
                                 value={role}
-                                onChange={(e) => setRole(e.target.value)} // Native event döner!
+                                onChange={(e) => setRole(e.target.value)}
                                 fullWidth
                             />
 
@@ -217,7 +217,7 @@ export default function InputsPage() {
                                 size="md"
                                 options={ROLES}
                                 value={role}
-                                onChange={(e) => setRole(e.target.value)} // Native event döner!
+                                onChange={(e) => setRole(e.target.value)}
                                 fullWidth
                             />
 
@@ -227,7 +227,7 @@ export default function InputsPage() {
                                 size="lg"
                                 options={ROLES}
                                 value={role}
-                                onChange={(e) => setRole(e.target.value)} // Native event döner!
+                                onChange={(e) => setRole(e.target.value)}
                                 fullWidth
                             />
                         </div>

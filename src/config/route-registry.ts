@@ -11,6 +11,7 @@ const routes: RouteDefinition[] = [
     { id: 'type-system', path: '/typography/system', title: 'Type System' },
     { id: 'buttons', path: '/components/buttons', title: 'Buttons' },
     { id: 'table', path: '/components/table', title: 'Table' },
+    { id: 'components-toaster', path: '/components/toaster', title: 'Toaster' },
     { id: 'components', path: '/components', title: 'Components' },
     { id: 'components-form', path: '/components/form', title: 'Form' },
     { id: 'components-form-input', path: '/components/form/input', title: 'Input' },
