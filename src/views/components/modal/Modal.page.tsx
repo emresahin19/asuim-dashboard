@@ -91,8 +91,8 @@ export default function ModalPage() {
       title: "Backdrop Yok",
       description: "Arka plan karartmasiz modal ornegi.",
       withBackdrop: false,
-      position: "right",
-      size: "lg",
+      position: "center",
+      size: "md",
       content: <p>Bu modal backdrop olmadan acildi.</p>,
     });
   };
