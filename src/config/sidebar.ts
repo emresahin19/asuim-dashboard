@@ -29,6 +29,7 @@ import CalendarIcon from '@/components/ui/icon/icons/Calendar'
 import TableIcon from '@/components/ui/icon/icons/Table'
 import BellIcon from '@/components/ui/icon/icons/Bell'
 import AppWindowIcon from '@/components/ui/icon/icons/AppWindow'
+import MessageCircleIcon from '@/components/ui/icon/icons/MessageCircle'
 
 const navTree: SidebarNavNode[] = [
   { id: 'overview', label: 'Overview', role: 'section' },
@@ -82,6 +83,7 @@ const navTree: SidebarNavNode[] = [
       { id: 'table', label: 'Table', role: 'item', icon: TableIcon, routeId: 'table' },
       { id: 'components-toaster', label: 'Toaster', role: 'item', icon: BellIcon, routeId: 'components-toaster' },
       { id: 'components-modal', label: 'Modal', role: 'item', icon: AppWindowIcon, routeId: 'components-modal' },
+      { id: 'components-tooltip', label: 'Tooltip', role: 'item', icon: MessageCircleIcon, routeId: 'components-tooltip' },
       {
         id: 'components-form', label: 'Form', role: 'item', icon: FilePenIcon, children: [
           { id: 'components-form-input', label: 'Input', role: 'item', icon: TextCursorInputIcon, routeId: 'components-form-input' },

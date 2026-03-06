@@ -13,6 +13,7 @@ const routes: RouteDefinition[] = [
     { id: 'table', path: '/components/table', title: 'Table' },
     { id: 'components-toaster', path: '/components/toaster', title: 'Toaster' },
     { id: 'components-modal', path: '/components/modal', title: 'Modal' },
+    { id: 'components-tooltip', path: '/components/tooltip', title: 'Tooltip' },
     { id: 'components', path: '/components', title: 'Components' },
     { id: 'components-form', path: '/components/form', title: 'Form' },
     { id: 'components-form-input', path: '/components/form/input', title: 'Input' },
