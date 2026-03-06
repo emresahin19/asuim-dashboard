@@ -28,6 +28,7 @@ import SlidersHorizontal from '@/components/ui/icon/icons/SlidersHorizontal'
 import CalendarIcon from '@/components/ui/icon/icons/Calendar'
 import TableIcon from '@/components/ui/icon/icons/Table'
 import BellIcon from '@/components/ui/icon/icons/Bell'
+import AppWindowIcon from '@/components/ui/icon/icons/AppWindow'
 
 const navTree: SidebarNavNode[] = [
   { id: 'overview', label: 'Overview', role: 'section' },
@@ -80,6 +81,7 @@ const navTree: SidebarNavNode[] = [
       { id: 'buttons', label: 'Buttons', role: 'item', icon: MousePointerClickIcon, routeId: 'buttons' },
       { id: 'table', label: 'Table', role: 'item', icon: TableIcon, routeId: 'table' },
       { id: 'components-toaster', label: 'Toaster', role: 'item', icon: BellIcon, routeId: 'components-toaster' },
+      { id: 'components-modal', label: 'Modal', role: 'item', icon: AppWindowIcon, routeId: 'components-modal' },
       {
         id: 'components-form', label: 'Form', role: 'item', icon: FilePenIcon, children: [
           { id: 'components-form-input', label: 'Input', role: 'item', icon: TextCursorInputIcon, routeId: 'components-form-input' },
