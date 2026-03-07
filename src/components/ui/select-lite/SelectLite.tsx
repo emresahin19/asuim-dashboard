@@ -27,6 +27,7 @@ export const SelectLite = forwardRef<HTMLSelectElement, SelectLiteProps>(
     className = '', 
     fullWidth = false,
     placeholder,
+    onChange,
     disabled,
     ...props 
   }, ref) => {
@@ -56,6 +57,7 @@ export const SelectLite = forwardRef<HTMLSelectElement, SelectLiteProps>(
           aria-invalid={!!error}
           aria-describedby={errorId}
           defaultValue={placeholder}
+          onChange={onChange}
           {...props}
         >
           {/* Placeholder Hack: Boş value ile disabled option */}
