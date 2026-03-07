@@ -1,12 +1,17 @@
-export type SortOrder = 'ASC' | 'DESC';
+import type { SortOrder } from '@/types';
+
+export type TableFilters<T> = Partial<Record<keyof T, string>>;
 
 export interface TableState<T> {
   page: number;
-  perPage: number;
-  total?: number;
-  orderBy: keyof T | undefined;
-  orderDirection: SortOrder | undefined;
-  filters: Record<keyof T, string>;
+  limit: number;
+  total: number;
+  totalPages: number;
+  hasNextPage: boolean;
+  hasPrevPage: boolean;
+  sortBy: keyof T | string | undefined;
+  sortOrder: SortOrder | undefined;
+  filters: TableFilters<T>;
 }
 
 export interface TableColumn<T> {
@@ -32,7 +37,7 @@ export interface TableProps<T> {
   onFilterChange?: (key: keyof T, value: string) => void;
   onSortChange?: (key: keyof T, value: SortOrder) => void;
   onPageChange?: (page: number) => void;
-  onPerPageChange?: (perPage: number) => void;
+  onLimitChange?: (limit: number) => void;
   onEditChange?: (item: T, value: string) => void;
   onEditSave?: (item: T) => void;
   onEditCancel?: (item: T) => void;

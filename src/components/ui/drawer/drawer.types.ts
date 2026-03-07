@@ -1,6 +1,7 @@
 import { CSSProperties, ReactNode } from 'react';
 
 export type DrawerPosition = 'left' | 'right';
+export type DrawerBackdropVariant = 'default' | 'elevated' | 'glass';
 
 export interface DrawerProps extends React.HTMLAttributes<HTMLElement> {
   isOpen: boolean;
@@ -8,6 +9,7 @@ export interface DrawerProps extends React.HTMLAttributes<HTMLElement> {
   header?: ReactNode;
   position?: DrawerPosition;
   withBackdrop?: boolean;
+  backdropVariant?: DrawerBackdropVariant;
   closeOnBackdropClick?: boolean;
   closeOnEscape?: boolean;
   showCloseButton?: boolean;

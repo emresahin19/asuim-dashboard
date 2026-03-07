@@ -16,7 +16,7 @@ export const Table = <T extends { id?: string | number }>({
   onFilterChange,
   onSortChange,
   onPageChange,
-  onPerPageChange,
+  onLimitChange,
   onEditChange,
   onEditSave,
   onEditCancel,
@@ -33,8 +33,8 @@ export const Table = <T extends { id?: string | number }>({
     onFilterChange?.(key, value);
   };
 
-  const handleSortChange = (key: keyof T, direction: 'ASC' | 'DESC') => {
-    setTableState(prev => ({ ...prev, orderBy: key, orderDirection: direction }));
+  const handleSortChange = (key: keyof T, direction: 'asc' | 'desc') => {
+    setTableState(prev => ({ ...prev, sortBy: key, sortOrder: direction }));
     onSortChange?.(key, direction);
   };
 
@@ -43,9 +43,9 @@ export const Table = <T extends { id?: string | number }>({
     onPageChange?.(p);
   };
 
-  const handlePerPageChange = (pp: number) => {
-    setTableState(prev => ({ ...prev, perPage: pp, page: 1 }));
-    onPerPageChange?.(pp);
+  const handleLimitChange = (limit: number) => {
+    setTableState(prev => ({ ...prev, limit, page: 1 }));
+    onLimitChange?.(limit);
   };
 
   return (
@@ -83,7 +83,7 @@ export const Table = <T extends { id?: string | number }>({
       <TablePagination
         tableState={tableState}
         onPageChange={handlePageChange}
-        onPerPageChange={handlePerPageChange}
+        onLimitChange={handleLimitChange}
       />
     </div>
   );

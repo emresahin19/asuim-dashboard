@@ -6,3 +6,7 @@
   transition: background var(--layout-transition), border-color var(--layout-transition),
     box-shadow var(--layout-transition);
 }
+
+.gradient {
+  background: var(--color-bg-elevated);
+}

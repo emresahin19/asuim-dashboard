@@ -5,3 +5,4 @@ export * from './breakpoints.types';
 export * from './toc.types';
 export * from './navigation.types';
 export * from './response.types';
+export * from './pagination.types';

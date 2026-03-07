@@ -1,12 +1,18 @@
 'use client';
 
-import { useEffect, useMemo, useRef, type CSSProperties } from 'react';
+import { useEffect, useRef } from 'react';
 import { clsx } from '@/utils';
 import { Icon } from '@/components/ui/icon';
 import XIcon from '@/components/ui/icon/icons/X';
-import { DrawerProps } from './drawer.types';
+import { DrawerBackdropVariant, DrawerProps } from './drawer.types';
 import styles from './drawer.module.scss';
 import { useClickOutside } from '@/hooks';
+
+const backdropVariantClassMap: Record<DrawerBackdropVariant, string> = {
+  default: 'backdropDefault',
+  elevated: 'backdropElevated',
+  glass: 'backdropGlass',
+};
 
 export function Drawer({
   isOpen,
@@ -14,6 +20,7 @@ export function Drawer({
   header,
   position = 'right',
   withBackdrop = true,
+  backdropVariant = 'default',
   closeOnBackdropClick = true,
   closeOnEscape = true,
   showCloseButton = true,
@@ -24,8 +31,12 @@ export function Drawer({
   drawerStyle,
   ...rest
 }: DrawerProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  useClickOutside(containerRef as React.RefObject<HTMLDivElement>, () => onClose?.());
+  const drawerRef = useRef<HTMLElement>(null!);
+
+  useClickOutside(drawerRef, () => {
+    if (!isOpen || !closeOnBackdropClick || !onClose) return;
+    onClose();
+  });
 
   useEffect(() => {
     if (!isOpen || !closeOnEscape || !onClose) return;
@@ -45,16 +56,19 @@ export function Drawer({
       {withBackdrop && (
         <button
           type="button"
-          className={clsx(styles.backdrop, isOpen && styles.backdropOpen)}
+          className={clsx(
+            styles.backdrop,
+            styles[backdropVariantClassMap[backdropVariant]],
+            isOpen && styles.backdropOpen,
+          )}
           aria-hidden={!isOpen}
           tabIndex={isOpen ? 0 : -1}
-          onClick={closeOnBackdropClick ? onClose : undefined}
         />
       )}
 
       <aside
+        ref={drawerRef}
         {...rest}
-        ref={containerRef}
         className={clsx(
           styles.root,
           styles[position],

@@ -10,12 +10,15 @@ interface BaseInputProps {
     size?: InputSize;
     variant?: InputVariant;
     isClearable?: boolean;
+    isCopyable?: boolean;
     fullWidth?: boolean;
     containerStyle?: CSSProperties;
     cssVars?: Partial<Record<`--${string}`, string | number>>;
 }
 
 export interface InputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'>, BaseInputProps {
-    type?: 'text' | 'password' | 'email' | 'number' | 'search' | 'tel' | 'url' | 'textarea'; // Range'i ayırdık, o ayrı bir atom olmalı.
+    type?: 'text' | 'password' | 'email' | 'number' | 'search' | 'tel' | 'url' | 'textarea' | 'file'; // Range'i ayırdık, o ayrı bir atom olmalı.
     rows?: number;
+    dropText?: string;
+    helperText?: string;
 }

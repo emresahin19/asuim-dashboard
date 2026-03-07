@@ -17,7 +17,7 @@ export const TableFilter = <T,>({
   tableState,
   onFilterChange,
 }: TableFilterProps<T>) => {
-  const value = tableState.filters[column.key] || '';
+  const value = String(tableState.filters[column.key] ?? '');
 
   if (!column.filterable) {
     return (

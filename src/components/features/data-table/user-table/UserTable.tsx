@@ -14,11 +14,14 @@ export const UserTable = () => {
 
   const [tableState, setTableState] = useState<TableState<IUser>>({
     page: 1,
-    perPage: 10,
-    orderBy: 'id',
-    orderDirection: 'ASC',
+    limit: 10,
+    sortBy: 'id',
+    sortOrder: 'asc',
     filters: {} as Record<keyof IUser, string>,
     total: 0,
+    totalPages: 0,
+    hasNextPage: false,
+    hasPrevPage: false,
   });
 
   const fetchUsers = useCallback(async () => {
@@ -26,9 +29,9 @@ export const UserTable = () => {
     try {
       const params = {
         page: String(tableState.page),
-        perPage: String(tableState.perPage),
-        orderBy: String(tableState.orderBy || 'id'),
-        orderDirection: tableState.orderDirection || 'ASC',
+        limit: String(tableState.limit),
+        sortBy: String(tableState.sortBy || 'id'),
+        sortOrder: tableState.sortOrder || 'asc',
         search: tableState.filters.fullName || '',
         role: tableState.filters.role || '',
       }
@@ -53,9 +56,9 @@ export const UserTable = () => {
     }
   }, [
     tableState.page,
-    tableState.perPage,
-    tableState.orderBy,
-    tableState.orderDirection,
+    tableState.limit,
+    tableState.sortBy,
+    tableState.sortOrder,
     tableState.filters.fullName,
     tableState.filters.role
   ]);

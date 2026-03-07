@@ -2,10 +2,11 @@ import React from 'react';
 import ArrowUp from '@/components/ui/icon/icons/ArrowUp'; // Lucide zorunlu (Madde 7.2)
 import ArrowDown from '@/components/ui/icon/icons/ArrowDown'; // Lucide zorunlu (Madde 7.2)
 import ArrowUpDown from '@/components/ui/icon/icons/ArrowUpDown'; // Lucide zorunlu (Madde 7.2)
-import { TableColumn, TableState, SortOrder } from '../table.types';
+import { TableColumn, TableState } from '../table.types';
 import styles from '../table.module.scss';
 import { Icon } from '@/components/ui/icon';
 import { TableFilter } from './TableFilter';
+import { SortOrder } from '@/types';
 
 interface HeaderProps<T> {
   columns: TableColumn<T>[];
@@ -25,13 +26,13 @@ export const TableHeader = <T,>({
 
   const handleSort = (key: keyof T) => {
     if (!onSortChange) return;
-    const currentDir = tableState.orderBy === key ? tableState.orderDirection : undefined;
-    const nextDir: SortOrder = currentDir === 'ASC' ? 'DESC' : 'ASC';
+    const currentDir = tableState.sortBy === key ? tableState.sortOrder : undefined;
+    const nextDir: SortOrder = currentDir === 'asc' ? 'desc' : 'asc';
     onSortChange(key, nextDir);
   };
 
   const getSortIcon = (key: keyof T) => {
-    if (tableState.orderBy !== key) {
+    if (tableState.sortBy !== key) {
       return (
         <Icon
           size={14}
@@ -40,7 +41,7 @@ export const TableHeader = <T,>({
         />
       )
     }
-    return tableState.orderDirection === 'ASC'
+    return tableState.sortOrder === 'asc'
       ? <Icon
         size={14}
         icon={ArrowUp}
@@ -61,8 +62,8 @@ export const TableHeader = <T,>({
             key={`${String(col.key)}-${i}`}
             scope="col"
             aria-sort={
-              tableState.orderBy === col.key
-                ? (tableState.orderDirection === 'ASC' ? 'ascending' : 'descending')
+              tableState.sortBy === col.key
+                ? (tableState.sortOrder === 'asc' ? 'ascending' : 'descending')
                 : 'none'
             }
           >

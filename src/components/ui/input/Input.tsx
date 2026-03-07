@@ -1,13 +1,15 @@
 "use client";
 
-import React, { useState, useId } from 'react';
+import React, { useEffect, useRef, useState, useId } from 'react';
 import styles from './input.module.scss';
 import { InputProps } from './input.types';
 import XIcon from '@/components/ui/icon/icons/X';
 import EyeIcon from '@/components/ui/icon/icons/Eye';
 import EyeOffIcon from '@/components/ui/icon/icons/EyeOff';
+import CopyIcon from '@/components/ui/icon/icons/Copy';
 import { Icon } from '../icon';
 import { clsx } from '@/utils';
+import { FileDropInput } from './FileDropInput';
 
 export const Input = ({
   type = 'text',
@@ -23,27 +25,64 @@ export const Input = ({
   size = 'md',
   variant = 'default',
   isClearable = false, // clearable default false yaptım, explicit olmalı
+  isCopyable = false,
   disabled = false,
   readOnly = false,
   rows = 3,
   fullWidth = false,
   containerStyle,
   cssVars,
+  dropText,
+  helperText,
   ...props
 }: InputProps) => {
   const uniqueId = useId(); // Erişilebilirlik için unique ID
   const [showPassword, setShowPassword] = useState(false);
+  const [isCopied, setIsCopied] = useState(false);
+  const copyTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const errorId = typeof error === 'string' ? `${uniqueId}-error` : undefined;
 
   const isPassword = type === 'password';
+  const isFileInput = type === 'file';
   const currentType = isPassword && showPassword ? 'text' : type;
   const isTextarea = type === 'textarea';
   const isFloating = variant === 'floating' && !!label && !isTextarea;
   const hasValue = value !== undefined && value !== null && `${value}`.length > 0;
+  const canCopy = isCopyable && hasValue && !disabled && !isTextarea;
   const resolvedContainerStyle = {
     ...(containerStyle ?? {}),
     ...((cssVars ?? {}) as React.CSSProperties),
   };
+
+  useEffect(() => {
+    return () => {
+      if (copyTimeoutRef.current) {
+        clearTimeout(copyTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  if (isFileInput) {
+    return (
+      <FileDropInput
+        className={className}
+        name={name}
+        label={label}
+        error={error}
+        size={size}
+        variant={variant}
+        disabled={disabled}
+        readOnly={readOnly}
+        fullWidth={fullWidth}
+        containerStyle={containerStyle}
+        cssVars={cssVars}
+        onChange={onChange}
+        dropText={dropText}
+        helperText={helperText}
+        {...props}
+      />
+    );
+  }
 
   // Handle Clear
   const handleClear = () => {
@@ -55,6 +94,40 @@ export const Input = ({
       } as React.ChangeEvent<HTMLInputElement>;
       onChange(event);
     }
+  };
+
+  const handleCopy = async () => {
+    const textToCopy = `${value ?? ''}`;
+    if (!textToCopy) return;
+
+    let copied = false;
+
+    try {
+      await navigator.clipboard.writeText(textToCopy);
+      copied = true;
+    } catch {
+      // Fallback for environments where Clipboard API is blocked.
+      const tempTextarea = document.createElement('textarea');
+      tempTextarea.value = textToCopy;
+      tempTextarea.setAttribute('readonly', '');
+      tempTextarea.style.position = 'absolute';
+      tempTextarea.style.left = '-9999px';
+      document.body.appendChild(tempTextarea);
+      tempTextarea.select();
+      copied = document.execCommand('copy');
+      document.body.removeChild(tempTextarea);
+    }
+
+    if (!copied) return;
+
+    setIsCopied(true);
+    if (copyTimeoutRef.current) {
+      clearTimeout(copyTimeoutRef.current);
+    }
+    copyTimeoutRef.current = setTimeout(() => {
+      setIsCopied(false);
+      copyTimeoutRef.current = null;
+    }, 2000);
   };
 
   return (
@@ -79,7 +152,7 @@ export const Input = ({
         styles.wrapper,
         isFloating && styles.floatingWrapper,
         isFloating && hasValue && styles.hasValue,
-        (isClearable || isPassword) && styles.withActions,
+        (isClearable || isPassword || canCopy) && styles.withActions,
         unit && styles.withUnit
       )}>
         {isTextarea ? (
@@ -126,7 +199,7 @@ export const Input = ({
         {unit && !isTextarea && <span className={styles.unit}>{unit}</span>}
 
         {/* Actions Wrapper */}
-        {((isClearable && value) || isPassword) && (
+        {((isClearable && value) || isPassword || canCopy) && (
           <div className={styles.actions}>
 
             {/* Clear Button */}
@@ -152,9 +225,26 @@ export const Input = ({
                 {showPassword ? <Icon icon={EyeOffIcon} size={16} decorative /> : <Icon icon={EyeIcon} size={16} decorative />}
               </button>
             )}
+
+            {/* Copy Value */}
+            {canCopy && (
+              <button
+                type="button"
+                onClick={handleCopy}
+                className={clsx(styles.actionButton, styles.copyActionButton)}
+                aria-label="Copy value"
+              >
+                {isCopied && <span className={styles.copyTooltip}>Copied</span>}
+                <Icon icon={CopyIcon} size={16} decorative />
+              </button>
+            )}
           </div>
         )}
       </div>
+
+      {helperText && (
+        <span className={styles.helperText}>{helperText}</span>
+      )}
 
       {/* Error Message Support */}
       {typeof error === 'string' && (

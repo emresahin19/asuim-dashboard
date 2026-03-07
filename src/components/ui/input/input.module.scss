@@ -273,10 +273,38 @@ textarea.inputControl {
   }
 }
 
+.copyActionButton {
+  position: relative;
+}
+
+.copyTooltip {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-elevated, var(--color-bg-subtle));
+  border: 1px solid var(--state-border-color);
+  border-radius: 4px;
+  padding: 4px 6px;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 3;
+}
+
 .errorMessage {
   font-size: 0.75rem;
   font-weight: 500;
   color: var(--color-danger);
+  margin-left: 2px;
+  animation: slideDown 0.2s ease-out;
+}
+
+.helperText {
+  font-size: 0.75rem;
   margin-left: 2px;
   animation: slideDown 0.2s ease-out;
 }
@@ -355,4 +383,68 @@ textarea.inputControl {
   background-color: var(--state-bg-color);
   padding-top: var(--floating-pt);
   padding-bottom: var(--floating-pb);
+}
+
+.fileNativeInput {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.fileDropZone {
+  min-height: var(--input-height);
+  border: 1px dashed var(--state-border-color);
+  border-radius: var(--input-radius);
+  background-color: var(--state-bg-color);
+  color: var(--color-base-text);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 14px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color var(--transition-speed), background-color var(--transition-speed);
+}
+
+.fileDropZoneActive {
+  border-style: solid;
+  border-color: var(--color-accent);
+  background-color: var(--color-bg-subtle-active);
+}
+
+.fileDropZoneDisabled {
+  cursor: not-allowed;
+}
+
+.fileDropIcon {
+  color: var(--state-label-color);
+}
+
+.fileDropText {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.fileDropHint {
+  font-size: 0.75rem;
+  color: var(--color-base-placeholder);
+}
+
+.fileDropFiles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.fileDropFile {
+  font-size: 0.75rem;
+  color: var(--state-label-color);
+  background-color: var(--color-bg-subtle);
+  border: 1px solid var(--state-border-color);
+  border-radius: var(--radius-sm, 4px);
+  padding: 4px 8px;
 }

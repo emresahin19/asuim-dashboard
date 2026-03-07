@@ -10,12 +10,12 @@ import { SelectLite } from '../../select-lite';
 interface PaginationProps<T> {
   tableState: TableState<T>;
   onPageChange?: (page: number) => void;
-  onPerPageChange?: (perPage: number) => void;
+  onLimitChange?: (limit: number) => void;
 }
 
-export const TablePagination = <T,>({ tableState, onPageChange, onPerPageChange }: PaginationProps<T>) => {
-  const { page, perPage, total = 0 } = tableState;
-  const totalPages = Math.ceil(total / perPage);
+export const TablePagination = <T,>({ tableState, onPageChange, onLimitChange }: PaginationProps<T>) => {
+  const { page, limit, total } = tableState;
+  const totalPages = tableState.totalPages || Math.ceil(total / limit);
 
   const pages = useMemo(() => {
     const list: (number | string)[] = [];
@@ -50,8 +50,8 @@ export const TablePagination = <T,>({ tableState, onPageChange, onPerPageChange 
             { label: '50', value: 50 },
             { label: '100', value: 100 },
           ]}
-          value={perPage}
-          onChange={(e) => onPerPageChange?.(Number(e.target.value))} // Native event döner!
+          value={limit}
+          onChange={(e) => onLimitChange?.(Number(e.target.value))}
         />
       </div>
 
