@@ -24,11 +24,12 @@ export const Select = ({
   isClearable = true,
   isLoading = false,
   label,
-  placeholder = "Select...",
+  placeholder,
   error = false,
   disabled = false,
   size = 'md',
   variant = 'default',
+  hasIndicator = true,
   className = ''
 }: SelectProps) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -52,14 +53,16 @@ export const Select = ({
 
     return options.reduce((acc: (SelectOption | SelectGroup)[], item) => {
       if (isGroup(item)) {
-        const filteredGroupOptions = item.options.filter(opt => 
-          opt.label.toLowerCase().includes(lowerTerm)
-        );
+        const filteredGroupOptions = item.options.filter(opt => {
+          const searchSource = (opt.searchText || opt.label).toLowerCase();
+          return searchSource.includes(lowerTerm);
+        });
         if (filteredGroupOptions.length > 0) {
           acc.push({ ...item, options: filteredGroupOptions });
         }
       } else {
-        if (item.label.toLowerCase().includes(lowerTerm)) {
+        const searchSource = (item.searchText || item.label).toLowerCase();
+        if (searchSource.includes(lowerTerm)) {
           acc.push(item);
         }
       }
@@ -73,7 +76,7 @@ export const Select = ({
     if (isMulti) {
       const currentValues = (value as SelectOption[]) || [];
       const isSelected = currentValues.some(v => v.value === option.value);
-      
+
       let newValues;
       if (isSelected) {
         newValues = currentValues.filter(v => v.value !== option.value);
@@ -113,6 +116,13 @@ export const Select = ({
   };
 
   // RENDER HELPER: Option Listesi
+  const renderOptionLabel = (option: SelectOption) => (
+    <span className={styles.optionLabel}>
+      {option.icon ? <span className={styles.optionIcon}>{option.icon}</span> : null}
+      <span>{option.label}</span>
+    </span>
+  );
+
   const renderOption = (option: SelectOption) => (
     <div
       key={option.value}
@@ -122,13 +132,15 @@ export const Select = ({
       aria-selected={isSelected(option)}
       aria-disabled={option.disabled || undefined}
     >
-      <span>{option.label}</span>
-      {isSelected(option) && <Icon icon={Check} size={16} className={styles.checkIcon} decorative />}
+      {renderOptionLabel(option)}
+      {/* {isSelected(option) && <Icon icon={Check} size={16} className={styles.checkIcon} decorative />} */}
     </div>
   );
 
+  const selectedSingle = !isMulti && value && !Array.isArray(value) ? value as SelectOption : null;
+
   return (
-    <div 
+    <div
       ref={containerRef}
       className={clsx(
         styles.container,
@@ -144,8 +156,8 @@ export const Select = ({
       {label && !isFloating && <label htmlFor={uniqueId} className={styles.label}>{label}</label>}
 
       {/* CONTROL BOX (Input Alanı) */}
-      <div 
-        className={styles.control} 
+      <div
+        className={styles.control}
         onClick={() => !disabled && setIsOpen(prev => !prev)}
         role="combobox"
         aria-expanded={isOpen}
@@ -172,47 +184,57 @@ export const Select = ({
             </span>
           ))}
 
-          {/* INPUT & PLACEHOLDER */}
-          <input
-            ref={inputRef}
-            id={uniqueId}
-            type="text"
-            className={styles.input}
-            value={searchTerm}
-            onChange={(e) => {
-              setSearchTerm(e.target.value);
-              if (!isOpen) setIsOpen(true);
-            }}
-            placeholder={
-              (isMulti && (value as SelectOption[])?.length > 0) || (isFloating && !hasSelection)
-                ? "" 
-                : (!isMulti && value && !searchTerm) 
-                  ? (value as SelectOption).label 
-                  : placeholder
-            }
-            readOnly={!isSearchable} // Search kapalıysa klavye açılmasın
-            disabled={disabled}
-            role="searchbox"
-            aria-controls={menuId}
-            aria-describedby={errorId}
-            aria-invalid={!!error}
-          />
+          {!isMulti && selectedSingle && !searchTerm && (
+            <span className={styles.singleValue}>{renderOptionLabel(selectedSingle)}</span>
+          )}
+
+
+          {(placeholder || isSearchable) &&
+            (
+              <input
+                ref={inputRef}
+                id={uniqueId}
+                type="text"
+                className={styles.input}
+                value={searchTerm}
+                onChange={(e) => {
+                  setSearchTerm(e.target.value);
+                  if (!isOpen) setIsOpen(true);
+                }}
+                placeholder={
+                  (isMulti && (value as SelectOption[])?.length > 0) || (isFloating && !hasSelection)
+                    ? ""
+                    : (!isMulti && value && !searchTerm)
+                      ? (value as SelectOption).label
+                      : placeholder
+                }
+                readOnly={!isSearchable} // Search kapalıysa klavye açılmasın
+                disabled={disabled}
+                role="searchbox"
+                aria-controls={menuId}
+                aria-describedby={errorId}
+                aria-invalid={!!error}
+              />
+            )}
+
         </div>
 
         {/* INDICATORS (Sağ Taraf) */}
-        <div className={styles.indicators}>
-          {isClearable && value && (
-             (Array.isArray(value) ? value.length > 0 : true)
-          ) && (
-            <button type="button" className={styles.indicator} onClick={handleClear} aria-label="Seçimi temizle">
-              <Icon icon={X} size={16} decorative />
-            </button>
-          )}
-          <div className={styles.separator} />
-          <div className={styles.indicator} aria-hidden="true">
-            {isLoading ? <Icon icon={Loader} size={16} className={styles.spinner} decorative /> : <Icon icon={ChevronDown} size={16} decorative />}
+        {hasIndicator && (
+          <div className={styles.indicators}>
+            {isClearable && value && (
+              (Array.isArray(value) ? value.length > 0 : true)
+            ) && (
+                <button type="button" className={styles.indicator} onClick={handleClear} aria-label="Seçimi temizle">
+                  <Icon icon={X} size={16} decorative />
+                </button>
+              )}
+            <div className={styles.separator} />
+            <div className={styles.indicator} aria-hidden="true">
+              {isLoading ? <Icon icon={Loader} size={16} className={styles.spinner} decorative /> : <Icon icon={ChevronDown} size={16} decorative />}
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       {/* MENU (Dropdown) */}
@@ -235,7 +257,7 @@ export const Select = ({
           )}
         </div>
       )}
-      
+
       {typeof error === 'string' && <span id={errorId} className={styles.errorMessage} role="alert" aria-live="polite">{error}</span>}
     </div>
   );

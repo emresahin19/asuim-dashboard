@@ -3,6 +3,8 @@ import { ReactNode } from 'react';
 
 export interface SelectOption {
   label: string;
+  icon?: ReactNode;
+  searchText?: string;
   value: string | number;
   disabled?: boolean;
   [key: string]: any; // Ekstra data taşıyabilmek için
@@ -27,6 +29,7 @@ export interface SelectProps {
   isSearchable?: boolean;
   isClearable?: boolean;
   isLoading?: boolean;
+  hasIndicator?: boolean;
   
   // UI
   label?: string;

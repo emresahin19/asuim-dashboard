@@ -100,6 +100,14 @@ export default function InputsPage() {
                                 value={singleValue}
                                 onChange={setSingleValue}
                             />
+                            <Select
+                                label="Without Indicator"
+                                placeholder="Framework seç..."
+                                options={FRAMEWORKS}
+                                value={singleValue}
+                                onChange={setSingleValue}
+                                hasIndicator={false}
+                            />
                         </div>
                     </Card>
                 </GridItem>

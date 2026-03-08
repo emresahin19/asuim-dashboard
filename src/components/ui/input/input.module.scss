@@ -4,14 +4,15 @@
 
 .container {
   // Base Tokens
-  --color-base-bg: var(--color-bg-subtle);
-  --color-base-text: var(--color-text-primary);
-  --color-base-placeholder: var(--color-text-muted);
-  --color-base-label: var(--color-text-secondary);
+  --input-bg: var(--color-bg-subtle);
+  --input-text: var(--color-text-primary);
+  --input-placeholder: var(--color-text-muted);
+  --input-label: var(--color-text-secondary);
+  --input-border: var(--color-border);
 
-  --state-border-color: var(--color-border);
-  --state-label-color: var(--color-base-label);
-  --state-bg-color: var(--color-base-bg);
+  --state-border-color: var(--input-border);
+  --state-label-color: var(--input-label);
+  --state-bg-color: var(--input-bg);
   --state-active-line-scale: 0;
   --state-active-line-color: var(--color-accent);
 
@@ -113,7 +114,7 @@
   // State variables tüketiliyor
   background-color: var(--state-bg-color);
   border: 1px solid var(--state-border-color);
-  color: var(--color-base-text);
+  color: var(--input-text);
   border-radius: var(--input-radius);
 
   font-weight: 400;
@@ -123,7 +124,7 @@
   height: var(--input-height);
 
   &::placeholder {
-    color: var(--color-base-placeholder);
+    color: var(--input-placeholder);
     opacity: 1;
   }
 
@@ -213,7 +214,7 @@ textarea.inputControl {
 
   // Focus olunca normal input gibi davranması için variable'ları eski haline çekiyoruz
   &:focus-within {
-    --state-bg-color: var(--color-base-bg);
+    --state-bg-color: var(--input-bg);
     --state-border-color: var(--color-accent);
 
     .inputControl {
@@ -262,13 +263,13 @@ textarea.inputControl {
   border-radius: 4px;
   border: none;
   background: transparent;
-  color: var(--color-base-placeholder);
+  color: var(--input-placeholder);
   cursor: pointer;
   transition: all 0.2s;
   background-color: var(--state-bg-color);
 
   &:hover {
-    color: var(--color-base-text);
+    color: var(--input-text);
     background-color: var(--state-bg-color);
   }
 }
@@ -398,7 +399,7 @@ textarea.inputControl {
   border: 1px dashed var(--state-border-color);
   border-radius: var(--input-radius);
   background-color: var(--state-bg-color);
-  color: var(--color-base-text);
+  color: var(--input-text);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -431,7 +432,7 @@ textarea.inputControl {
 
 .fileDropHint {
   font-size: 0.75rem;
-  color: var(--color-base-placeholder);
+  color: var(--input-placeholder);
 }
 
 .fileDropFiles {
