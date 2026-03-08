@@ -116,7 +116,7 @@ function Toc({ containerRef, activeIndex, direction, tokens }: TocProps) {
 
     const indexDiff = Math.abs(activeIndex - fromIndex)
     const drawDuration = Math.min(150 + indexDiff * 50, 450)
-    const eraseDuration = 220
+    const eraseDuration = 350
     const eraseDelay = 40
 
     const fullPath = buildPathFromWaypoints(route, tokensWithDefaults)
