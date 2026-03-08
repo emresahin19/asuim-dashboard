@@ -9,6 +9,7 @@
   --input-placeholder: var(--color-text-muted);
   --input-label: var(--color-text-secondary);
   --input-border: var(--color-border);
+  --input-border-width: 1px;
 
   --state-border-color: var(--input-border);
   --state-label-color: var(--input-label);
@@ -113,7 +114,7 @@
 
   // State variables tüketiliyor
   background-color: var(--state-bg-color);
-  border: 1px solid var(--state-border-color);
+  border: var(--input-border-width) solid var(--state-border-color);
   color: var(--input-text);
   border-radius: var(--input-radius);
 
@@ -396,7 +397,7 @@ textarea.inputControl {
 
 .fileDropZone {
   min-height: var(--input-height);
-  border: 1px dashed var(--state-border-color);
+  border: var(--input-border-width) dashed var(--state-border-color);
   border-radius: var(--input-radius);
   background-color: var(--state-bg-color);
   color: var(--input-text);
@@ -445,7 +446,7 @@ textarea.inputControl {
   font-size: 0.75rem;
   color: var(--state-label-color);
   background-color: var(--color-bg-subtle);
-  border: 1px solid var(--state-border-color);
+  border: var(--input-border-width) solid var(--state-border-color);
   border-radius: var(--radius-sm, 4px);
   padding: 4px 8px;
 }
