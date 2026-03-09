@@ -3,17 +3,26 @@
  */
 
 .container {
-  // CONFIGURATION (Input ile aynı variable setini kullanıyoruz)
-  --select-bg: var(--color-bg-subtle, #ffffff);
-  --select-border: var(--color-border, #e2e8f0);
-  --select-focus: var(--color-accent, #3b82f6);
-  --select-text: var(--color-text-primary, #1e293b);
-  --select-placeholder: var(--color-text-muted, #94a3b8);
-  --select-radius: var(--radius-md, 6px);
+  --select-bg: var(--field-bg, var(--color-bg-subtle, #ffffff));
+  --select-bg-focus: var(--field-bg-focus, var(--color-bg-subtle-active, #f1f5f9));
+  --select-surface-bg: var(--field-surface-active-bg, var(--color-bg-subtle-active, #f1f5f9));
+  --select-menu-bg: var(--field-panel-bg, var(--color-bg-surface, #ffffff));
+  --select-border: var(--field-border, var(--color-border, #e2e8f0));
+  --select-border-focus: var(--field-focus, var(--color-accent, #3b82f6));
+  --select-text: var(--field-text, var(--color-text-primary, #1e293b));
+  --select-label: var(--field-label, var(--color-text-secondary, #64748b));
+  --select-placeholder: var(--field-placeholder, var(--color-text-muted, #94a3b8));
+  --select-danger: var(--field-danger, var(--color-danger, #ef4444));
+  --select-radius: var(--field-radius, var(--radius-md, 6px));
   --select-option-padding: 10px 12px;
   --z-index-menu: 50;
-  --select-height: 44px;
-  --select-px: 14px;
+  --select-height: var(--field-height-md, 44px);
+  --select-px: var(--field-px-md, 14px);
+  --select-transition: var(--field-transition, 200ms cubic-bezier(0.4, 0, 0.2, 1));
+
+  --state-select-bg-color: var(--select-bg);
+  --state-select-border-color: var(--select-border);
+  --state-select-label-color: var(--select-label);
   --floating-pt: 1rem;
   --floating-pb: 0.35rem;
 
@@ -30,12 +39,14 @@
   }
 
   &.error {
-    --select-border: var(--color-danger, #ef4444);
-    --select-focus: var(--color-danger, #ef4444);
+    --state-select-border-color: var(--select-danger);
+    --state-select-label-color: var(--select-danger);
+    --select-border-focus: var(--select-danger);
+  }
 
-    .label {
-      color: var(--color-danger, #ef4444);
-    }
+  &.open {
+    --state-select-border-color: var(--select-border-focus);
+    --state-select-label-color: var(--select-border-focus);
   }
 }
 
@@ -43,43 +54,43 @@
 .sm {
   --floating-pt: var(--input-floating-pt-sm, 12px);
   --floating-pb: var(--input-floating-pb-sm, 4px);
-  --select-height: var(--input-select-height-sm, 36px);
-  --select-px: 12px;
+  --select-height: var(--field-height-sm, var(--input-select-height-sm, 36px));
+  --select-px: var(--field-px-sm, 12px);
   --select-option-padding: 6px 8px;
 
   .control {
-    font-size: 0.875rem;
+    font-size: var(--field-font-size-sm, 0.875rem);
   }
 }
 
 .md {
   --floating-pt: var(--input-floating-pt-md, 16px);
   --floating-pb: var(--input-floating-pb-md, 6px);
-  --select-height: var(--input-select-height-md, 44px);
-  --select-px: 14px;
+  --select-height: var(--field-height-md, var(--input-select-height-md, 44px));
+  --select-px: var(--field-px-md, 14px);
   --select-option-padding: 10px 12px;
 
   .control {
-    font-size: 0.9375rem;
+    font-size: var(--field-font-size-md, 0.9375rem);
   }
 }
 
 .lg {
   --floating-pt: var(--input-floating-pt-lg, 20px);
   --floating-pb: var(--input-floating-pb-lg, 8px);
-  --select-height: var(--input-select-height-lg, 52px);
-  --select-px: 18px;
+  --select-height: var(--field-height-lg, var(--input-select-height-lg, 52px));
+  --select-px: var(--field-px-lg, 18px);
   --select-option-padding: 12px 16px;
 
   .control {
-    font-size: 1rem;
+    font-size: var(--field-font-size-lg, 1rem);
   }
 }
 
 .label {
   font-size: 0.875rem;
   font-weight: 500;
-  color: var(--color-text-secondary, #64748b);
+  color: var(--state-select-label-color);
   margin-left: 2px;
 }
 
@@ -91,15 +102,11 @@
   position: relative;
   min-height: var(--select-height);
   padding: 0;
-  background-color: var(--select-bg);
-  border: 1px solid var(--select-border);
+  background-color: var(--state-select-bg-color);
+  border: 1px solid var(--state-select-border-color);
   border-radius: var(--select-radius);
   cursor: pointer;
-  transition: all 0.2s;
-
-  .open & {
-    border-color: var(--select-focus);
-  }
+  transition: all var(--select-transition);
 }
 
 .floatingLabel {
@@ -108,14 +115,14 @@
   top: 50%;
   transform: translateY(-50%);
   transform-origin: left center;
-  color: var(--color-text-secondary, #64748b);
-  background-color: var(--select-bg);
+  color: var(--state-select-label-color);
+  background-color: var(--state-select-bg-color);
   padding: 0 4px;
   margin-left: -4px;
   font-size: 0.875rem;
   line-height: 1;
   pointer-events: none;
-  transition: transform 0.2s, top 0.2s, color 0.2s;
+  transition: transform var(--select-transition), top var(--select-transition), color var(--select-transition);
 }
 
 .valueContainer {
@@ -173,7 +180,7 @@
 .chip {
   display: flex;
   align-items: center;
-  background-color: var(--color-bg-subtle-active, #f1f5f9);
+  background-color: var(--select-surface-bg);
   border-radius: 4px;
   padding: 2px 6px;
   font-size: 0.85em;
@@ -191,7 +198,7 @@
     justify-content: center;
 
     &:hover {
-      color: var(--color-danger);
+      color: var(--select-danger);
     }
   }
 }
@@ -209,7 +216,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--color-text-muted);
+  color: var(--select-placeholder);
   cursor: pointer;
   border: none;
   background: transparent;
@@ -224,7 +231,7 @@
   width: 1px;
   height: 50%;
   opacity: 0.3;
-  background-color: var(--color-text-muted);
+  background-color: var(--select-placeholder);
 }
 
 .spinner {
@@ -238,8 +245,8 @@
   left: 0;
   width: 100%;
   margin-top: 4px;
-  background-color: var(--select-bg);
-  border: 1px solid var(--select-border);
+  background-color: var(--select-menu-bg);
+  border: 1px solid var(--state-select-border-color);
   border-radius: var(--select-radius);
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   z-index: var(--z-index-menu);
@@ -266,7 +273,7 @@
   }
 
   &:-webkit-scrollbar-thumb:hover {
-    background-color: var(--color-accent);
+    background-color: var(--select-border-focus);
   }
 
 }
@@ -281,12 +288,12 @@
   font-size: 0.9375rem;
 
   &:hover {
-    background-color: var(--color-bg-subtle-active, #f1f5f9);
+    background-color: var(--select-surface-bg);
   }
 
   &.selected {
-    background-color: color-mix(in srgb, var(--select-focus) 10%, transparent);
-    color: var(--select-focus);
+    background-color: color-mix(in srgb, var(--select-border-focus) 10%, transparent);
+    color: var(--select-border-focus);
     font-weight: 500;
   }
 
@@ -300,7 +307,7 @@
   padding: var(--select-option-padding);
   font-size: 0.75rem;
   font-weight: 600;
-  color: var(--color-text-muted);
+  color: var(--select-placeholder);
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -308,17 +315,17 @@
 .noOptions {
   padding: 12px;
   text-align: center;
-  color: var(--color-text-muted);
+  color: var(--select-placeholder);
 }
 
 .errorMessage {
   font-size: 0.75rem;
-  color: var(--color-danger);
+  color: var(--select-danger);
   margin-left: 2px;
 }
 
 .floating {
-  --select-bg: var(--color-bg-subtle-active);
+  --state-select-bg-color: var(--select-bg-focus);
   height: calc(var(--select-height) + var(--floating-pt) - var(--floating-pb));
 
   input::placeholder {
@@ -335,12 +342,12 @@
   .control:focus-within .floatingLabel {
     top: 0;
     transform: translateY(-50%) scale(0.85);
-    color: var(--select-focus);
+    color: var(--select-border-focus);
   }
 
   &.error {
     .floatingLabel {
-      color: var(--color-danger, #ef4444);
+      color: var(--select-danger);
     }
   }
 }

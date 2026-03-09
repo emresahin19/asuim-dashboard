@@ -161,37 +161,37 @@
 
 .primary {
   --btn-bg: var(--color-accent);
-  --btn-text: var(--color-accent-contrast);
+  --btn-text: var(--color-white);
   --btn-border: var(--color-accent);
 }
 
 .success {
   --btn-bg: var(--color-success);
-  --btn-text: var(--color-text-inverse);
+  --btn-text: var(--color-white);
   --btn-border: var(--color-success);
 }
 
 .info {
   --btn-bg: var(--color-info);
-  --btn-text: var(--color-text-inverse);
+  --btn-text: var(--color-white);
   --btn-border: var(--color-info);
 }
 
 .warning {
   --btn-bg: var(--color-warning);
-  --btn-text: var(--color-text);
+  --btn-text: var(--color-white);
   --btn-border: var(--color-warning);
 }
 
 .danger {
   --btn-bg: var(--color-danger);
-  --btn-text: var(--color-text-inverse);
+  --btn-text: var(--color-white);
   --btn-border: var(--color-danger);
 }
 
 .neutral {
   --btn-bg: var(--color-text-soft);
-  --btn-text: var(--color-bg-card);
+  --btn-text: var(--color-text-inverse);
   --btn-border: var(--color-text-soft);
 }
 

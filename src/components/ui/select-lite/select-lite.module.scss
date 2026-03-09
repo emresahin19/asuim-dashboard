@@ -3,15 +3,19 @@
  */
 
 .container {
-  // Input Component ile aynı variable'ları çeker
-  --input-bg: var(--color-bg-subtle, #ffffff);
-  --input-border: var(--color-border, #e2e8f0);
-  --input-focus: var(--color-accent, #3b82f6);
-  --input-text: var(--color-text-primary, #1e293b);
-  --input-radius: var(--radius-md, 8px);
-  --input-font-size: 0.9375rem;
-  --input-font-weight: 500;
-  --input-height-md: 44px;
+  --select-bg: var(--field-bg, var(--color-bg-subtle, #ffffff));
+  --select-border: var(--field-border, var(--color-border, #e2e8f0));
+  --select-border-hover: var(--field-border-hover, var(--color-border-strong, #cbd5e1));
+  --select-border-focus: var(--field-focus, var(--color-accent, #3b82f6));
+  --select-text: var(--field-text, var(--color-text-primary, #1e293b));
+  --select-label: var(--field-label, var(--color-text-secondary, #64748b));
+  --select-placeholder: var(--field-placeholder, var(--color-text-muted, #94a3b8));
+  --select-danger: var(--field-danger, var(--color-danger, #ef4444));
+  --select-radius: var(--field-radius, var(--radius-md, 8px));
+  --select-font-size: var(--field-font-size-md, 0.9375rem);
+  --select-font-weight: 500;
+  --select-height-md: var(--field-height-md, 44px);
+  --select-transition: var(--field-transition, 200ms cubic-bezier(0.4, 0, 0.2, 1));
 
   display: flex;
   flex-direction: column;
@@ -29,9 +33,9 @@
 }
 
 .label {
-  font-size: var(--input-font-size);
-  font-weight: var(--input-font-weight);
-  color: var(--input-text, #64748b);
+  font-size: var(--select-font-size);
+  font-weight: var(--select-font-weight);
+  color: var(--select-label);
   margin-left: 2px;
 }
 
@@ -49,10 +53,10 @@
   -webkit-appearance: none; 
   -moz-appearance: none;
 
-  background-color: var(--input-bg);
-  border: 1px solid var(--input-border);
-  border-radius: var(--input-radius);
-  color: var(--input-text);
+  background-color: var(--select-bg);
+  border: 1px solid var(--select-border);
+  border-radius: var(--select-radius);
+  color: var(--select-text);
   
   padding-right: 32px; // İkon için yer aç
   cursor: pointer;
@@ -64,19 +68,19 @@
   overflow: hidden;
   text-overflow: ellipsis;
 
-  transition: all 0.2s;
+  transition: all var(--select-transition);
 
   &:hover:not(:disabled) {
-    border-color: color-mix(in srgb, var(--input-border) 80%, black);
+    border-color: var(--select-border-hover);
   }
 
   &:focus {
-    border-color: var(--input-focus);
+    border-color: var(--select-border-focus);
   }
   
   // Placeholder rengi (Option disabled ise)
   &:invalid {
-    color: var(--color-text-muted, #94a3b8);
+    color: var(--select-placeholder);
   }
 }
 
@@ -88,35 +92,35 @@
   display: flex;
   align-items: center;
   pointer-events: none; 
-  color: var(--color-text-muted, #94a3b8);
+  color: var(--select-placeholder);
 }
 
 .errorMessage {
-  font-size: var(--input-font-size);
-  color: var(--color-danger, #ef4444);
+  font-size: var(--select-font-size);
+  color: var(--select-danger);
   margin-left: 2px;
 }
 
 .error {
-  .nativeSelect { border-color: var(--color-danger, #ef4444); }
-  .label { color: var(--color-danger, #ef4444); }
+  .nativeSelect { border-color: var(--select-danger); }
+  .label { color: var(--select-danger); }
 }
 
 /* * SIZES */
 .sm .nativeSelect {
-  height: 36px;
-  padding-left: 12px;
-  font-size: var(--input-font-size);
+  height: var(--field-height-sm, 36px);
+  padding-left: var(--field-px-sm, 12px);
+  font-size: var(--field-font-size-sm, 0.875rem);
 }
 
 .md .nativeSelect {
-  height: 44px;
-  padding-left: 14px;
-  font-size: var(--input-font-size);
+  height: var(--field-height-md, 44px);
+  padding-left: var(--field-px-md, 14px);
+  font-size: var(--field-font-size-md, 0.9375rem);
 }
 
 .lg .nativeSelect {
-  height: 52px;
-  padding-left: 16px;
-  font-size: var(--input-font-size);
+  height: var(--field-height-lg, 52px);
+  padding-left: var(--field-px-lg, 18px);
+  font-size: var(--field-font-size-lg, 1rem);
 }

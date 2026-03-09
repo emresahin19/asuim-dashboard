@@ -1,19 +1,30 @@
 ﻿/* * AsUIm Native DatePicker */
 
 .container {
-  --dp-bg: var(--color-bg-subtle, #ffffff);
-  --dp-text: var(--color-text-primary, #1e293b);
-  --dp-placeholder: var(--color-text-muted, #94a3b8);
-  --dp-label: var(--color-text-secondary, #64748b);
-  --dp-border: var(--color-border, #e2e8f0);
-  --dp-focus: var(--color-accent, #3b82f6);
-  --dp-radius: var(--input-radius-md, 8px);
+  --dp-bg: var(--field-bg, var(--color-bg-subtle, #ffffff));
+  --dp-bg-focus: var(--field-bg-focus, var(--color-bg-subtle-active, #f1f5f9));
+  --dp-panel-bg: var(--field-panel-bg, var(--color-bg-surface, #ffffff));
+  --dp-surface-bg: var(--field-surface-bg, var(--color-bg-subtle, #f1f5f9));
+  --dp-surface-active-bg: var(--field-surface-active-bg, var(--color-bg-subtle-active, #f1f5f9));
+  --dp-text: var(--field-text, var(--color-text-primary, #1e293b));
+  --dp-placeholder: var(--field-placeholder, var(--color-text-muted, #94a3b8));
+  --dp-label: var(--field-label, var(--color-text-secondary, #64748b));
+  --dp-label-focus: var(--field-focus, var(--color-accent, #3b82f6));
+  --dp-border: var(--field-border, var(--color-border, #e2e8f0));
+  --dp-border-hover: var(--field-border-hover, var(--color-border-strong, #cbd5e1));
+  --dp-border-focus: var(--field-focus, var(--color-accent, #3b82f6));
+  --dp-danger: var(--field-danger, var(--color-danger, #ef4444));
+  --dp-radius: var(--field-radius, var(--input-radius-md, 8px));
   --dp-z-index: 50;
-  --dp-trigger-height: 44px;
-  --dp-trigger-px: 14px;
-  --dp-font-size: 0.9375rem;
+  --dp-trigger-height: var(--field-height-md, 44px);
+  --dp-trigger-px: var(--field-px-md, 14px);
+  --dp-font-size: var(--field-font-size-md, 0.9375rem);
   --dp-clear-size: 24px;
-  --dp-transition: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  --dp-transition: var(--field-transition, 200ms cubic-bezier(0.4, 0, 0.2, 1));
+
+  --state-dp-bg-color: var(--dp-bg);
+  --state-dp-border-color: var(--dp-border);
+  --state-dp-label-color: var(--dp-label);
 
   position: relative;
   width: 100%;
@@ -23,18 +34,20 @@
   gap: 6px;
 
   &:hover:not(.disabled) {
-    --dp-border: var(--color-border-strong, #cbd5e1);
+    --state-dp-border-color: var(--dp-border-hover);
   }
 
   &.open {
-    --dp-border: var(--dp-focus);
-    --dp-label: var(--dp-focus);
+    --state-dp-border-color: var(--dp-border-focus);
+    --state-dp-label-color: var(--dp-label-focus);
+    --state-dp-bg-color: var(--dp-bg-focus);
   }
 
   &.error {
-    --dp-border: var(--color-danger, #ef4444);
-    --dp-focus: var(--color-danger, #ef4444);
-    --dp-label: var(--color-danger, #ef4444);
+    --state-dp-border-color: var(--dp-danger);
+    --state-dp-label-color: var(--dp-danger);
+    --dp-border-focus: var(--dp-danger);
+    --dp-label-focus: var(--dp-danger);
   }
 
   &.disabled {
@@ -49,23 +62,23 @@
 }
 
 .sm {
-  --dp-trigger-height: 36px;
-  --dp-trigger-px: 12px;
-  --dp-font-size: 0.875rem;
+  --dp-trigger-height: var(--field-height-sm, 36px);
+  --dp-trigger-px: var(--field-px-sm, 12px);
+  --dp-font-size: var(--field-font-size-sm, 0.875rem);
   --dp-clear-size: 22px;
 }
 
 .md {
-  --dp-trigger-height: 44px;
-  --dp-trigger-px: 14px;
-  --dp-font-size: 0.9375rem;
+  --dp-trigger-height: var(--field-height-md, 44px);
+  --dp-trigger-px: var(--field-px-md, 14px);
+  --dp-font-size: var(--field-font-size-md, 0.9375rem);
   --dp-clear-size: 24px;
 }
 
 .lg {
-  --dp-trigger-height: 52px;
-  --dp-trigger-px: 18px;
-  --dp-font-size: 1rem;
+  --dp-trigger-height: var(--field-height-lg, 52px);
+  --dp-trigger-px: var(--field-px-lg, 18px);
+  --dp-font-size: var(--field-font-size-lg, 1rem);
   --dp-clear-size: 26px;
 }
 
@@ -73,7 +86,7 @@
   font-size: 0.875rem;
   font-weight: 500;
   margin-left: 2px;
-  color: var(--dp-label);
+  color: var(--state-dp-label-color);
   transition: color 0.2s;
 }
 
@@ -84,9 +97,9 @@
   width: 100%;
   min-height: var(--dp-trigger-height);
   padding: 0 var(--dp-trigger-px);
-  border: 1px solid var(--dp-border);
+  border: 1px solid var(--state-dp-border-color);
   border-radius: var(--dp-radius);
-  background-color: var(--dp-bg);
+  background-color: var(--state-dp-bg-color);
   color: var(--dp-text);
   font-weight: 400;
   cursor: pointer;
@@ -140,8 +153,8 @@
   transition: color 0.2s, background-color 0.2s;
 
   &:hover {
-    color: var(--color-danger, #ef4444);
-    background-color: color-mix(in srgb, var(--color-danger, #ef4444) 12%, transparent);
+    color: var(--dp-danger);
+    background-color: color-mix(in srgb, var(--dp-danger) 12%, transparent);
   }
 }
 
@@ -151,8 +164,8 @@
   left: 0;
   width: max-content;
   max-width: min(100vw - 2rem, 760px);
-  background-color: var(--color-bg-surface, #ffffff);
-  border: 1px solid var(--dp-border);
+  background-color: var(--dp-panel-bg);
+  border: 1px solid var(--state-dp-border-color);
   border-radius: var(--dp-radius);
   z-index: var(--dp-z-index);
   padding: 14px;
@@ -165,7 +178,7 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
-  border-right: 1px solid var(--dp-border);
+  border-right: 1px solid var(--state-dp-border-color);
   padding-right: 14px;
   min-width: 128px;
 
@@ -180,7 +193,7 @@
     cursor: pointer;
 
     &:hover {
-      background-color: var(--color-bg-subtle, #f1f5f9);
+      background-color: var(--dp-surface-bg);
     }
   }
 }
@@ -237,12 +250,12 @@
   transition: background-color var(--dp-transition), color var(--dp-transition);
 
   &:hover {
-    background-color: var(--color-bg-subtle, #f1f5f9);
-    color: var(--dp-focus);
+    background-color: var(--dp-surface-bg);
+    color: var(--dp-border-focus);
   }
 
   &:focus-visible {
-    box-shadow: 0 0 0 1px var(--dp-focus);
+    box-shadow: 0 0 0 1px var(--dp-border-focus);
     border-radius: 4px;
   }
 
@@ -300,12 +313,12 @@
   cursor: pointer;
   pointer-events: auto; // Butonlar tıklanabilsin
   transition: background-color var(--dp-transition), color var(--dp-transition);
-  background-color: var(--color-bg-subtle-active, #f1f5f9);
+  background-color: var(--dp-surface-active-bg);
 
   &:hover {
-    border-color: var(--dp-focus);
-    color: var(--dp-focus);
-    background-color: var(--color-bg-subtle, #f1f5f9);
+    border-color: var(--dp-border-focus);
+    color: var(--dp-border-focus);
+    background-color: var(--dp-surface-bg);
   }
 }
 
@@ -376,18 +389,18 @@
   transition: background-color 0.15s, color 0.15s;
 
   &:hover {
-    background-color: var(--color-accent-hover, #f1f5f9);
+    background-color: var(--dp-surface-active-bg);
   }
 }
 
 .rdpSelected .rdpDayButton {
-  background-color: var(--dp-focus);
+  background-color: var(--dp-border-focus);
   color: #fff;
   font-weight: 600;
 }
 
 .rdpToday .rdpDayButton {
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--dp-focus) 30%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--dp-border-focus) 30%, transparent);
 }
 
 .rdpOutside .rdpDayButton {
@@ -400,8 +413,8 @@
 }
 
 .rdpRangeMiddle .rdpDayButton {
-  background-color: color-mix(in srgb, var(--dp-focus) 14%, transparent);
-  color: var(--dp-focus);
+  background-color: color-mix(in srgb, var(--dp-border-focus) 14%, transparent);
+  color: var(--dp-border-focus);
   border-radius: 0;
   width: 38px;
   margin: 0;
@@ -422,7 +435,7 @@
 .errorMessage {
   font-size: 0.75rem;
   font-weight: 500;
-  color: var(--color-danger, #ef4444);
+  color: var(--dp-danger);
   margin-left: 2px;
 }
 

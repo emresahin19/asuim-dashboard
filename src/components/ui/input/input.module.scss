@@ -4,46 +4,53 @@
 
 .container {
   // Base Tokens
-  --input-bg: var(--color-bg-subtle);
-  --input-text: var(--color-text-primary);
-  --input-placeholder: var(--color-text-muted);
-  --input-label: var(--color-text-secondary);
-  --input-border: var(--color-border);
+  --input-bg: var(--field-bg, var(--color-bg-subtle));
+  --input-bg-focus: var(--field-bg-focus, var(--color-bg-subtle-active));
+  --input-text: var(--field-text, var(--color-text-primary));
+  --input-placeholder: var(--field-placeholder, var(--color-text-muted));
+  --input-label: var(--field-label, var(--color-text-secondary));
+  --input-label-focus: var(--field-focus, var(--color-accent));
+  --input-border: var(--field-border, var(--color-border));
+  --input-border-hover: var(--field-border-hover, var(--color-border-strong));
+  --input-border-focus: var(--field-focus, var(--color-accent));
+  --input-danger: var(--field-danger, var(--color-danger));
+  --input-surface-bg: var(--field-surface-bg, var(--color-bg-subtle));
+  --input-surface-active-bg: var(--field-surface-active-bg, var(--color-bg-subtle-active));
   --input-border-width: 1px;
 
   --state-border-color: var(--input-border);
   --state-label-color: var(--input-label);
   --state-bg-color: var(--input-bg);
   --state-active-line-scale: 0;
-  --state-active-line-color: var(--color-accent);
+  --state-active-line-color: var(--input-border-focus);
 
-  --input-radius: var(--radius-md, 6px);
-  --transition-speed: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  --input-radius: var(--field-radius, var(--radius-md, 6px));
+  --transition-speed: var(--field-transition, 200ms cubic-bezier(0.4, 0, 0.2, 1));
   --active-line-height: 2px;
-  --input-height: 44px;
+  --input-height: var(--field-height-md, 44px);
   --floating-pt: 0;
   --floating-pb: 0;
 
   &:hover:not(.disabled) {
-    --state-border-color: var(--color-border-strong);
+    --state-border-color: var(--input-border-hover);
   }
 
   &:focus-within {
-    --state-border-color: var(--color-accent);
-    --state-label-color: var(--color-accent);
-    --state-bg-color: var(--color-bg-subtle-active);
+    --state-border-color: var(--input-border-focus);
+    --state-label-color: var(--input-label-focus);
+    --state-bg-color: var(--input-bg-focus);
     --state-active-line-scale: 1; // Çizgiyi aç
   }
 
   // State: ERROR (Hata varsa - JS'den class eklenmeli)
   &.error {
-    --state-border-color: var(--color-danger);
-    --state-label-color: var(--color-danger);
-    --state-active-line-color: var(--color-danger);
+    --state-border-color: var(--input-danger);
+    --state-label-color: var(--input-danger);
+    --state-active-line-color: var(--input-danger);
 
     // Hata durumunda focus rengi de kırmızı kalsın
     &:focus-within {
-      --state-border-color: var(--color-danger);
+      --state-border-color: var(--input-danger);
     }
   }
 
@@ -172,37 +179,37 @@
 
 .sm {
   --active-line-height: 2px;
-  --input-px: 12px;
-  --input-height: 36px;
+  --input-px: var(--field-px-sm, 12px);
+  --input-height: var(--field-height-sm, 36px);
 
   .inputControl {
-    padding-left: 12px;
-    padding-right: 12px;
-    font-size: 0.875rem;
+    padding-left: var(--input-px);
+    padding-right: var(--input-px);
+    font-size: var(--field-font-size-sm, 0.875rem);
   }
 }
 
 .md {
   --active-line-height: 3px;
-  --input-px: 14px;
-  --input-height: 44px;
+  --input-px: var(--field-px-md, 14px);
+  --input-height: var(--field-height-md, 44px);
 
   .inputControl {
-    padding-left: 14px;
-    padding-right: 14px;
-    font-size: 0.9375rem;
+    padding-left: var(--input-px);
+    padding-right: var(--input-px);
+    font-size: var(--field-font-size-md, 0.9375rem);
   }
 }
 
 .lg {
   --active-line-height: 4px;
-  --input-px: 18px;
-  --input-height: 52px;
+  --input-px: var(--field-px-lg, 18px);
+  --input-height: var(--field-height-lg, 52px);
 
   .inputControl {
-    padding-left: 18px;
-    padding-right: 18px;
-    font-size: 1rem;
+    padding-left: var(--input-px);
+    padding-right: var(--input-px);
+    font-size: var(--field-font-size-lg, 1rem);
   }
 }
 
@@ -229,14 +236,14 @@ textarea.inputControl {
 
     &:hover {
       padding-left: 8px;
-      background-color: var(--color-bg-subtle);
+      background-color: var(--input-surface-bg);
     }
   }
 
   // Focus olunca normal input gibi davranması için variable'ları eski haline çekiyoruz
   &:focus-within {
     --state-bg-color: var(--input-bg);
-    --state-border-color: var(--color-accent);
+    --state-border-color: var(--input-border-focus);
 
     .inputControl {
       padding-left: 14px;
@@ -257,7 +264,7 @@ textarea.inputControl {
   align-items: center;
   justify-content: center;
   padding: 0 12px;
-  background-color: var(--color-bg-subtle);
+  background-color: var(--input-surface-bg);
   border-left: 1px solid var(--state-border-color); // Border rengi inputla senkronize
   color: var(--state-label-color);
   border-radius: 0 calc(var(--input-radius) - 1px) calc(var(--input-radius) - 1px) 0;
@@ -320,7 +327,7 @@ textarea.inputControl {
 .errorMessage {
   font-size: 0.75rem;
   font-weight: 500;
-  color: var(--color-danger);
+  color: var(--input-danger);
   margin-left: 2px;
   animation: slideDown 0.2s ease-out;
 }
@@ -344,7 +351,7 @@ textarea.inputControl {
 }
 
 .floating {
-  --state-bg-color: var(--color-bg-subtle-active);
+  --state-bg-color: var(--input-bg-focus);
 
   &.sm {
     --floating-pt: var(--input-floating-pt-sm);
@@ -386,7 +393,7 @@ textarea.inputControl {
   &.hasValue .floatingLabel,
   &:focus-within .floatingLabel {
     background-color: var(--state-bg-color);
-    color: var(--color-accent);
+    color: var(--input-label-focus);
     top: 0;
     transform: translateY(-50%) scale(0.85);
   }
@@ -434,8 +441,8 @@ textarea.inputControl {
 
 .fileDropZoneActive {
   border-style: solid;
-  border-color: var(--color-accent);
-  background-color: var(--color-bg-subtle-active);
+  border-color: var(--input-border-focus);
+  background-color: var(--input-surface-active-bg);
 }
 
 .fileDropZoneDisabled {
@@ -465,7 +472,7 @@ textarea.inputControl {
 .fileDropFile {
   font-size: 0.75rem;
   color: var(--state-label-color);
-  background-color: var(--color-bg-subtle);
+  background-color: var(--input-surface-bg);
   border: var(--input-border-width) solid var(--state-border-color);
   border-radius: var(--radius-sm, 4px);
   padding: 4px 8px;
