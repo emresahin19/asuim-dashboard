@@ -19,11 +19,7 @@ import {
 } from './utils/toc.utils';
 
 import styles from './sidebar.module.scss';
-import dynamic from 'next/dynamic';
-
-const TocLazy = dynamic(() => import('@/components/features/toc/Toc'), {
-  ssr: false,
-});
+import Toc from '@/components/features/toc/Toc';
 
 export function Sidebar({ initialOpenGroups }: { initialOpenGroups: string[] }) {
   const sidebarRef = useRef<HTMLDivElement>(null);
@@ -104,7 +100,7 @@ export function Sidebar({ initialOpenGroups }: { initialOpenGroups: string[] }) 
 
         <nav className={styles.nav} aria-label="Ana navigasyon">
           {activeIndex !== null && (
-            <TocLazy
+            <Toc
               containerRef={listRef}
               activeIndex={activeIndex}
               direction={theme.direction}

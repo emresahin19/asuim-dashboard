@@ -122,6 +122,7 @@ export const TableFiltersRow = <T,>({
                 className={styles.filterInput}
                 value={currentValue ? new Date(currentValue) : undefined}
                 placeholder={column.filterPlaceholder || `${column.label} sec`}
+                size="sm"
                 onChange={
                   (date) => onFilterChange?.(column.key, date instanceof Date ? normalizeDate(date) : '')
                 }
@@ -135,11 +136,12 @@ export const TableFiltersRow = <T,>({
             return (
               <DatePicker
                 className={styles.filterInput}
+                mode="range"
+                size="sm"
                 value={{
                   from: fromValue ? new Date(fromValue) : undefined,
                   to: toValue ? new Date(toValue) : undefined,
                 }}
-                mode="range"
                 onChange={(dates) => {
                   if (!dates || !('from' in dates) || !('to' in dates)) {
                     onFilterChange?.(column.key, '');

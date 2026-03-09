@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import ChevronLeft from '@/components/ui/icon/icons/ChevronLeft'
 import ChevronRight from '@/components/ui/icon/icons/ChevronRight'
 import Ellipsis from '@/components/ui/icon/icons/Ellipsis'
@@ -21,15 +21,22 @@ export const TablePagination = <T,>({ tableState, onPageChange, onLimitChange }:
     const list: (number | string)[] = [];
     if (totalPages <= 7) {
       for (let i = 1; i <= totalPages; i++) list.push(i);
-    } else {
-      list.push(1);
-      if (page > 3) list.push('...');
-      const start = Math.max(2, page - 1);
-      const end = Math.min(totalPages - 1, page + 1);
-      for (let i = start; i <= end; i++) list.push(i);
-      if (page < totalPages - 2) list.push('...');
-      list.push(totalPages);
+      return list;
     }
+
+    // Keep pagination width stable with a fixed 7-slot model.
+    if (page <= 4) {
+      list.push(1, 2, 3, 4, 5, '...', totalPages);
+      return list;
+    }
+
+    if (page >= totalPages - 3) {
+      list.push(1, '...', totalPages - 4, totalPages - 3, totalPages - 2, totalPages - 1, totalPages);
+      return list;
+    }
+
+    list.push(1, '...', page - 1, page, page + 1, '...', totalPages);
+
     return list;
   }, [page, totalPages]);
 
@@ -71,13 +78,20 @@ export const TablePagination = <T,>({ tableState, onPageChange, onLimitChange }:
 
         {pages.map((p, i) => (
           p === '...' ? (
-            <span key={`ellipsis-${i}`} style={{ display: 'flex', alignItems: 'center', padding: '0 4px' }}>
+            <button
+              key={`ellipsis-${i}`}
+              type="button"
+              className={`${styles.pageBtn} ${styles.ellipsisBtn}`}
+              disabled
+              aria-hidden
+              tabIndex={-1}
+            >
               <Icon
                 size={14}
                 icon={Ellipsis}
                 decorative
               />
-            </span>
+            </button>
           ) : (
             <button
               key={p}

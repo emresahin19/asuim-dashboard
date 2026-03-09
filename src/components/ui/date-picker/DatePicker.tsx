@@ -24,6 +24,7 @@ export const DatePicker = ({
   placeholder = "Tarih seçiniz",
   error = false,
   disabled = false,
+  size = 'md',
   fullWidth = false,
   className = '',
   minDate,
@@ -32,6 +33,9 @@ export const DatePicker = ({
   startYear = 1940, 
   endYear = new Date().getFullYear() + 5
 }: DatePickerProps) => {
+    const triggerIconSize = size === 'sm' ? 16 : size === 'lg' ? 20 : 18;
+    const clearIconSize = size === 'sm' ? 12 : size === 'lg' ? 16 : 14;
+
   
   const generatedId = useId();
   const [isOpen, setIsOpen] = useState(false);
@@ -103,6 +107,7 @@ export const DatePicker = ({
 
   const containerClasses = clsx(
     styles.container,
+    styles[size],
     isOpen ? styles.open : '',
     error ? styles.error : '',
     disabled ? styles.disabled : '',
@@ -135,7 +140,7 @@ export const DatePicker = ({
           }
         }}
       >
-        <Icon icon={CalendarIcon} size={18} className={styles.icon} decorative />
+        <Icon icon={CalendarIcon} size={triggerIconSize} className={styles.icon} decorative />
 
         <input
           id={inputId}
@@ -153,7 +158,7 @@ export const DatePicker = ({
 
         {displayValue && !disabled && (
           <button type="button" className={styles.clearBtn} onClick={handleClear} aria-label="Tarihi temizle">
-            <Icon icon={X} size={14} decorative />
+            <Icon icon={X} size={clearIconSize} decorative />
           </button>
         )}
       </div>

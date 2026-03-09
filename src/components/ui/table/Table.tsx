@@ -73,8 +73,12 @@ export const Table = <T extends { id?: string | number }>({
     onFilterChange?.(key, value);
   };
 
-  const handleSortChange = (key: keyof T, direction: 'asc' | 'desc') => {
-    setTableState((prev) => ({ ...prev, sortBy: key, sortOrder: direction }));
+  const handleSortChange = (key: keyof T, direction: 'asc' | 'desc' | undefined) => {
+    setTableState((prev) => ({
+      ...prev,
+      sortBy: direction ? key : undefined,
+      sortOrder: direction,
+    }));
     onSortChange?.(key, direction);
   };
 

@@ -47,7 +47,7 @@ export interface TableProps<T> {
   isLoading?: boolean;
   className?: string;
   onFilterChange?: (key: keyof T, value: string) => void;
-  onSortChange?: (key: keyof T, value: SortOrder) => void;
+  onSortChange?: (key: keyof T, value: SortOrder | undefined) => void;
   onPageChange?: (page: number) => void;
   onLimitChange?: (limit: number) => void;
   onEditChange?: (item: T, value: string) => void;

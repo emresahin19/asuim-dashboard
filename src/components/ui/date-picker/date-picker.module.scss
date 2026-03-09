@@ -1,4 +1,4 @@
-/* * AsUIm Native DatePicker */
+﻿/* * AsUIm Native DatePicker */
 
 .container {
   --dp-bg: var(--color-bg-subtle, #ffffff);
@@ -10,6 +10,9 @@
   --dp-radius: var(--input-radius-md, 8px);
   --dp-z-index: 50;
   --dp-trigger-height: 44px;
+  --dp-trigger-px: 14px;
+  --dp-font-size: 0.9375rem;
+  --dp-clear-size: 24px;
   --dp-transition: 200ms cubic-bezier(0.4, 0, 0.2, 1);
 
   position: relative;
@@ -45,6 +48,27 @@
   }
 }
 
+.sm {
+  --dp-trigger-height: 36px;
+  --dp-trigger-px: 12px;
+  --dp-font-size: 0.875rem;
+  --dp-clear-size: 22px;
+}
+
+.md {
+  --dp-trigger-height: 44px;
+  --dp-trigger-px: 14px;
+  --dp-font-size: 0.9375rem;
+  --dp-clear-size: 24px;
+}
+
+.lg {
+  --dp-trigger-height: 52px;
+  --dp-trigger-px: 18px;
+  --dp-font-size: 1rem;
+  --dp-clear-size: 26px;
+}
+
 .label {
   font-size: 0.875rem;
   font-weight: 500;
@@ -59,7 +83,7 @@
   gap: 10px;
   width: 100%;
   min-height: var(--dp-trigger-height);
-  padding: 0 14px;
+  padding: 0 var(--dp-trigger-px);
   border: 1px solid var(--dp-border);
   border-radius: var(--dp-radius);
   background-color: var(--dp-bg);
@@ -81,7 +105,7 @@
   min-width: 0;
   border: none;
   background: transparent;
-  font-size: 0.9375rem;
+  font-size: var(--dp-font-size);
   font-weight: 400;
   line-height: 1.4;
   color: var(--dp-text);
@@ -105,8 +129,8 @@
 .clearBtn {
   border: none;
   background: transparent;
-  width: 24px;
-  height: 24px;
+  width: var(--dp-clear-size);
+  height: var(--dp-clear-size);
   display: inline-flex;
   align-items: center;
   justify-content: center;

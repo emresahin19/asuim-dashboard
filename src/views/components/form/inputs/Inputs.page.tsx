@@ -121,7 +121,8 @@ export default function InputsPage() {
                                 onChange={handleChange}
                                 placeholder="ornek@domain.com"
                             />
-
+                            
+                            <input style={{ display: 'none' }} type="text" />
                             <Input
                                 type="password"
                                 label="Password"

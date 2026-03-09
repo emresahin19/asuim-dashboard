@@ -11,7 +11,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 interface HeaderProps<T> {
   columns: TableColumn<T>[];
   tableState: TableState<T>;
-  onSortChange?: (key: keyof T, value: SortOrder) => void;
+  onSortChange?: (key: keyof T, value: SortOrder | undefined) => void;
   enableRowSelection: boolean;
   isAllRowsSelected: boolean;
   onToggleAllRows?: (checked: boolean) => void;
@@ -31,7 +31,8 @@ export const TableHeader = <T,>({
   const handleSort = (key: keyof T) => {
     if (!onSortChange) return;
     const currentDir = tableState.sortBy === key ? tableState.sortOrder : undefined;
-    const nextDir: SortOrder = currentDir === 'asc' ? 'desc' : 'asc';
+    const nextDir: SortOrder | undefined =
+      currentDir === undefined ? 'asc' : currentDir === 'asc' ? 'desc' : undefined;
     onSortChange(key, nextDir);
   };
 
@@ -45,17 +46,27 @@ export const TableHeader = <T,>({
         />
       )
     }
-    return tableState.sortOrder === 'asc'
-      ? <Icon
+    if (tableState.sortOrder === 'asc') {
+      return <Icon
         size={14}
         icon={ArrowUp}
         decorative
-      />
-      : <Icon
+      />;
+    }
+
+    if (tableState.sortOrder === 'desc') {
+      return <Icon
         size={14}
         icon={ArrowDown}
         decorative
-      />
+      />;
+    }
+
+    return <Icon
+      size={14}
+      icon={ArrowUpDown}
+      decorative
+    />;
   };
 
   return (
@@ -76,24 +87,23 @@ export const TableHeader = <T,>({
             scope="col"
             aria-sort={
               tableState.sortBy === col.key
-                ? (tableState.sortOrder === 'asc' ? 'ascending' : 'descending')
+                ? (tableState.sortOrder === 'asc' ? 'ascending' : tableState.sortOrder === 'desc' ? 'descending' : 'none')
                 : 'none'
             }
           >
-            <div className={styles.headerCell}>
+            <button
+              type="button"
+              className={`${styles.headerCell} ${col.sortable ? styles.sortTrigger : ''}`}
+              onClick={col.sortable ? () => handleSort(col.key) : undefined}
+              aria-label={col.sortable ? `${String(col.label)} sutununu sirala` : undefined}
+              disabled={!col.sortable}
+            >
               <span className={styles.headerTitle}>{col.label}</span>
 
               {col.sortable && (
-                <button
-                  type="button"
-                  className={styles.sortTrigger}
-                  onClick={() => handleSort(col.key)}
-                  aria-label={`${String(col.label)} sütununu sırala`}
-                >
-                  {getSortIcon(col.key)}
-                </button>
+                getSortIcon(col.key)
               )}
-            </div>
+            </button>
           </th>
         ))}
         {hasActions && <th scope="col">İşlemler</th>}

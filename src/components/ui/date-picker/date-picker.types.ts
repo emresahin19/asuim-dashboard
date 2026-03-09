@@ -1,4 +1,5 @@
 import { DateRange } from 'react-day-picker';
+import { InputSize } from '../input/input.types';
 
 export type DatePickerMode = 'single' | 'range';
 
@@ -17,6 +18,7 @@ export interface DatePickerProps {
   
   // UI
   className?: string;
+  size?: InputSize;
   fullWidth?: boolean;
   showPresets?: boolean; // "Son 7 gün" gibi butonlar
   startYear?: number;

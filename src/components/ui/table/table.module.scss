@@ -148,6 +148,8 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  background-color: transparent;
+  border: none;
 }
 
 .headerTitle {
@@ -172,9 +174,15 @@
   color: inherit;
   display: inline-flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   cursor: pointer;
   padding: 0;
+  width: 100%;
+  text-align: left;
+
+  &:disabled {
+    cursor: default;
+  }
 }
 
 .headerContent {
@@ -190,13 +198,6 @@
       color: var(--table-input-focus);
     }
   }
-}
-
-.filterInput {
-  // --state-border-color: transparent;
-  // --select-border: transparent;
-  --dp-bg: var(--color-bg-subtle-active) !important;
-  --dp-placeholder: var(--table-text) !important;
 }
 
 .pagination {
@@ -250,6 +251,14 @@
     opacity: 0.5;
     cursor: not-allowed;
   }
+}
+
+.ellipsisBtn {
+  border-color: transparent;
+  background: transparent;
+  opacity: 1 !important;
+  cursor: default;
+  pointer-events: none;
 }
 
 .perPageSelect {

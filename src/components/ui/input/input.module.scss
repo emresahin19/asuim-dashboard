@@ -129,6 +129,26 @@
     opacity: 1;
   }
 
+  // Keep browser autofill colors aligned with theme tokens.
+  &:-webkit-autofill,
+  &:-webkit-autofill:hover,
+  &:-webkit-autofill:focus,
+  &:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px var(--state-bg-color) inset !important;
+    -webkit-text-fill-color: var(--input-text) !important;
+    border-color: var(--state-border-color) !important;
+    caret-color: var(--input-text);
+    transition: background-color 5000s ease-in-out 0s;
+    font-family: inherit !important;
+  }
+
+  &:autofill {
+    box-shadow: 0 0 0 1000px var(--state-bg-color) inset;
+    -webkit-text-fill-color: var(--input-text);
+    border-color: var(--state-border-color);
+    caret-color: var(--input-text);
+  }
+
   &[type="number"] {
     appearance: textfield;
     -moz-appearance: textfield;
@@ -325,7 +345,7 @@ textarea.inputControl {
 
 .floating {
   --state-bg-color: var(--color-bg-subtle-active);
-  
+
   &.sm {
     --floating-pt: var(--input-floating-pt-sm);
     --floating-pb: var(--input-floating-pb-sm);
