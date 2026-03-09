@@ -16,7 +16,7 @@ export interface SelectGroup {
 }
 
 export type SelectValue = SelectOption | SelectOption[] | null;
-export type SelectVariant = 'default' | 'floating';
+export type SelectVariant = 'default' | 'floating' | 'lite';
 
 export interface SelectProps {
   // Data
@@ -29,7 +29,6 @@ export interface SelectProps {
   isSearchable?: boolean;
   isClearable?: boolean;
   isLoading?: boolean;
-  hasIndicator?: boolean;
   
   // UI
   label?: string;

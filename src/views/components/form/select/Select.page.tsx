@@ -106,7 +106,7 @@ export default function InputsPage() {
                                 options={FRAMEWORKS}
                                 value={singleValue}
                                 onChange={setSingleValue}
-                                hasIndicator={false}
+                                variant="lite"
                             />
                         </div>
                     </Card>
@@ -135,6 +135,17 @@ export default function InputsPage() {
                                 isSearchable={false}
                                 label="Multi Select (No Search)"
                                 placeholder="Listeden seç..."
+                                options={FRAMEWORKS}
+                                value={multiValue}
+                                onChange={setMultiValue}
+                            />
+                            
+                            <Select
+                                isMulti
+                                isSearchable
+                                variant="lite"
+                                label="Multi Select (Lite)"
+                                placeholder="Teknolojileri ekle..."
                                 options={FRAMEWORKS}
                                 value={multiValue}
                                 onChange={setMultiValue}

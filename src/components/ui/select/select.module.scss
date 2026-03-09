@@ -136,12 +136,20 @@
   pointer-events: none;
 }
 
+.liteSummary {
+  color: var(--select-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  pointer-events: none;
+}
+
 .input {
   background: transparent;
   border: none;
   color: var(--select-text);
   min-width: 2px;
-  width: 100%; // Varsayılan olarak genişler
   outline: none;
   padding: 0;
   margin: 0;
@@ -194,6 +202,7 @@
   align-items: center;
   gap: 6px;
   padding-right: var(--select-px);
+  height: 100%;
 }
 
 .indicator {
@@ -213,8 +222,9 @@
 
 .separator {
   width: 1px;
-  height: 20px;
-  background-color: var(--select-border);
+  height: 50%;
+  opacity: 0.3;
+  background-color: var(--color-text-muted);
 }
 
 .spinner {
@@ -371,4 +381,15 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+}
+
+.lite {
+  .valueContainer {
+    flex-wrap: nowrap;
+    overflow: hidden;
+  }
+
+  .input {
+    min-width: 1px;
+  }
 }

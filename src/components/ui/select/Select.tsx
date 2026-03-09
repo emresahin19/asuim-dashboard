@@ -29,7 +29,6 @@ export const Select = ({
   disabled = false,
   size = 'md',
   variant = 'default',
-  hasIndicator = true,
   className = ''
 }: SelectProps) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -40,9 +39,17 @@ export const Select = ({
   const menuId = `${uniqueId}-menu`;
   const errorId = typeof error === 'string' ? `${uniqueId}-error` : undefined;
   const isFloating = variant === 'floating' && !!label;
+  const isLiteMulti = variant === 'lite' && isMulti;
+  const selectedValues = isMulti && Array.isArray(value) ? value : [];
   const hasSelection = isMulti
-    ? Array.isArray(value) && value.length > 0
+    ? selectedValues.length > 0
     : !!value;
+  const selectedCount = selectedValues.length;
+  const liteSummaryText = selectedCount >= 2
+    ? `${selectedCount} items selected`
+    : selectedCount === 1
+      ? selectedValues[0].label
+      : '';
 
   useClickOutside(containerRef as React.RefObject<HTMLDivElement>, () => setIsOpen(false));
 
@@ -133,7 +140,7 @@ export const Select = ({
       aria-disabled={option.disabled || undefined}
     >
       {renderOptionLabel(option)}
-      {/* {isSelected(option) && <Icon icon={Check} size={16} className={styles.checkIcon} decorative />} */}
+      {isLiteMulti && isSelected(option) && <Icon icon={Check} size={16} className={styles.checkIcon} decorative />}
     </div>
   );
 
@@ -170,7 +177,7 @@ export const Select = ({
 
         <div className={styles.valueContainer}>
           {/* MULTI: Chips */}
-          {isMulti && Array.isArray(value) && value.map(val => (
+          {isMulti && !isLiteMulti && selectedValues.map(val => (
             <span key={val.value} className={styles.chip}>
               {val.label}
               <button
@@ -184,7 +191,11 @@ export const Select = ({
             </span>
           ))}
 
-          {!isMulti && selectedSingle && !searchTerm && (
+          {isLiteMulti && !searchTerm && liteSummaryText && (
+            <span className={styles.liteSummary}>{liteSummaryText}</span>
+          )}
+
+          {selectedSingle && !searchTerm && (
             <span className={styles.singleValue}>{renderOptionLabel(selectedSingle)}</span>
           )}
 
@@ -220,7 +231,7 @@ export const Select = ({
         </div>
 
         {/* INDICATORS (Sağ Taraf) */}
-        {hasIndicator && (
+        {isLiteMulti && (
           <div className={styles.indicators}>
             {isClearable && value && (
               (Array.isArray(value) ? value.length > 0 : true)
