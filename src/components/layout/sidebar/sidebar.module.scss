@@ -12,6 +12,7 @@
   color: var(--color-sidebar-text);
 
   transform: var(--layout-transform);
+  transition: var(--layout-transition) transform ,var(--layout-transition) background, var(--layout-transition) color;
   z-index: 200;
 
   box-shadow: var(--layout-box-shadow);
