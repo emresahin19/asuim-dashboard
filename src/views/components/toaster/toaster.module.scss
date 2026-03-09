@@ -92,6 +92,82 @@
   }
 }
 
+.variantToneGroups {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.variantGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  padding: 0.75rem;
+  border: 1px solid var(--color-border-soft);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--color-bg-card) 88%, transparent);
+
+  h3 {
+    margin: 0;
+    font-size: 0.875rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: capitalize;
+    color: var(--color-text-muted);
+  }
+}
+
+.toneGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.toneButton {
+  appearance: none;
+  border: 1px solid var(--tone-border, var(--color-border));
+  border-radius: 9px;
+  background: transparent;
+  color: var(--color-text);
+  min-height: 36px;
+  padding: 0.45rem 0.7rem;
+  text-transform: capitalize;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.16s ease, background-color 0.16s ease, transform 0.16s ease;
+
+  &:hover {
+    border-color: var(--tone-border, var(--color-accent));
+    background: color-mix(in srgb, var(--tone-border, var(--color-accent)) 6%, transparent);
+    transform: translateY(-1px);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--tone-border, var(--color-focus-ring));
+    outline-offset: 2px;
+  }
+}
+
+.toneDefault {
+  --tone-border: var(--color-border-strong);
+}
+
+.toneInfo {
+  --tone-border: var(--color-info);
+}
+
+.toneSuccess {
+  --tone-border: var(--color-success);
+}
+
+.toneWarning {
+  --tone-border: var(--color-warning);
+}
+
+.toneDanger {
+  --tone-border: var(--color-danger);
+}
+
 @media (min-width: 768px) {
   .heroCard {
     padding: 1.5rem;
@@ -107,6 +183,10 @@
 
   .comboGrid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .toneGrid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
   }
 
   .positionGrid {

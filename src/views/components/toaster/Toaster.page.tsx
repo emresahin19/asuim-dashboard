@@ -6,6 +6,14 @@ import styles from "./toaster.module.scss";
 
 const variants: ToastVariant[] = ["soft", "outline", "solid"];
 const tones: ToastTone[] = ["default", "info", "success", "warning", "danger"];
+
+const toneStyleMap: Record<ToastTone, string> = {
+  default: "toneDefault",
+  info: "toneInfo",
+  success: "toneSuccess",
+  warning: "toneWarning",
+  danger: "toneDanger",
+};
 const positions: ToastPosition[] = [
   "top-left",
   "top-center",
@@ -116,28 +124,34 @@ export default function ToasterPage() {
           <Card className={styles.sectionCard}>
             <div className={styles.sectionHead}>
               <h2>Variants x Tones</h2>
-              <p>Her variant ve tone kombinasyonunu tek tikla test et</p>
+              <p>Her variant altinda tone seceneklerini border rengiyle test et</p>
             </div>
 
-            <div className={styles.comboGrid}>
-              {variants.map((variant) =>
-                tones.map((tone) => (
-                  <button
-                    key={`${variant}-${tone}`}
-                    type="button"
-                    className={styles.actionButton}
-                    onClick={() =>
-                      toaster.show(sampleTextByTone[tone], {
-                        title: `${variant.toUpperCase()} / ${tone.toUpperCase()}`,
-                        tone,
-                        variant,
-                      })
-                    }
-                  >
-                    {variant} / {tone}
-                  </button>
-                )),
-              )}
+            <div className={styles.variantToneGroups}>
+              {variants.map((variant) => (
+                <section key={variant} className={styles.variantGroup}>
+                  <h3>{variant}</h3>
+
+                  <div className={styles.toneGrid}>
+                    {tones.map((tone) => (
+                      <button
+                        key={`${variant}-${tone}`}
+                        type="button"
+                        className={`${styles.toneButton} ${styles[toneStyleMap[tone]]}`}
+                        onClick={() =>
+                          toaster.show(sampleTextByTone[tone], {
+                            title: `${variant.toUpperCase()} / ${tone.toUpperCase()}`,
+                            tone,
+                            variant,
+                          })
+                        }
+                      >
+                        {tone}
+                      </button>
+                    ))}
+                  </div>
+                </section>
+              ))}
             </div>
           </Card>
         </GridItem>

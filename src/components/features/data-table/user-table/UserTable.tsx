@@ -190,7 +190,7 @@ export const UserTable = () => {
   };
 
   return (
-    <div style={{ padding: '2rem' }}>
+    <>
       <h2 style={{ marginBottom: '1rem', fontSize: '1.5rem', fontWeight: 'bold' }}>
         Kullanıcı Yönetimi
       </h2>
@@ -233,6 +233,6 @@ export const UserTable = () => {
           </div>
         )}
       />
-    </div>
+    </>
   );
 };
