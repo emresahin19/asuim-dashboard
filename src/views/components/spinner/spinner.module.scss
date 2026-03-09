@@ -142,6 +142,15 @@
   overflow: hidden;
 }
 
+.staticFrame {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  white-space: pre;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
 .fitHint {
   margin: -0.25rem 0 0;
   color: var(--color-warning, #f59e0b);

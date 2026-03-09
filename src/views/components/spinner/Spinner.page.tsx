@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { MutableRefObject, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Card, Grid, GridItem, Input, Range, Select, SelectOption, SelectValue, Spinner } from '@/components';
 import { SpinnerName, spinnerMap } from '@/components/ui/spinner/spinner.data';
 
@@ -25,15 +25,117 @@ const colorOptions: SelectOption[] = [
 
 const spinnerEntries = Object.entries(spinnerMap) as SpinnerEntry[];
 
+type SpinnerCardProps = {
+  name: SpinnerName;
+  spinner: (typeof spinnerMap)[SpinnerName];
+  spinnerColor: string;
+  speedMultiplier: number;
+  smallSize: number;
+  mediumSize: number;
+  largeSize: number;
+  fitInfo?: SpinnerFitInfo;
+  attachProbeRef?: boolean;
+  previewProbeRef: MutableRefObject<HTMLSpanElement | null>;
+  isPageVisible: boolean;
+  isVisible: boolean;
+  onCardRef: (element: HTMLDivElement | null) => void;
+};
+
+function SpinnerCard({
+  name,
+  spinner,
+  spinnerColor,
+  speedMultiplier,
+  smallSize,
+  mediumSize,
+  largeSize,
+  fitInfo,
+  attachProbeRef = false,
+  previewProbeRef,
+  isPageVisible,
+  isVisible,
+  onCardRef,
+}: SpinnerCardProps) {
+  const shouldAnimate = isVisible && isPageVisible;
+
+  return (
+    <div ref={onCardRef}>
+      <Card className={styles.spinnerCard}>
+      <div className={styles.cardHead}>
+        <p className={styles.spinnerName}>{name}</p>
+        <p className={styles.spinnerMeta}>
+          {spinner.frames.length} frame / {spinner.interval}ms
+        </p>
+      </div>
+
+      <div className={styles.previewRow} data-overflow={fitInfo?.fits === false}>
+        <span className={styles.previewCell} ref={attachProbeRef ? previewProbeRef : undefined}>
+          {shouldAnimate ? (
+            <Spinner
+              name={name}
+              size={smallSize}
+              color={spinnerColor}
+              speedMultiplier={speedMultiplier}
+              isActive
+            />
+          ) : (
+            <span className={styles.staticFrame} style={{ fontSize: smallSize, color: spinnerColor }}>
+              {spinner.frames[0]}
+            </span>
+          )}
+        </span>
+        <span className={styles.previewCell}>
+          {shouldAnimate ? (
+            <Spinner
+              name={name}
+              size={mediumSize}
+              color={spinnerColor}
+              speedMultiplier={speedMultiplier}
+              isActive
+            />
+          ) : (
+            <span className={styles.staticFrame} style={{ fontSize: mediumSize, color: spinnerColor }}>
+              {spinner.frames[0]}
+            </span>
+          )}
+        </span>
+        <span className={styles.previewCell}>
+          {shouldAnimate ? (
+            <Spinner
+              name={name}
+              size={largeSize}
+              color={spinnerColor}
+              speedMultiplier={Math.min(4, speedMultiplier * 1.6)}
+              isActive
+            />
+          ) : (
+            <span className={styles.staticFrame} style={{ fontSize: largeSize, color: spinnerColor }}>
+              {spinner.frames[0]}
+            </span>
+          )}
+        </span>
+      </div>
+
+      {fitInfo?.fits === false ? <p className={styles.fitHint}>auto-fit aktif</p> : null}
+      <p className={styles.framePreview}>{spinner.frames.slice(0, 8).join(' ')}</p>
+      </Card>
+    </div>
+  );
+}
+
 export default function SpinnerPage() {
   const [query, setQuery] = useState('');
   const [size, setSize] = useState(24);
   const [speedMultiplier, setSpeedMultiplier] = useState(1);
   const [colorValue, setColorValue] = useState<SelectValue>(colorOptions[0]);
   const [fitMap, setFitMap] = useState<Partial<Record<SpinnerName, SpinnerFitInfo>>>({});
+  const [isPageVisible, setIsPageVisible] = useState(true);
+  const [visibleMap, setVisibleMap] = useState<Partial<Record<SpinnerName, boolean>>>({});
 
   const measureTextRef = useRef<HTMLSpanElement | null>(null);
   const previewProbeRef = useRef<HTMLSpanElement | null>(null);
+  const observerRef = useRef<IntersectionObserver | null>(null);
+  const cardElementsRef = useRef(new Map<SpinnerName, HTMLDivElement>());
 
   const filteredEntries = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase();
@@ -129,6 +231,78 @@ export default function SpinnerPage() {
     return () => observer.disconnect();
   }, [measureFits]);
 
+  useEffect(() => {
+    const handleVisibility = () => {
+      setIsPageVisible(!document.hidden);
+    };
+
+    handleVisibility();
+    document.addEventListener('visibilitychange', handleVisibility);
+
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibility);
+    };
+  }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        setVisibleMap((previous) => {
+          let changed = false;
+          const next = { ...previous };
+
+          for (const entry of entries) {
+            const spinnerName = (entry.target as HTMLElement).dataset.spinnerName as SpinnerName | undefined;
+
+            if (!spinnerName) {
+              continue;
+            }
+
+            if (next[spinnerName] !== entry.isIntersecting) {
+              next[spinnerName] = entry.isIntersecting;
+              changed = true;
+            }
+          }
+
+          return changed ? next : previous;
+        });
+      },
+      {
+        root: null,
+        rootMargin: '80px 0px',
+        threshold: 0,
+      },
+    );
+
+    observerRef.current = observer;
+
+    cardElementsRef.current.forEach((element) => {
+      observer.observe(element);
+    });
+
+    return () => {
+      observer.disconnect();
+      observerRef.current = null;
+    };
+  }, []);
+
+  const bindCardRef = useCallback((name: SpinnerName, element: HTMLDivElement | null) => {
+    const currentElement = cardElementsRef.current.get(name);
+
+    if (currentElement && currentElement !== element) {
+      observerRef.current?.unobserve(currentElement);
+      cardElementsRef.current.delete(name);
+    }
+
+    if (!element) {
+      return;
+    }
+
+    element.dataset.spinnerName = name;
+    cardElementsRef.current.set(name, element);
+    observerRef.current?.observe(element);
+  }, []);
+
   return (
     <div className={styles.page}>
       <div className={styles.measureLayer} aria-hidden>
@@ -211,34 +385,22 @@ export default function SpinnerPage() {
           const largeSize = Math.max(10, Math.floor((size + 8) * scale));
 
           return (
-          <Card key={name} className={styles.spinnerCard}>
-            <div className={styles.cardHead}>
-              <p className={styles.spinnerName}>{name}</p>
-              <p className={styles.spinnerMeta}>
-                {spinner.frames.length} frame / {spinner.interval}ms
-              </p>
-            </div>
-
-            <div className={styles.previewRow} data-overflow={fitInfo?.fits === false}>
-              <span className={styles.previewCell} ref={index === 0 ? previewProbeRef : undefined}>
-                <Spinner name={name} size={smallSize} color={spinnerColor} speedMultiplier={speedMultiplier} />
-              </span>
-              <span className={styles.previewCell}>
-                <Spinner name={name} size={mediumSize} color={spinnerColor} speedMultiplier={speedMultiplier} />
-              </span>
-              <span className={styles.previewCell}>
-                <Spinner
-                  name={name}
-                  size={largeSize}
-                  color={spinnerColor}
-                  speedMultiplier={Math.min(4, speedMultiplier * 1.6)}
-                />
-              </span>
-            </div>
-
-            {fitInfo?.fits === false ? <p className={styles.fitHint}>auto-fit aktif</p> : null}
-            <p className={styles.framePreview}>{spinner.frames.slice(0, 8).join(' ')}</p>
-          </Card>
+            <SpinnerCard
+              key={name}
+              name={name}
+              spinner={spinner}
+              spinnerColor={spinnerColor}
+              speedMultiplier={speedMultiplier}
+              smallSize={smallSize}
+              mediumSize={mediumSize}
+              largeSize={largeSize}
+              fitInfo={fitInfo}
+              attachProbeRef={index === 0}
+              previewProbeRef={previewProbeRef}
+              isPageVisible={isPageVisible}
+              isVisible={visibleMap[name] ?? false}
+              onCardRef={(element) => bindCardRef(name, element)}
+            />
           );
         })}
       </div>

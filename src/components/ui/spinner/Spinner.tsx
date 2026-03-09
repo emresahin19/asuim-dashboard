@@ -12,6 +12,7 @@ type SpinnerProps = {
     size?: number
     color?: string
     speedMultiplier?: number
+    isActive?: boolean
     className?: string
 }
 
@@ -20,6 +21,7 @@ export function Spinner({
     size = 16,
     color = 'currentColor',
     speedMultiplier = 1,
+    isActive = true,
     className,
 }: SpinnerProps) {
     const spinner = spinnerMap[name]
@@ -31,12 +33,16 @@ export function Spinner({
     const [frameIndex, setFrameIndex] = useState(0)
 
     useEffect(() => {
+        if (!isActive) {
+            return
+        }
+
         const id = setInterval(() => {
             setFrameIndex((i) => (i + 1) % spinner.frames.length)
         }, interval)
 
         return () => clearInterval(id)
-    }, [interval, spinner.frames.length])
+    }, [interval, isActive, spinner.frames.length])
 
     return (
         <span

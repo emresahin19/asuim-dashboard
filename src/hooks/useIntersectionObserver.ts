@@ -1,11 +1,11 @@
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
 type IntersectionObserverHookProps = {
     callback: (entries: IntersectionObserverEntry[], observer: IntersectionObserver,) => void;
     options?: IntersectionObserverInit;
 };
 
-function useIntersectionObserver<T extends HTMLElement>({
+export function useIntersectionObserver<T extends HTMLElement>({
     callback,
     options,
 }: IntersectionObserverHookProps): {
@@ -34,23 +34,23 @@ function useIntersectionObserver<T extends HTMLElement>({
     }, [callback, options]);
 
     
-    const observe = (element: T | null) => {
+    const observe = useCallback((element: T | null) => {
         if (element) {
             elementsRef.current.add(element);
             if (observer.current) {
                 observer.current.observe(element);
             }
         }
-    };
+    }, []);
 
-    const unobserve = (element: T | null) => {
+    const unobserve = useCallback((element: T | null) => {
         if (element) {
             elementsRef.current.delete(element);
             if (observer.current) {
                 observer.current.unobserve(element);
             }
         }
-    };
+    }, []);
 
     return { observe, unobserve };
 }
