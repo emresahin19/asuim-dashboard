@@ -28,8 +28,11 @@ export const UserTable = () => {
     hasPrevPage: false,
   });
 
+  const globalSearchFields: Array<keyof IUser> = ['fullName', 'email'];
+
   const fetchUsers = useCallback(async () => {
     setIsLoading(true);
+    await new Promise((resolve) => setTimeout(resolve, 500));
     try {
       const params = {
         page: String(tableState.page),
@@ -37,6 +40,7 @@ export const UserTable = () => {
         orderBy: String(tableState.sortBy || 'id'),
         orderDirection: tableState.sortOrder === 'desc' ? 'DESC' : 'ASC',
         search: tableState.globalSearch || '',
+        searchFields: globalSearchFields.join(','),
         role: tableState.filters.role || '',
         status: tableState.filters.status || '',
         idRange: tableState.filters.id || '',
@@ -185,59 +189,11 @@ export const UserTable = () => {
     });
   };
 
-  const handleCopyEmail = async (item: IUser) => {
-    try {
-      await navigator.clipboard.writeText(item.email);
-      toaster.success(`${item.email} panoya kopyalandi`, {
-        title: 'E-posta kopyalandi',
-      });
-    } catch {
-      toaster.danger('E-posta kopyalanamadi', {
-        title: 'Pano hatasi',
-      });
-    }
-  };
-
-  const handlePromoteRole = (item: IUser) => {
-    setData((prev) =>
-      prev.map((entry) => {
-        if (entry.id !== item.id) return entry;
-
-        const nextRole = entry.role === 'viewer' ? 'editor' : entry.role === 'editor' ? 'admin' : 'admin';
-        return { ...entry, role: nextRole };
-      }),
-    );
-
-    toaster.info(`${item.fullName} icin rol bir ust seviyeye cekildi`, {
-      title: 'Rol guncellendi',
-    });
-  };
-
-  const handleToggleStatus = (item: IUser) => {
-    setData((prev) =>
-      prev.map((entry) => {
-        if (entry.id !== item.id) return entry;
-
-        const nextStatus = entry.status === 'active' ? 'pending' : entry.status === 'pending' ? 'banned' : 'active';
-        return { ...entry, status: nextStatus };
-      }),
-    );
-
-    toaster.show(`${item.fullName} durumu degistirildi`, {
-      title: 'Durum guncellendi',
-      tone: 'info',
-    });
-  };
-
   return (
     <div style={{ padding: '2rem' }}>
       <h2 style={{ marginBottom: '1rem', fontSize: '1.5rem', fontWeight: 'bold' }}>
         Kullanıcı Yönetimi
       </h2>
-
-      <p style={{ marginBottom: '0.75rem', fontSize: '0.875rem', opacity: 0.8 }}>
-        Satira tiklayarak tum detaylari gorebilirsin. Secili kayit: {selectedUsers.length}
-      </p>
 
       <Table<IUser>
         items={data}
@@ -245,52 +201,9 @@ export const UserTable = () => {
         tableState={tableState}
         setTableState={setTableState}
         isLoading={isLoading}
-        globalSearchPlaceholder="Kullanici adi veya e-posta ara"
+        globalSearchFields={globalSearchFields}
         onSelectionChange={setSelectedUsers}
         onEditSave={handleEditSave}
-        renderExpandedRow={(item) => (
-          <div className={styles.detailsCard}>
-            <div className={styles.detailsGrid}>
-              <div>
-                <p className={styles.detailLabel}>ID</p>
-                <p className={styles.detailValue}>#{item.id}</p>
-              </div>
-              <div>
-                <p className={styles.detailLabel}>Ad Soyad</p>
-                <p className={styles.detailValue}>{item.fullName}</p>
-              </div>
-              <div>
-                <p className={styles.detailLabel}>E-Posta</p>
-                <p className={styles.detailValue}>{item.email}</p>
-              </div>
-              <div>
-                <p className={styles.detailLabel}>Rol</p>
-                <p className={styles.detailValue}>{item.role.toUpperCase()}</p>
-              </div>
-              <div>
-                <p className={styles.detailLabel}>Durum</p>
-                <span className={styles.statusBadge} data-status={item.status}>
-                  {item.status}
-                </span>
-              </div>
-              <div>
-                <p className={styles.detailLabel}>Son Giris</p>
-                <p className={styles.detailValue}>{new Date(item.lastLogin).toLocaleString('tr-TR')}</p>
-              </div>
-            </div>
-            <div className={styles.detailsActions}>
-              <button type="button" className={styles.detailActionBtn} onClick={() => handleCopyEmail(item)}>
-                E-postayi Kopyala
-              </button>
-              <button type="button" className={styles.detailActionBtn} onClick={() => handlePromoteRole(item)}>
-                Rolu Yukselt
-              </button>
-              <button type="button" className={styles.detailActionBtn} onClick={() => handleToggleStatus(item)}>
-                Durumu Degistir
-              </button>
-            </div>
-          </div>
-        )}
         renderActionButtons={(item) => (
           <div style={{ display: 'flex', gap: '8px' }}>
             <button

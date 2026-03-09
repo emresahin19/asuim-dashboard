@@ -34,6 +34,7 @@ const getUsers = async (req: NextRequest) => {
   const page = parseInt(searchParams.get('page') || '1');
   const perPage = parseInt(searchParams.get('perPage') || searchParams.get('limit') || '10');
   const search = searchParams.get('search') || ''; // Genel arama
+  const searchFieldsParam = searchParams.get('searchFields') || '';
   const role = searchParams.get('role'); // Özel filtre
   const status = searchParams.get('status');
   const idRange = searchParams.get('idRange') || '';
@@ -42,15 +43,20 @@ const getUsers = async (req: NextRequest) => {
   const orderDirectionRaw = searchParams.get('orderDirection') || searchParams.get('sortOrder') || 'ASC';
   const orderDirection = orderDirectionRaw.toUpperCase() === 'DESC' ? 'DESC' : 'ASC';
 
+  const allowedSearchFields: Array<keyof IUser> = ['id', 'fullName', 'email', 'role', 'status', 'lastLogin'];
+  const searchFields = searchFieldsParam
+    .split(',')
+    .map((field) => field.trim())
+    .filter((field): field is keyof IUser => allowedSearchFields.includes(field as keyof IUser));
+  const effectiveSearchFields: Array<keyof IUser> = searchFields.length > 0 ? searchFields : ['fullName', 'email'];
+
   try {
     let filteredUsers = [...MOCK_USERS];
 
     if (search) {
       const lowerSearch = search.toLowerCase();
-      filteredUsers = filteredUsers.filter(
-        (user) =>
-          user.fullName.toLowerCase().includes(lowerSearch) ||
-          user.email.toLowerCase().includes(lowerSearch)
+      filteredUsers = filteredUsers.filter((user) =>
+        effectiveSearchFields.some((field) => String(user[field]).toLowerCase().includes(lowerSearch))
       );
     }
 

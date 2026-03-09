@@ -55,11 +55,12 @@ export const TableHeader = <T,>({
         size={14}
         icon={ArrowDown}
         decorative
-      />;
+      />
   };
 
   return (
-    <tr>
+    <thead>
+      <tr>
         {enableRowSelection && (
           <th scope="col" className={styles.checkboxCol}>
             <Checkbox
@@ -96,6 +97,8 @@ export const TableHeader = <T,>({
           </th>
         ))}
         {hasActions && <th scope="col">İşlemler</th>}
-    </tr>
+      </tr>
+    </thead>
+
   );
 };

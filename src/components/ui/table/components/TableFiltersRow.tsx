@@ -84,6 +84,7 @@ export const TableFiltersRow = <T,>({
             return (
               <Select
                 options={column.options || []}
+                className={styles.filterInput}
                 isMulti={filterType === 'multiSelect'}
                 variant={'lite'}
                 value={filterType === 'multiSelect' ? selectedMulti : selectedOption || null}
@@ -118,10 +119,11 @@ export const TableFiltersRow = <T,>({
           if (filterType === 'date') {
             return (
               <DatePicker
+                className={styles.filterInput}
                 value={currentValue ? new Date(currentValue) : undefined}
                 placeholder={column.filterPlaceholder || `${column.label} sec`}
                 onChange={
-                    (date) => onFilterChange?.(column.key, date instanceof Date ? normalizeDate(date) : '')
+                  (date) => onFilterChange?.(column.key, date instanceof Date ? normalizeDate(date) : '')
                 }
               />
             );
@@ -131,24 +133,23 @@ export const TableFiltersRow = <T,>({
             const [fromValue, toValue] = currentValue.split(RANGE_SEPARATOR);
 
             return (
-              <div className={styles.rangeGrid}>
-                <DatePicker
-                  value={{
-                    from: fromValue ? new Date(fromValue) : undefined,
-                    to: toValue ? new Date(toValue) : undefined,
-                  }}
-                  mode="range"
-                  onChange={(dates) => {
-                    if (!dates || !('from' in dates) || !('to' in dates)) {
-                        onFilterChange?.(column.key, '');
-                        return;
-                    }
-                    const nextFrom = dates.from instanceof Date ? normalizeDate(dates.from) : '';
-                    const nextTo = dates.to instanceof Date ? normalizeDate(dates.to) : '';
-                    onFilterChange?.(column.key, `${nextFrom}${RANGE_SEPARATOR}${nextTo}`);
-                  }}
-                />
-              </div>
+              <DatePicker
+                className={styles.filterInput}
+                value={{
+                  from: fromValue ? new Date(fromValue) : undefined,
+                  to: toValue ? new Date(toValue) : undefined,
+                }}
+                mode="range"
+                onChange={(dates) => {
+                  if (!dates || !('from' in dates) || !('to' in dates)) {
+                    onFilterChange?.(column.key, '');
+                    return;
+                  }
+                  const nextFrom = dates.from instanceof Date ? normalizeDate(dates.from) : '';
+                  const nextTo = dates.to instanceof Date ? normalizeDate(dates.to) : '';
+                  onFilterChange?.(column.key, `${nextFrom}${RANGE_SEPARATOR}${nextTo}`);
+                }}
+              />
             );
           }
 
@@ -158,6 +159,7 @@ export const TableFiltersRow = <T,>({
             return (
               <div className={styles.rangeGrid}>
                 <Input
+                  className={styles.filterInput}
                   type="number"
                   value={minValue || ''}
                   placeholder="Min"
@@ -167,6 +169,7 @@ export const TableFiltersRow = <T,>({
                   }
                 />
                 <Input
+                  className={styles.filterInput}
                   type="number"
                   value={maxValue || ''}
                   placeholder="Max"
@@ -181,6 +184,7 @@ export const TableFiltersRow = <T,>({
 
           return (
             <Input
+              className={styles.filterInput}
               type="text"
               value={currentValue}
               size="sm"

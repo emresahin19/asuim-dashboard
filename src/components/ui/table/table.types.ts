@@ -57,6 +57,7 @@ export interface TableProps<T> {
   renderExpandedRow?: (item: T) => React.ReactNode;
   enableRowSelection?: boolean;
   enableGlobalSearch?: boolean;
+  globalSearchFields?: Array<keyof T>;
   globalSearchPlaceholder?: string;
   getRowId?: (item: T, index: number) => TableRowId;
   onSelectionChange?: (rows: T[]) => void;
