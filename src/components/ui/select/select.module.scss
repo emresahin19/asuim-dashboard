@@ -389,7 +389,11 @@
     overflow: hidden;
   }
 
-  .input {
+  input {
     min-width: 1px;
+  }
+
+  .liteSummary + input {
+    display: none;
   }
 }

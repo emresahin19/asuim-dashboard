@@ -103,6 +103,34 @@
   min-width: 280px;
 }
 
+.toolbarFilterDropdown {
+  position: relative;
+  min-width: fit-content;
+}
+
+.toolbarFilterDropdownOpen {
+  z-index: var(--z-index-popover, 30);
+}
+
+.toolbarFilterTrigger {
+  width: 100%;
+}
+
+.toolbarFilterDropdownMenu {
+  position: absolute;
+  top: calc(100% + 0.4rem);
+  right: 0;
+  min-width: 220px;
+  width: max-content;
+  max-width: min(90vw, 460px);
+
+  background: var(--table-bg);
+  border: 1px solid var(--table-border);
+  border-radius: var(--table-radius);
+  box-shadow: var(--card-shadow);
+  padding: 0.65rem;
+}
+
 .selectionText {
   font-size: 0.8rem;
   color: var(--table-text-muted);
@@ -256,6 +284,13 @@
   .toolbarFilterItem,
   .toolbarFilterRange {
     min-width: 100%;
+  }
+
+  .toolbarFilterDropdownMenu {
+    position: static;
+    width: 100%;
+    max-width: 100%;
+    margin-top: 0.4rem;
   }
 
   .pagination {

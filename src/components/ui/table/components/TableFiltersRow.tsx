@@ -1,8 +1,12 @@
 "use client";
 
+import { RefObject, useRef, useState } from 'react';
+import { Button } from '@/components/ui/button';
 import { DatePicker } from '@/components/ui/date-picker';
 import { Input } from '@/components/ui/input';
 import { Select } from '@/components/ui/select';
+import { useClickOutside } from '@/hooks/useClickOutside';
+import { clsx } from '@/utils';
 import { TableColumn, TableState } from '../table.types';
 import styles from '../table.module.scss';
 
@@ -32,15 +36,32 @@ export const TableFiltersRow = <T,>({
   tableState,
   onFilterChange,
 }: FiltersRowProps<T>) => {
+  const [openFilterKey, setOpenFilterKey] = useState<keyof T | null>(null);
+  const filtersRef = useRef<HTMLDivElement>(null);
   const visibleColumns = columns.filter((column) => column.isVisible !== false);
   const hasAnyFilter = visibleColumns.some((column) => column.filterable);
+
+  useClickOutside(filtersRef as RefObject<HTMLDivElement>, () => {
+    setOpenFilterKey(null);
+  });
+
+  const isFilterActive = (value: string, filterType: ReturnType<typeof resolveFilterType>) => {
+    if (!value) return false;
+
+    if (filterType === 'numberRange' || filterType === 'dateRange') {
+      const [fromValue, toValue] = value.split(RANGE_SEPARATOR);
+      return Boolean(fromValue || toValue);
+    }
+
+    return true;
+  };
 
   if (!hasAnyFilter) {
     return null;
   }
 
   return (
-    <div className={styles.toolbarFilters}>
+    <div ref={filtersRef} className={styles.toolbarFilters}>
       {visibleColumns.map((column) => {
         const currentValue = String(tableState.filters[column.key] ?? '');
 
@@ -49,22 +70,26 @@ export const TableFiltersRow = <T,>({
         }
 
         const filterType = resolveFilterType(column);
+        const isOpen = openFilterKey === column.key;
+        const active = isFilterActive(currentValue, filterType);
 
-        if (filterType === 'select' || filterType === 'multiSelect') {
-          const currentValues = filterType === 'multiSelect'
-            ? currentValue.split(',').map((entry) => entry.trim()).filter(Boolean)
-            : [];
-          const selectedOption = column.options?.find((opt) => String(opt.value) === currentValue);
-          const selectedMulti = (column.options || []).filter((opt) => currentValues.includes(String(opt.value)));
+        const renderFilterControl = () => {
+          if (filterType === 'select' || filterType === 'multiSelect') {
+            const currentValues = filterType === 'multiSelect'
+              ? currentValue.split(',').map((entry) => entry.trim()).filter(Boolean)
+              : [];
+            const selectedOption = column.options?.find((opt) => String(opt.value) === currentValue);
+            const selectedMulti = (column.options || []).filter((opt) => currentValues.includes(String(opt.value)));
 
-          return (
-            <div key={`filter-${String(column.key)}`} className={styles.toolbarFilterItem}>
+            return (
               <Select
                 options={column.options || []}
                 isMulti={filterType === 'multiSelect'}
+                variant={'lite'}
                 value={filterType === 'multiSelect' ? selectedMulti : selectedOption || null}
                 placeholder={column.filterPlaceholder || `${column.label} sec`}
                 isClearable
+                size='sm'
                 onChange={(value) => {
                   if (filterType === 'multiSelect') {
                     if (!Array.isArray(value)) {
@@ -87,27 +112,23 @@ export const TableFiltersRow = <T,>({
                   onFilterChange?.(column.key, value ? String(value.value) : '');
                 }}
               />
-            </div>
-          );
-        }
+            );
+          }
 
-        if (filterType === 'date') {
-          return (
-            <div key={`filter-${String(column.key)}`} className={styles.toolbarFilterItem}>
+          if (filterType === 'date') {
+            return (
               <DatePicker
                 value={currentValue ? new Date(currentValue) : undefined}
                 placeholder={column.filterPlaceholder || `${column.label} sec`}
                 onChange={(date) => onFilterChange?.(column.key, date instanceof Date ? normalizeDate(date) : '')}
               />
-            </div>
-          );
-        }
+            );
+          }
 
-        if (filterType === 'dateRange') {
-          const [fromValue, toValue] = currentValue.split(RANGE_SEPARATOR);
+          if (filterType === 'dateRange') {
+            const [fromValue, toValue] = currentValue.split(RANGE_SEPARATOR);
 
-          return (
-            <div key={`filter-${String(column.key)}`} className={`${styles.toolbarFilterItem} ${styles.toolbarFilterRange}`}>
+            return (
               <div className={styles.rangeGrid}>
                 <DatePicker
                   value={{
@@ -123,20 +144,19 @@ export const TableFiltersRow = <T,>({
                   }}
                 />
               </div>
-            </div>
-          );
-        }
+            );
+          }
 
-        if (filterType === 'numberRange') {
-          const [minValue, maxValue] = currentValue.split(RANGE_SEPARATOR);
+          if (filterType === 'numberRange') {
+            const [minValue, maxValue] = currentValue.split(RANGE_SEPARATOR);
 
-          return (
-            <div key={`filter-${String(column.key)}`} className={`${styles.toolbarFilterItem} ${styles.toolbarFilterRange}`}>
+            return (
               <div className={styles.rangeGrid}>
                 <Input
                   type="number"
                   value={minValue || ''}
                   placeholder="Min"
+                  size="sm"
                   onChange={(event) =>
                     onFilterChange?.(column.key, `${event.target.value}${RANGE_SEPARATOR}${maxValue || ''}`)
                   }
@@ -145,24 +165,57 @@ export const TableFiltersRow = <T,>({
                   type="number"
                   value={maxValue || ''}
                   placeholder="Max"
+                  size="sm"
                   onChange={(event) =>
                     onFilterChange?.(column.key, `${minValue || ''}${RANGE_SEPARATOR}${event.target.value}`)
                   }
                 />
               </div>
-            </div>
-          );
-        }
+            );
+          }
 
-        return (
-          <div key={`filter-${String(column.key)}`} className={styles.toolbarFilterItem}>
+          return (
             <Input
               type="text"
               value={currentValue}
+              size="sm"
               isClearable
               placeholder={column.filterPlaceholder || `${column.label} ara`}
               onChange={(event) => onFilterChange?.(column.key, event.target.value)}
             />
+          );
+        };
+
+        return (
+          <div
+            key={`filter-${String(column.key)}`}
+            className={clsx(
+              styles.toolbarFilterItem,
+              styles.toolbarFilterDropdown,
+              (filterType === 'numberRange' || filterType === 'dateRange') && styles.toolbarFilterRange,
+              isOpen && styles.toolbarFilterDropdownOpen,
+            )}
+          >
+            <Button
+              type="button"
+              size="sm"
+              variant={active ? 'soft' : 'outline'}
+              color={active ? 'primary' : 'neutral'}
+              className={styles.toolbarFilterTrigger}
+              onClick={() => {
+                setOpenFilterKey((prev) => (prev === column.key ? null : column.key));
+              }}
+              aria-expanded={isOpen}
+              aria-haspopup="dialog"
+            >
+              {column.label}
+            </Button>
+
+            {isOpen ? (
+              <div className={styles.toolbarFilterDropdownMenu} role="dialog" aria-label={`${column.label} filtre`}>
+                {renderFilterControl()}
+              </div>
+            ) : null}
           </div>
         );
       })}

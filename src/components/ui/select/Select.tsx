@@ -231,21 +231,24 @@ export const Select = ({
         </div>
 
         {/* INDICATORS (Sağ Taraf) */}
-        {isLiteMulti && (
-          <div className={styles.indicators}>
-            {isClearable && value && (
-              (Array.isArray(value) ? value.length > 0 : true)
-            ) && (
-                <button type="button" className={styles.indicator} onClick={handleClear} aria-label="Seçimi temizle">
-                  <Icon icon={X} size={16} decorative />
-                </button>
-              )}
-            <div className={styles.separator} />
-            <div className={styles.indicator} aria-hidden="true">
-              {isLoading ? <Icon icon={Loader} size={16} className={styles.spinner} decorative /> : <Icon icon={ChevronDown} size={16} decorative />}
-            </div>
-          </div>
-        )}
+        <div className={styles.indicators}>
+          {isClearable && value && (
+            (Array.isArray(value) ? value.length > 0 : true)
+          ) && (
+              <button type="button" className={styles.indicator} onClick={handleClear} aria-label="Seçimi temizle">
+                <Icon icon={X} size={16} decorative />
+              </button>
+            )}
+          {variant !== 'lite' && (
+            <>
+              <div className={styles.separator} />
+              <div className={styles.indicator} aria-hidden="true">
+                {isLoading ? <Icon icon={Loader} size={16} className={styles.spinner} decorative /> : <Icon icon={ChevronDown} size={16} decorative />}
+              </div>
+            </>
+          )}
+
+        </div>
       </div>
 
       {/* MENU (Dropdown) */}
