@@ -5,14 +5,16 @@ import ArrowUpDown from '@/components/ui/icon/icons/ArrowUpDown'; // Lucide zoru
 import { TableColumn, TableState } from '../table.types';
 import styles from '../table.module.scss';
 import { Icon } from '@/components/ui/icon';
-import { TableFilter } from './TableFilter';
 import { SortOrder } from '@/types';
+import { Checkbox } from '@/components/ui/checkbox';
 
 interface HeaderProps<T> {
   columns: TableColumn<T>[];
   tableState: TableState<T>;
   onSortChange?: (key: keyof T, value: SortOrder) => void;
-  onFilterChange?: (key: keyof T, value: string) => void;
+  enableRowSelection: boolean;
+  isAllRowsSelected: boolean;
+  onToggleAllRows?: (checked: boolean) => void;
   hasActions: boolean;
 }
 
@@ -20,7 +22,9 @@ export const TableHeader = <T,>({
   columns,
   tableState,
   onSortChange,
-  onFilterChange,
+  enableRowSelection,
+  isAllRowsSelected,
+  onToggleAllRows,
   hasActions,
 }: HeaderProps<T>) => {
 
@@ -55,8 +59,16 @@ export const TableHeader = <T,>({
   };
 
   return (
-    <thead>
-      <tr>
+    <tr>
+        {enableRowSelection && (
+          <th scope="col" className={styles.checkboxCol}>
+            <Checkbox
+              checked={isAllRowsSelected}
+              onChange={(event) => onToggleAllRows?.(event.target.checked)}
+              aria-label="Tum satirlari sec"
+            />
+          </th>
+        )}
         {columns.map((col, i) => col.isVisible !== false && (
           <th
             key={`${String(col.key)}-${i}`}
@@ -68,11 +80,7 @@ export const TableHeader = <T,>({
             }
           >
             <div className={styles.headerCell}>
-              <TableFilter
-                column={col}
-                tableState={tableState}
-                onFilterChange={onFilterChange}
-              />
+              <span className={styles.headerTitle}>{col.label}</span>
 
               {col.sortable && (
                 <button
@@ -88,7 +96,6 @@ export const TableHeader = <T,>({
           </th>
         ))}
         {hasActions && <th scope="col">İşlemler</th>}
-      </tr>
-    </thead>
+    </tr>
   );
 };

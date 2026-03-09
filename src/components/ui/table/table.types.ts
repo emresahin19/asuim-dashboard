@@ -1,6 +1,15 @@
 import type { SortOrder } from '@/types';
 
 export type TableFilters<T> = Partial<Record<keyof T, string>>;
+export type TableRowId = string | number;
+export type TableFilterType =
+  | 'text'
+  | 'number'
+  | 'numberRange'
+  | 'date'
+  | 'dateRange'
+  | 'select'
+  | 'multiSelect';
 
 export interface TableState<T> {
   page: number;
@@ -12,6 +21,7 @@ export interface TableState<T> {
   sortBy: keyof T | string | undefined;
   sortOrder: SortOrder | undefined;
   filters: TableFilters<T>;
+  globalSearch?: string;
 }
 
 export interface TableColumn<T> {
@@ -20,6 +30,8 @@ export interface TableColumn<T> {
   icon?: React.ReactNode;
   sortable?: boolean;
   type?: 'text' | 'number' | 'date' | 'datetime' | 'select';
+  filterType?: TableFilterType;
+  filterPlaceholder?: string;
   options?: { label: string; value: string | number }[];
   editable?: boolean;
   filterable?: boolean;
@@ -43,4 +55,9 @@ export interface TableProps<T> {
   onEditCancel?: (item: T) => void;
   renderActionButtons?: (item: T) => React.ReactNode;
   renderExpandedRow?: (item: T) => React.ReactNode;
+  enableRowSelection?: boolean;
+  enableGlobalSearch?: boolean;
+  globalSearchPlaceholder?: string;
+  getRowId?: (item: T, index: number) => TableRowId;
+  onSelectionChange?: (rows: T[]) => void;
 }

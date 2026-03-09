@@ -4,8 +4,14 @@ import X from '@/components/ui/icon/icons/X';
 import { TableColumn, TableProps } from '../table.types';
 import styles from '../table.module.scss';
 import { Icon } from '@/components/ui/icon';
+import { Checkbox } from '@/components/ui/checkbox';
 
-type BodyProps<T> = Pick<TableProps<T>, 'items' | 'columns' | 'onEditChange' | 'onEditSave' | 'onEditCancel' | 'renderActionButtons' | 'renderExpandedRow'>;
+type BodyProps<T> = Pick<TableProps<T>, 'items' | 'columns' | 'onEditChange' | 'onEditSave' | 'onEditCancel' | 'renderActionButtons' | 'renderExpandedRow'> & {
+  enableRowSelection: boolean;
+  selectedRowIds: Array<string | number>;
+  getRowId: (item: T, index: number) => string | number;
+  onRowSelectionChange: (item: T, index: number, checked: boolean) => void;
+};
 
 export const TableBody = <T,>({
   items,
@@ -15,11 +21,15 @@ export const TableBody = <T,>({
   onEditCancel,
   renderActionButtons,
   renderExpandedRow,
+  enableRowSelection,
+  selectedRowIds,
+  getRowId,
+  onRowSelectionChange,
 }: BodyProps<T>) => {
   const [expandedId, setExpandedId] = useState<string | number | null>(null);
 
-  const toggleExpand = (item: any) => {
-    const id = item.id || JSON.stringify(item);
+  const toggleExpand = (item: T, index: number) => {
+    const id = getRowId(item, index);
     setExpandedId(expandedId === id ? null : id);
   };
 
@@ -27,14 +37,27 @@ export const TableBody = <T,>({
     <tbody>
       {items.length === 0 ? (
         <tr>
-          <td colSpan={columns.length + (renderActionButtons ? 1 : 0)} style={{ textAlign: 'center', padding: '2rem' }}>
+          <td colSpan={columns.length + (renderActionButtons ? 1 : 0) + (enableRowSelection ? 1 : 0)} style={{ textAlign: 'center', padding: '2rem' }}>
             Veri bulunamadı.
           </td>
         </tr>
       ) : (
-        items.map((item: any, idx) => (
-          <React.Fragment key={item.id || idx}>
-            <tr onClick={() => renderExpandedRow && toggleExpand(item)}>
+        items.map((item, idx) => {
+          const rowId = getRowId(item, idx);
+          const isSelected = selectedRowIds.includes(rowId);
+
+          return (
+          <React.Fragment key={rowId}>
+            <tr onClick={() => renderExpandedRow && toggleExpand(item, idx)}>
+              {enableRowSelection && (
+                <td className={styles.checkboxCol} onClick={(event) => event.stopPropagation()}>
+                  <Checkbox
+                    checked={isSelected}
+                    onChange={(event) => onRowSelectionChange(item, idx, event.target.checked)}
+                    aria-label="Satiri sec"
+                  />
+                </td>
+              )}
               {columns.map((col) => col.isVisible !== false && (
                 <td key={String(col.key)}>
                   {col.editable ? (
@@ -72,15 +95,15 @@ export const TableBody = <T,>({
                 <td>{renderActionButtons(item)}</td>
               )}
             </tr>
-            {renderExpandedRow && expandedId === (item.id || JSON.stringify(item)) && (
+            {renderExpandedRow && expandedId === rowId && (
               <tr>
-                <td colSpan={columns.length + 1}>
+                <td colSpan={columns.length + (renderActionButtons ? 1 : 0) + (enableRowSelection ? 1 : 0)}>
                   {renderExpandedRow(item)}
                 </td>
               </tr>
             )}
           </React.Fragment>
-        ))
+        )})
       )}
     </tbody>
   );

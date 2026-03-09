@@ -32,11 +32,15 @@ const getUsers = async (req: NextRequest) => {
   const searchParams = req.nextUrl.searchParams;
 
   const page = parseInt(searchParams.get('page') || '1');
-  const perPage = parseInt(searchParams.get('perPage') || '10');
+  const perPage = parseInt(searchParams.get('perPage') || searchParams.get('limit') || '10');
   const search = searchParams.get('search') || ''; // Genel arama
   const role = searchParams.get('role'); // Özel filtre
-  const orderBy = searchParams.get('orderBy') || 'id';
-  const orderDirection = searchParams.get('orderDirection') || 'ASC';
+  const status = searchParams.get('status');
+  const idRange = searchParams.get('idRange') || '';
+  const lastLoginRange = searchParams.get('lastLoginRange') || '';
+  const orderBy = searchParams.get('orderBy') || searchParams.get('sortBy') || 'id';
+  const orderDirectionRaw = searchParams.get('orderDirection') || searchParams.get('sortOrder') || 'ASC';
+  const orderDirection = orderDirectionRaw.toUpperCase() === 'DESC' ? 'DESC' : 'ASC';
 
   try {
     let filteredUsers = [...MOCK_USERS];
@@ -52,6 +56,44 @@ const getUsers = async (req: NextRequest) => {
 
     if (role && role !== '') {
       filteredUsers = filteredUsers.filter((user) => user.role === role);
+    }
+
+    if (status && status !== '') {
+      const statuses = status
+        .split(',')
+        .map((entry) => entry.trim())
+        .filter(Boolean);
+
+      if (statuses.length > 0) {
+        filteredUsers = filteredUsers.filter((user) => statuses.includes(user.status));
+      }
+    }
+
+    if (idRange.includes('..')) {
+      const [minRaw, maxRaw] = idRange.split('..');
+      const minCandidate = minRaw ? Number(minRaw) : undefined;
+      const maxCandidate = maxRaw ? Number(maxRaw) : undefined;
+      const min = minCandidate !== undefined && Number.isFinite(minCandidate) ? minCandidate : undefined;
+      const max = maxCandidate !== undefined && Number.isFinite(maxCandidate) ? maxCandidate : undefined;
+
+      filteredUsers = filteredUsers.filter((user) => {
+        if (min !== undefined && user.id < min) return false;
+        if (max !== undefined && user.id > max) return false;
+        return true;
+      });
+    }
+
+    if (lastLoginRange.includes('..')) {
+      const [fromRaw, toRaw] = lastLoginRange.split('..');
+      const from = fromRaw ? new Date(fromRaw).getTime() : undefined;
+      const to = toRaw ? new Date(toRaw).getTime() : undefined;
+
+      filteredUsers = filteredUsers.filter((user) => {
+        const loginAt = new Date(user.lastLogin).getTime();
+        if (from !== undefined && Number.isFinite(from) && loginAt < from) return false;
+        if (to !== undefined && Number.isFinite(to) && loginAt > to) return false;
+        return true;
+      });
     }
 
     filteredUsers.sort((a: any, b: any) => {
