@@ -120,7 +120,9 @@ export const TableFiltersRow = <T,>({
               <DatePicker
                 value={currentValue ? new Date(currentValue) : undefined}
                 placeholder={column.filterPlaceholder || `${column.label} sec`}
-                onChange={(date) => onFilterChange?.(column.key, date instanceof Date ? normalizeDate(date) : '')}
+                onChange={
+                    (date) => onFilterChange?.(column.key, date instanceof Date ? normalizeDate(date) : '')
+                }
               />
             );
           }
@@ -137,7 +139,10 @@ export const TableFiltersRow = <T,>({
                   }}
                   mode="range"
                   onChange={(dates) => {
-                    if (!dates || !('from' in dates) || !('to' in dates)) return;
+                    if (!dates || !('from' in dates) || !('to' in dates)) {
+                        onFilterChange?.(column.key, '');
+                        return;
+                    }
                     const nextFrom = dates.from instanceof Date ? normalizeDate(dates.from) : '';
                     const nextTo = dates.to instanceof Date ? normalizeDate(dates.to) : '';
                     onFilterChange?.(column.key, `${nextFrom}${RANGE_SEPARATOR}${nextTo}`);

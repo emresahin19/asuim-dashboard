@@ -5,35 +5,54 @@ import ChevronDown from '@/components/ui/icon/icons/ChevronDown';
 import Check from '@/components/ui/icon/icons/Check';
 import { useClickOutside } from '@/hooks/useClickOutside';
 import { clsx } from '@/utils';
+import { Button } from '../button';
 import { Icon } from '../icon';
 import { DropdownItem, DropdownProps } from './dropdown.types';
 import styles from './dropdown.module.scss';
 
 export const Dropdown = ({
-  items,
+  items = [],
   triggerLabel,
   label,
   size = 'md',
   align = 'start',
   className,
+  triggerClassName,
+  menuClassName,
+  triggerVariant = 'outline',
+  triggerColor = 'neutral',
   disabled = false,
   closeOnSelect = true,
   selectedItemId,
+  isOpen: controlledIsOpen,
+  onOpenChange,
+  content,
+  menuRole,
   onSelect,
 }: DropdownProps) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [uncontrolledIsOpen, setUncontrolledIsOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
   const buttonId = useId();
   const menuId = `${buttonId}-menu`;
+  const isControlled = controlledIsOpen !== undefined;
+  const isOpen = isControlled ? controlledIsOpen : uncontrolledIsOpen;
+  const resolvedMenuRole = menuRole ?? (content ? 'dialog' : 'menu');
 
-  useClickOutside(rootRef as RefObject<HTMLDivElement>, () => setIsOpen(false));
+  const setOpen = (nextOpen: boolean) => {
+    if (!isControlled) {
+      setUncontrolledIsOpen(nextOpen);
+    }
+    onOpenChange?.(nextOpen);
+  };
+
+  useClickOutside(rootRef as RefObject<HTMLDivElement>, () => setOpen(false));
 
   useEffect(() => {
     if (!isOpen) return;
 
     const handleEscape = (event: KeyboardEvent) => {
       if (event.key !== 'Escape') return;
-      setIsOpen(false);
+      setOpen(false);
     };
 
     document.addEventListener('keydown', handleEscape);
@@ -47,9 +66,13 @@ export const Dropdown = ({
     if (item.disabled) return;
     onSelect?.(item);
     if (closeOnSelect) {
-      setIsOpen(false);
+      setOpen(false);
     }
   };
+
+  const renderedContent = typeof content === 'function'
+    ? content({ close: () => setOpen(false), isOpen })
+    : content;
 
   return (
     <div
@@ -64,35 +87,45 @@ export const Dropdown = ({
     >
       {label ? <label htmlFor={buttonId} className={styles.label}>{label}</label> : null}
 
-      <button
+      <Button
         id={buttonId}
         type="button"
-        className={styles.trigger}
+        size={size}
+        variant={triggerVariant}
+        color={triggerColor}
+        className={clsx(styles.trigger, triggerClassName)}
         disabled={disabled}
-        aria-haspopup="menu"
+        aria-haspopup={resolvedMenuRole}
         aria-expanded={isOpen}
         aria-controls={menuId}
-        onClick={() => setIsOpen((prev) => !prev)}
+        onClick={() => setOpen(!isOpen)}
+        rightIcon={
+          <Icon
+            icon={ChevronDown}
+            size={16}
+            className={clsx(styles.chevron, isOpen && styles.chevronOpen)}
+            decorative
+          />
+        }
       >
         <span className={styles.triggerLabel}>{triggerLabel}</span>
-        <Icon
-          icon={ChevronDown}
-          size={16}
-          className={clsx(styles.chevron, isOpen && styles.chevronOpen)}
-          decorative
-        />
-      </button>
+      </Button>
 
       {isOpen && !disabled ? (
-        <div id={menuId} className={styles.menu} role="menu" aria-labelledby={buttonId}>
-          {items.map((item) => {
+        <div
+          id={menuId}
+          className={clsx(styles.menu, menuClassName)}
+          role={resolvedMenuRole}
+          aria-labelledby={buttonId}
+        >
+          {renderedContent ? renderedContent : items.map((item) => {
             const isSelected = selectedItemId !== undefined && selectedItemId === item.id;
 
             return (
               <button
                 key={item.id}
                 type="button"
-                role="menuitem"
+                role={resolvedMenuRole === 'menu' ? 'menuitem' : undefined}
                 className={clsx(
                   styles.item,
                   item.disabled && styles.itemDisabled,
