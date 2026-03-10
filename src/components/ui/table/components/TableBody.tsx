@@ -28,7 +28,7 @@ export const TableBody = <T,>({
   onRowSelectionChange,
 }: BodyProps<T>) => {
   const [expandedId, setExpandedId] = useState<string | number | null>(null);
-  const skeletonRowCount = Math.max(1, tableState.limit || 10);
+  const skeletonRowCount = Math.max(1, Math.min(items.length, tableState.limit) || 10);
 
   const toggleExpand = (item: T, index: number) => {
     const id = getRowId(item, index);
