@@ -16,6 +16,8 @@ export interface SelectLiteProps extends Omit<React.SelectHTMLAttributes<HTMLSel
   size?: 'sm' | 'md' | 'lg';
   fullWidth?: boolean;
   placeholder?: string;
+  showIndicator?: boolean;
+  centerValue?: boolean;
 }
 
 export const SelectLite = forwardRef<HTMLSelectElement, SelectLiteProps>(
@@ -27,6 +29,8 @@ export const SelectLite = forwardRef<HTMLSelectElement, SelectLiteProps>(
     className = '', 
     fullWidth = false,
     placeholder,
+    showIndicator = true,
+    centerValue = false,
     onChange,
     disabled,
     ...props 
@@ -38,6 +42,8 @@ export const SelectLite = forwardRef<HTMLSelectElement, SelectLiteProps>(
     error ? styles.error : '',
     disabled ? styles.disabled : '',
     fullWidth ? styles.fullWidth : '',
+    !showIndicator ? styles.noIndicator : '',
+    centerValue ? styles.centerValue : '',
     className
   ].filter(Boolean).join(' ');
 
@@ -78,9 +84,11 @@ export const SelectLite = forwardRef<HTMLSelectElement, SelectLiteProps>(
           ))}
         </select>
 
-        <div className={styles.iconWrapper} aria-hidden="true">
-          <Icon icon={ChevronDown} size={16} decorative />
-        </div>
+        {showIndicator && (
+          <div className={styles.iconWrapper} aria-hidden="true">
+            <Icon icon={ChevronDown} size={16} decorative />
+          </div>
+        )}
       </div>
 
       {typeof error === 'string' && <span id={errorId} className={styles.errorMessage} role="alert" aria-live="polite">{error}</span>}

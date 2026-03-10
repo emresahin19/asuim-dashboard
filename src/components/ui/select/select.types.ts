@@ -32,6 +32,7 @@ export interface SelectProps {
   
   // UI
   label?: string;
+  ariaLabel?: string;
   placeholder?: string;
   error?: string | boolean;
   disabled?: boolean;

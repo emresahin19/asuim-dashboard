@@ -95,6 +95,21 @@
   color: var(--select-placeholder);
 }
 
+.noIndicator {
+  .nativeSelect {
+    padding-right: var(--field-px-md, 14px);
+  }
+}
+
+.centerValue {
+  .nativeSelect {
+    text-align: center;
+    text-align-last: center;
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
 .errorMessage {
   font-size: var(--select-font-size);
   color: var(--select-danger);

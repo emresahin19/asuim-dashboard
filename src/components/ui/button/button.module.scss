@@ -3,12 +3,13 @@
   --btn-bg-hover: color-mix(in srgb, var(--btn-bg) 85%, black);
   --btn-text: var(--color-accent-contrast);
   --btn-border: var(--btn-bg);
+  --btn-border-radius: 10px;
 
   appearance: none;
   border: 1px solid var(--btn-border);
   background: var(--btn-bg);
   color: var(--btn-text);
-  border-radius: 10px;
+  border-radius: var(--btn-border-radius);
 
   display: inline-flex;
   align-items: center;

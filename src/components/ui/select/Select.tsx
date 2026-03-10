@@ -24,6 +24,7 @@ export const Select = ({
   isClearable = true,
   isLoading = false,
   label,
+  ariaLabel,
   placeholder,
   error = false,
   disabled = false,
@@ -145,6 +146,7 @@ export const Select = ({
   );
 
   const selectedSingle = !isMulti && value && !Array.isArray(value) ? value as SelectOption : null;
+  const resolvedAriaLabel = ariaLabel || label || placeholder || 'Select';
 
   return (
     <div
@@ -167,6 +169,7 @@ export const Select = ({
         className={styles.control}
         onClick={() => !disabled && setIsOpen(prev => !prev)}
         role="combobox"
+        aria-label={resolvedAriaLabel}
         aria-expanded={isOpen}
         aria-haspopup="listbox"
         aria-controls={menuId}
@@ -222,6 +225,7 @@ export const Select = ({
                 readOnly={!isSearchable} // Search kapalıysa klavye açılmasın
                 disabled={disabled}
                 role="searchbox"
+                aria-label={resolvedAriaLabel}
                 aria-controls={menuId}
                 aria-describedby={errorId}
                 aria-invalid={!!error}
