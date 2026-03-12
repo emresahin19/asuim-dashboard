@@ -1,0 +1,290 @@
+[
+    {
+        "timestamp": "2026-03-09T11:00:00.000Z",
+        "memoryUsed": 19920576512,
+        "diskUsed": 118115270656,
+        "cpuLoad": 0.01
+    },
+    {
+        "timestamp": "2026-03-09T12:00:00.000Z",
+        "memoryUsed": 19924106718,
+        "diskUsed": 118115270656,
+        "cpuLoad": 0.01
+    },
+    {
+        "timestamp": "2026-03-09T13:00:00.000Z",
+        "memoryUsed": 20305917952,
+        "diskUsed": 118115270656,
+        "cpuLoad": 0.01
+    },
+    {
+        "timestamp": "2026-03-09T14:00:00.000Z",
+        "memoryUsed": 20555694148,
+        "diskUsed": 117614191138,
+        "cpuLoad": 0.01
+    },
+    {
+        "timestamp": "2026-03-09T15:00:00.000Z",
+        "memoryUsed": 19455526571,
+        "diskUsed": 117131007317,
+        "cpuLoad": 0.01
+    },
+    {
+        "timestamp": "2026-03-09T16:00:00.000Z",
+        "memoryUsed": 19286464102,
+        "diskUsed": 117864730897,
+        "cpuLoad": 0.01
+    },
+    {
+        "timestamp": "2026-03-09T17:00:00.000Z",
+        "memoryUsed": 20307325884,
+        "diskUsed": 118115270656,
+        "cpuLoad": 0.01
+    },
+    {
+        "timestamp": "2026-03-09T18:00:00.000Z",
+        "memoryUsed": 20824005222,
+        "diskUsed": 118115270656,
+        "cpuLoad": 0.02
+    },
+    {
+        "timestamp": "2026-03-09T19:00:00.000Z",
+        "memoryUsed": 20848620954,
+        "diskUsed": 117166798711,
+        "cpuLoad": 0.02
+    },
+    {
+        "timestamp": "2026-03-09T20:00:00.000Z",
+        "memoryUsed": 20872728439,
+        "diskUsed": 118115270656,
+        "cpuLoad": 0.02
+    },
+    {
+        "timestamp": "2026-03-09T21:00:00.000Z",
+        "memoryUsed": 20313741244,
+        "diskUsed": 117739461018,
+        "cpuLoad": 0.02
+    },
+    {
+        "timestamp": "2026-03-09T22:00:00.000Z",
+        "memoryUsed": 19701116791,
+        "diskUsed": 117632086835,
+        "cpuLoad": 0.02
+    },
+    {
+        "timestamp": "2026-03-09T23:00:00.000Z",
+        "memoryUsed": 19275568375,
+        "diskUsed": 118115270656,
+        "cpuLoad": 0.01
+    },
+    {
+        "timestamp": "2026-03-10T00:00:00.000Z",
+        "memoryUsed": 19252988587,
+        "diskUsed": 118115270656,
+        "cpuLoad": 0.01
+    },
+    {
+        "timestamp": "2026-03-10T01:00:00.000Z",
+        "memoryUsed": 19298253961,
+        "diskUsed": 117757356715,
+        "cpuLoad": 0.01
+    },
+    {
+        "timestamp": "2026-03-10T02:00:00.000Z",
+        "memoryUsed": 19291239970,
+        "diskUsed": 117041528832,
+        "cpuLoad": 0.01
+    },
+    {
+        "timestamp": "2026-03-10T03:00:00.000Z",
+        "memoryUsed": 19290280073,
+        "diskUsed": 117041528832,
+        "cpuLoad": 0
+    },
+    {
+        "timestamp": "2026-03-10T04:00:00.000Z",
+        "memoryUsed": 19147099273,
+        "diskUsed": 117041528832,
+        "cpuLoad": 0
+    },
+    {
+        "timestamp": "2026-03-10T05:00:00.000Z",
+        "memoryUsed": 19149783313,
+        "diskUsed": 118061583565,
+        "cpuLoad": 0
+    },
+    {
+        "timestamp": "2026-03-10T06:00:00.000Z",
+        "memoryUsed": 19159487625,
+        "diskUsed": 118115270656,
+        "cpuLoad": 0.01
+    },
+    {
+        "timestamp": "2026-03-10T07:00:00.000Z",
+        "memoryUsed": 19211470643,
+        "diskUsed": 118115270656,
+        "cpuLoad": 0.01
+    },
+    {
+        "timestamp": "2026-03-10T08:00:00.000Z",
+        "memoryUsed": 19212312030,
+        "diskUsed": 118115270656,
+        "cpuLoad": 0.01
+    },
+    {
+        "timestamp": "2026-03-10T09:00:00.000Z",
+        "memoryUsed": 19217628365,
+        "diskUsed": 118115270656,
+        "cpuLoad": 0.01
+    },
+    {
+        "timestamp": "2026-03-10T10:00:00.000Z",
+        "memoryUsed": 19223288627,
+        "diskUsed": 117685773926,
+        "cpuLoad": 0.01
+    },
+    {
+        "timestamp": "2026-03-10T11:00:00.000Z",
+        "memoryUsed": 19231492983,
+        "diskUsed": 117041528832,
+        "cpuLoad": 0.01
+    },
+    {
+        "timestamp": "2026-03-10T12:00:00.000Z",
+        "memoryUsed": 19243701453,
+        "diskUsed": 117882626594,
+        "cpuLoad": 0.01
+    },
+    {
+        "timestamp": "2026-03-10T13:00:00.000Z",
+        "memoryUsed": 19159163085,
+        "diskUsed": 118115270656,
+        "cpuLoad": 0.01
+    },
+    {
+        "timestamp": "2026-03-10T14:00:00.000Z",
+        "memoryUsed": 19152182818,
+        "diskUsed": 118115270656,
+        "cpuLoad": 0.01
+    },
+    {
+        "timestamp": "2026-03-10T15:00:00.000Z",
+        "memoryUsed": 19149381700,
+        "diskUsed": 118115270656,
+        "cpuLoad": 0.01
+    },
+    {
+        "timestamp": "2026-03-10T16:00:00.000Z",
+        "memoryUsed": 19149130069,
+        "diskUsed": 117184694409,
+        "cpuLoad": 0.01
+    },
+    {
+        "timestamp": "2026-03-10T17:00:00.000Z",
+        "memoryUsed": 19159439770,
+        "diskUsed": 117667878229,
+        "cpuLoad": 0.01
+    },
+    {
+        "timestamp": "2026-03-10T18:00:00.000Z",
+        "memoryUsed": 19168295117,
+        "diskUsed": 118115270656,
+        "cpuLoad": 0.01
+    },
+    {
+        "timestamp": "2026-03-10T19:00:00.000Z",
+        "memoryUsed": 19185270647,
+        "diskUsed": 118115270656,
+        "cpuLoad": 0.01
+    },
+    {
+        "timestamp": "2026-03-10T20:00:00.000Z",
+        "memoryUsed": 19204605338,
+        "diskUsed": 117488921259,
+        "cpuLoad": 0.02
+    },
+    {
+        "timestamp": "2026-03-10T21:00:00.000Z",
+        "memoryUsed": 19230602718,
+        "diskUsed": 118115270656,
+        "cpuLoad": 0.02
+    },
+    {
+        "timestamp": "2026-03-10T22:00:00.000Z",
+        "memoryUsed": 19230220834,
+        "diskUsed": 117256277197,
+        "cpuLoad": 0.02
+    },
+    {
+        "timestamp": "2026-03-10T23:00:00.000Z",
+        "memoryUsed": 19219445555,
+        "diskUsed": 116361492343,
+        "cpuLoad": 0.01
+    },
+    {
+        "timestamp": "2026-03-11T00:00:00.000Z",
+        "memoryUsed": 19206636134,
+        "diskUsed": 117041528832,
+        "cpuLoad": 0.01
+    },
+    {
+        "timestamp": "2026-03-11T01:00:00.000Z",
+        "memoryUsed": 19238921353,
+        "diskUsed": 117041528832,
+        "cpuLoad": 0
+    },
+    {
+        "timestamp": "2026-03-11T02:00:00.000Z",
+        "memoryUsed": 19226866005,
+        "diskUsed": 117041528832,
+        "cpuLoad": 0
+    },
+    {
+        "timestamp": "2026-03-11T03:00:00.000Z",
+        "memoryUsed": 19222566912,
+        "diskUsed": 117041528832,
+        "cpuLoad": 0
+    },
+    {
+        "timestamp": "2026-03-11T04:00:00.000Z",
+        "memoryUsed": 19087066795,
+        "diskUsed": 117041528832,
+        "cpuLoad": 0
+    },
+    {
+        "timestamp": "2026-03-11T05:00:00.000Z",
+        "memoryUsed": 19079039727,
+        "diskUsed": 117041528832,
+        "cpuLoad": 0
+    },
+    {
+        "timestamp": "2026-03-11T06:00:00.000Z",
+        "memoryUsed": 19079164791,
+        "diskUsed": 116504657920,
+        "cpuLoad": 0.01
+    },
+    {
+        "timestamp": "2026-03-11T07:00:00.000Z",
+        "memoryUsed": 19089231599,
+        "diskUsed": 115967787008,
+        "cpuLoad": 0
+    },
+    {
+        "timestamp": "2026-03-11T08:00:00.000Z",
+        "memoryUsed": 19103079083,
+        "diskUsed": 116200431070,
+        "cpuLoad": 0
+    },
+    {
+        "timestamp": "2026-03-11T09:00:00.000Z",
+        "memoryUsed": 19110889609,
+        "diskUsed": 117041528832,
+        "cpuLoad": 0.01
+    },
+    {
+        "timestamp": "2026-03-11T10:00:00.000Z",
+        "memoryUsed": 19119019622,
+        "diskUsed": 117041528832,
+        "cpuLoad": 0.01
+    }
+]

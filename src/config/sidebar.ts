@@ -31,6 +31,7 @@ import BellIcon from '@/components/ui/icon/icons/Bell'
 import AppWindowIcon from '@/components/ui/icon/icons/AppWindow'
 import MessageCircleIcon from '@/components/ui/icon/icons/MessageCircle'
 import LoaderCircleIcon from '@/components/ui/icon/icons/LoaderCircle'
+import ChartAreaIcon from '@/components/ui/icon/icons/ChartArea'
 
 const navTree: SidebarNavNode[] = [
   { id: 'overview', label: 'Overview', role: 'section' },
@@ -86,6 +87,7 @@ const navTree: SidebarNavNode[] = [
       { id: 'components-modal', label: 'Modal', role: 'item', icon: AppWindowIcon, routeId: 'components-modal' },
       { id: 'components-tooltip', label: 'Tooltip', role: 'item', icon: MessageCircleIcon, routeId: 'components-tooltip' },
       { id: 'components-spinner', label: 'Spinner', role: 'item', icon: LoaderCircleIcon, routeId: 'components-spinner' },
+      { id: 'components-chart', label: 'Chart', role: 'item', icon: ChartAreaIcon, routeId: 'components-chart' },
       {
         id: 'components-form', label: 'Form', role: 'item', icon: FilePenIcon, children: [
           { id: 'components-form-input', label: 'Input', role: 'item', icon: TextCursorInputIcon, routeId: 'components-form-input' },

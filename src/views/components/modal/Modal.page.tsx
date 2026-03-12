@@ -138,7 +138,7 @@ export default function ModalPage() {
 
   return (
     <div className={styles.page}>
-      <Card className={styles.heroCard}>
+      <Card className={styles.heroCard} variant='gradient'>
         <p className={styles.overline}>Components</p>
         <h1 className={styles.title}>Modal Gallery</h1>
         <p className={styles.subtitle}>

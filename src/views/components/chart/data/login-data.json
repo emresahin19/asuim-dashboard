@@ -1,0 +1,86 @@
+[
+  {
+    "timestamp": "2026-03-12T09:00:00.000Z",
+    "loginCount": 82,
+    "onlineCount": 37,
+    "successCount": 790,
+    "errorCount": 21
+  },
+  {
+    "timestamp": "2026-03-12T10:00:00.000Z",
+    "loginCount": 95,
+    "onlineCount": 42,
+    "successCount": 840,
+    "errorCount": 19
+  },
+  {
+    "timestamp": "2026-03-12T11:00:00.000Z",
+    "loginCount": 108,
+    "onlineCount": 49,
+    "successCount": 905,
+    "errorCount": 22
+  },
+  {
+    "timestamp": "2026-03-12T12:00:00.000Z",
+    "loginCount": 121,
+    "onlineCount": 58,
+    "successCount": 960,
+    "errorCount": 25
+  },
+  {
+    "timestamp": "2026-03-12T13:00:00.000Z",
+    "loginCount": 116,
+    "onlineCount": 61,
+    "successCount": 948,
+    "errorCount": 27
+  },
+  {
+    "timestamp": "2026-03-12T14:00:00.000Z",
+    "loginCount": 132,
+    "onlineCount": 66,
+    "successCount": 1005,
+    "errorCount": 23
+  },
+  {
+    "timestamp": "2026-03-12T15:00:00.000Z",
+    "loginCount": 145,
+    "onlineCount": 72,
+    "successCount": 1080,
+    "errorCount": 24
+  },
+  {
+    "timestamp": "2026-03-12T16:00:00.000Z",
+    "loginCount": 154,
+    "onlineCount": 78,
+    "successCount": 1148,
+    "errorCount": 26
+  },
+  {
+    "timestamp": "2026-03-12T17:00:00.000Z",
+    "loginCount": 149,
+    "onlineCount": 74,
+    "successCount": 1122,
+    "errorCount": 29
+  },
+  {
+    "timestamp": "2026-03-12T18:00:00.000Z",
+    "loginCount": 138,
+    "onlineCount": 68,
+    "successCount": 1040,
+    "errorCount": 31
+  },
+  {
+    "timestamp": "2026-03-12T19:00:00.000Z",
+    "loginCount": 126,
+    "onlineCount": 62,
+    "successCount": 980,
+    "errorCount": 28
+  },
+  {
+    "timestamp": "2026-03-12T20:00:00.000Z",
+    "loginCount": 114,
+    "onlineCount": 55,
+    "successCount": 930,
+    "errorCount": 24
+  }
+]

@@ -309,7 +309,7 @@ export default function SpinnerPage() {
         <span ref={measureTextRef} className={styles.measureText} />
       </div>
 
-      <Card className={styles.heroCard}>
+      <Card className={styles.heroCard} variant='gradient'>
         <p className={styles.overline}>Components</p>
         <h1 className={styles.title}>Spinner Gallery</h1>
         <p className={styles.subtitle}>
