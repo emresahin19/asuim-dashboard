@@ -12,6 +12,7 @@ import {
   ZAxis,
 } from 'recharts';
 import { ScatterCorrelationChartProps } from './scatter-chart.types';
+import { getSharedChartTooltipProps } from '../shared';
 
 function formatDefaultNumber(value: unknown) {
   const numericValue = Number(value);
@@ -66,17 +67,10 @@ export function ScatterCorrelationChart<TData extends Record<string, unknown>>({
 
         <Tooltip
           cursor={{ stroke: 'var(--color-info)', strokeOpacity: 0.4 }}
-          contentStyle={{
-            background: 'var(--color-bg-glass)',
-            border: '1px solid var(--color-border)',
-            borderRadius: 12,
-            boxShadow: 'var(--card-shadow)',
-            ...tooltipContentStyle,
-          }}
-          wrapperStyle={{
-            backdropFilter: 'blur(8px)',
-          }}
-          labelStyle={{ color: 'var(--color-text-soft)', marginBottom: 8, ...tooltipLabelStyle }}
+          {...getSharedChartTooltipProps({
+            tooltipContentStyle,
+            tooltipLabelStyle,
+          })}
           labelFormatter={(label: unknown) =>
             tooltipLabelFormatter ? tooltipLabelFormatter(label) : String(label)
           }

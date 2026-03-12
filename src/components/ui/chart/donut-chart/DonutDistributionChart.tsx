@@ -2,6 +2,7 @@
 
 import { Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts';
 import { DonutDistributionChartProps } from './donut-chart.types';
+import { getSharedChartTooltipProps } from '../shared';
 
 function formatDefaultNumber(value: unknown) {
   const numericValue = Number(value);
@@ -27,17 +28,10 @@ export function DonutDistributionChart({
     <ResponsiveContainer width='100%' height='100%'>
       <PieChart>
         <Tooltip
-          contentStyle={{
-            background: 'var(--color-bg-glass)',
-            border: '1px solid var(--color-border)',
-            borderRadius: 12,
-            boxShadow: 'var(--card-shadow)',
-            ...tooltipContentStyle,
-          }}
-          wrapperStyle={{
-            backdropFilter: 'blur(8px)',
-          }}
-          labelStyle={{ color: 'var(--color-text-soft)', marginBottom: 8, ...tooltipLabelStyle }}
+          {...getSharedChartTooltipProps({
+            tooltipContentStyle,
+            tooltipLabelStyle,
+          })}
           formatter={(value: unknown) =>
             tooltipValueFormatter ? tooltipValueFormatter(value) : formatDefaultNumber(value)
           }

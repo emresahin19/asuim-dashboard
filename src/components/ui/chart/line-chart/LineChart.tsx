@@ -14,6 +14,7 @@ import {
   YAxis,
 } from 'recharts';
 import { LineChartProps } from './line-chart.types';
+import { getSharedChartTooltipProps } from '../shared';
 
 function formatDefaultNumber(value: unknown) {
   const numericValue = Number(value);
@@ -99,24 +100,6 @@ export function LineChart<TData extends Record<string, unknown>>({
     [],
   );
 
-  const tooltipFormatter = useCallback(
-    (value: unknown, name: unknown) => {
-      const key = String(name ?? '');
-
-      if (hiddenSeriesMap[key]) {
-        return null;
-      }
-
-      const lineSeries = seriesByKey[key];
-
-      return [
-        lineSeries?.valueFormatter ? lineSeries.valueFormatter(value) : formatDefaultNumber(value),
-        lineSeries?.name ?? key,
-      ];
-    },
-    [hiddenSeriesMap, seriesByKey],
-  );
-
   const legendFormatter = useCallback(
     (value: string | number) => {
       const key = String(value);
@@ -163,18 +146,28 @@ export function LineChart<TData extends Record<string, unknown>>({
         ) : null}
 
         <Tooltip
-          contentStyle={{
-            background: 'var(--color-bg-glass)',
-            border: '1px solid var(--color-border)',
-            borderRadius: 12,
-            boxShadow: 'var(--card-shadow)',
-            ...tooltipContentStyle,
+          {...getSharedChartTooltipProps({
+            tooltipContentStyle,
+            tooltipLabelStyle,
+          })}
+          formatter={(value, name, item) => {
+            const key =
+              typeof item?.dataKey === 'string'
+                ? item.dataKey
+                : typeof name === 'string'
+                  ? name
+                  : String(name ?? '');
+
+            if (hiddenSeriesMap[key]) {
+              return null;
+            }
+
+            const lineSeries = seriesByKey[key];
+            return [
+              lineSeries?.valueFormatter ? lineSeries.valueFormatter(value) : formatDefaultNumber(value),
+              lineSeries?.name ?? key,
+            ];
           }}
-          wrapperStyle={{
-            backdropFilter: 'blur(8px)'
-          }}
-          labelStyle={{ color: 'var(--color-text-soft)', marginBottom: 8, ...tooltipLabelStyle }}
-          formatter={tooltipFormatter}
           labelFormatter={tooltipLabelFormatterSafe}
         />
 

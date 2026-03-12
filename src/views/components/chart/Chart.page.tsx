@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react';
 import { Card, Grid, GridItem } from '@/components';
 import loginData from './data/login-data.json';
 import {
+  IncomeSparklineChart,
   LoginOnlineChart,
   LoginOnlineScatterChart,
   SuccessErrorAreaChart,
@@ -65,6 +66,24 @@ export default function ChartPage() {
     };
   }, [activeTimestamp, loginMetricsData]);
 
+  const latestIncome = useMemo(() => {
+    const latestPoint = loginMetricsData.at(-1);
+    if (!latestPoint) {
+      return 0;
+    }
+
+    return Math.round(latestPoint.loginCount * 120 + latestPoint.onlineCount * 95 + 150000);
+  }, [loginMetricsData]);
+
+  const incomeLabel = useMemo(
+    () =>
+      new Intl.NumberFormat('en-US', {
+        notation: 'compact',
+        maximumFractionDigits: 1,
+      }).format(latestIncome),
+    [latestIncome],
+  );
+
   return (
     <div className={styles.page}>
       <Card className={styles.heroCard} variant="gradient">
@@ -99,6 +118,82 @@ export default function ChartPage() {
       </Card>
 
       <Grid withGap className={styles.sectionGrid}>
+        <GridItem xs={1} sm={1}>
+          <Card className={styles.miniIncomeCard}>
+            <div className={styles.miniIncomeHead}>
+              <div>
+                <p className={styles.miniIncomeLabel}>Income</p>
+                <strong className={styles.miniIncomeValue}>${incomeLabel}</strong>
+              </div>
+              <button type='button' className={styles.miniMenuButton} aria-label='More options'>
+                <span />
+                <span />
+                <span />
+              </button>
+            </div>
+            <div className={styles.miniIncomeChartWrap}>
+              <IncomeSparklineChart data={loginMetricsData} />
+            </div>
+          </Card>
+        </GridItem>
+
+        <GridItem xs={1} sm={1}>
+          <Card className={styles.miniIncomeCard}>
+            <div className={styles.miniIncomeHead}>
+              <div>
+                <p className={styles.miniIncomeLabel}>Income</p>
+                <strong className={styles.miniIncomeValue}>${incomeLabel}</strong>
+              </div>
+              <button type='button' className={styles.miniMenuButton} aria-label='More options'>
+                <span />
+                <span />
+                <span />
+              </button>
+            </div>
+            <div className={styles.miniIncomeChartWrap}>
+              <IncomeSparklineChart data={loginMetricsData} />
+            </div>
+          </Card>
+        </GridItem>
+        
+        <GridItem xs={1} sm={1}>
+          <Card className={styles.miniIncomeCard}>
+            <div className={styles.miniIncomeHead}>
+              <div>
+                <p className={styles.miniIncomeLabel}>Income</p>
+                <strong className={styles.miniIncomeValue}>${incomeLabel}</strong>
+              </div>
+              <button type='button' className={styles.miniMenuButton} aria-label='More options'>
+                <span />
+                <span />
+                <span />
+              </button>
+            </div>
+            <div className={styles.miniIncomeChartWrap}>
+              <IncomeSparklineChart data={loginMetricsData} />
+            </div>
+          </Card>
+        </GridItem>
+        
+        <GridItem xs={1} sm={1}>
+          <Card className={styles.miniIncomeCard}>
+            <div className={styles.miniIncomeHead}>
+              <div>
+                <p className={styles.miniIncomeLabel}>Income</p>
+                <strong className={styles.miniIncomeValue}>${incomeLabel}</strong>
+              </div>
+              <button type='button' className={styles.miniMenuButton} aria-label='More options'>
+                <span />
+                <span />
+                <span />
+              </button>
+            </div>
+            <div className={styles.miniIncomeChartWrap}>
+              <IncomeSparklineChart data={loginMetricsData} />
+            </div>
+          </Card>
+        </GridItem>
+        
         <GridItem xs={1} sm={2}>
           <Card className={styles.chartCard}>
             <div className={styles.sectionHead}>
