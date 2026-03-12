@@ -3,7 +3,13 @@
 import { useMemo, useState } from 'react';
 import { Card, Grid, GridItem } from '@/components';
 import loginData from './data/login-data.json';
-import { LoginOnlineChart, SystemAxisBarChart } from './components';
+import {
+  LoginOnlineChart,
+  LoginOnlineScatterChart,
+  SuccessErrorAreaChart,
+  SystemAxisBarChart,
+  TrafficShareDonutChart,
+} from './components';
 import styles from './chart.module.scss';
 
 type LoginMetricsRecord = {
@@ -114,9 +120,9 @@ export default function ChartPage() {
         <GridItem xs={1} sm={2}>
           <Card className={styles.chartCard}>
             <div className={styles.sectionHead}>
-              <h2>Infra Node Resource Bars</h2>
-              <p>memory ve cpu metriklerinin ikili bar chart gorunumu</p>
-              <span className={styles.sectionTag}>dual bar metrics</span>
+              <h2>Success vs Error Area</h2>
+              <p>basari ve hata hacmini stack area chart ile trend olarak izler</p>
+              <span className={styles.sectionTag}>stacked area trend</span>
             </div>
             <div className={styles.chartWrap}>
               <SystemAxisBarChart
@@ -125,6 +131,50 @@ export default function ChartPage() {
                 activeTimestamp={activeTimestamp}
                 onHoverTimestampChange={setActiveTimestamp}
               />
+            </div>
+          </Card>
+        </GridItem>
+
+        <GridItem xs={1} sm={2}>
+          <Card className={styles.chartCard}>
+            <div className={styles.sectionHead}>
+              <h2>Success vs Error Area</h2>
+              <p>basari ve hata hacmini stack area chart ile trend olarak izler</p>
+              <span className={styles.sectionTag}>stacked area trend</span>
+            </div>
+            <div className={styles.chartWrap}>
+              <SuccessErrorAreaChart
+                data={loginMetricsData}
+                syncId={chartSyncId}
+                activeTimestamp={activeTimestamp}
+                onHoverTimestampChange={setActiveTimestamp}
+              />
+            </div>
+          </Card>
+        </GridItem>
+
+        <GridItem xs={1} sm={2}>
+          <Card className={styles.chartCard}>
+            <div className={styles.sectionHead}>
+              <h2>Traffic Share Donut</h2>
+              <p>online, idle ve error session paylarini donut chart ile gosterir</p>
+              <span className={styles.sectionTag}>distribution ring</span>
+            </div>
+            <div className={styles.chartWrap}>
+              <TrafficShareDonutChart data={loginMetricsData} />
+            </div>
+          </Card>
+        </GridItem>
+
+        <GridItem xs={1} sm={2}>
+          <Card className={styles.chartCard}>
+            <div className={styles.sectionHead}>
+              <h2>Login-Online Scatter</h2>
+              <p>login ve online iliskisini, error yogunlugunu da bubble boyutu ile gosterir</p>
+              <span className={styles.sectionTag}>correlation bubble</span>
+            </div>
+            <div className={styles.chartWrap}>
+              <LoginOnlineScatterChart data={loginMetricsData} />
             </div>
           </Card>
         </GridItem>
