@@ -96,8 +96,7 @@
   box-shadow: var(--tab-slider-shadow);
 
   transition:
-    left .28s cubic-bezier(.22, 1, .36, 1),
-    width .28s cubic-bezier(.22, 1, .36, 1);
+    left .28s cubic-bezier(.22, 1, .36, 1);
 
   z-index: 0;
 }
