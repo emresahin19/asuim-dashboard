@@ -77,7 +77,7 @@ export const TableHeader = <T,>({
             <Checkbox
               checked={isAllRowsSelected}
               onChange={(event) => onToggleAllRows?.(event.target.checked)}
-              aria-label="Tum satirlari sec"
+              aria-label="Select all rows"
             />
           </th>
         )}
@@ -95,7 +95,7 @@ export const TableHeader = <T,>({
               type="button"
               className={`${styles.headerCell} ${col.sortable ? styles.sortTrigger : ''}`}
               onClick={col.sortable ? () => handleSort(col.key) : undefined}
-              aria-label={col.sortable ? `${String(col.label)} sutununu sirala` : undefined}
+              aria-label={col.sortable ? `Sort by ${String(col.label)}` : undefined}
               disabled={!col.sortable}
             >
               <span className={styles.headerTitle}>{col.label}</span>
@@ -106,7 +106,7 @@ export const TableHeader = <T,>({
             </button>
           </th>
         ))}
-        {hasActions && <th scope="col">İşlemler</th>}
+        {hasActions && <th scope="col">Actions</th>}
       </tr>
     </thead>
 

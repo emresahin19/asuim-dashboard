@@ -122,7 +122,7 @@ export function AxisBarChart<TData extends Record<string, unknown>>({
   );
 
   return (
-    <ResponsiveContainer width='100%' height='100%'>
+    <ResponsiveContainer width='100%' height='100%' initialDimension={{ width: 100, height: 50 }}>
       <ComposedChart
         data={data}
         syncId={syncId}

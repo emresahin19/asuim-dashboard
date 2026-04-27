@@ -1,0 +1,29 @@
+.btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  padding: 0;
+}
+
+.contentWrap {
+  position: relative;
+}
+
+.loadingOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg-glass);
+  border-radius: var(--radius-md);
+  backdrop-filter: blur(2px);
+}
+
+.contentBlurred {
+  opacity: 0.4;
+  pointer-events: none;
+  transition: opacity 0.15s;
+}

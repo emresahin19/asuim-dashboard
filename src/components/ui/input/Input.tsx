@@ -24,7 +24,7 @@ export const Input = ({
   error = false,
   size = 'md',
   variant = 'default',
-  isClearable = false, // clearable default false yaptım, explicit olmalı
+  isClearable = false, // clearable defaults to false, must be set explicitly
   isCopyable = false,
   disabled = false,
   readOnly = false,
@@ -36,7 +36,7 @@ export const Input = ({
   helperText,
   ...props
 }: InputProps) => {
-  const uniqueId = useId(); // Erişilebilirlik için unique ID
+  const uniqueId = useId(); // Unique ID for accessibility
   const [showPassword, setShowPassword] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
   const copyTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -87,7 +87,7 @@ export const Input = ({
   // Handle Clear
   const handleClear = () => {
     if (onChange) {
-      // React SyntheticEvent simülasyonu
+      // React SyntheticEvent simulation
       const event = {
         target: { value: '', name },
         currentTarget: { value: '', name }

@@ -45,11 +45,11 @@ export const TablePagination = <T,>({ tableState, onPageChange, onLimitChange }:
   return (
     <div className={styles.pagination}>
       <div className={styles.controls}>
-        <span>Toplam: <strong>{total}</strong> kayıt</span>
+        <span>Total: <strong>{total}</strong> records</span>
 
         <SelectLite
           size="sm"
-          label="Sayfa başına kayıt"
+          label="Records per page"
           className={styles.perPageSelect}
           options={[
             { label: '10', value: 10 },
@@ -67,7 +67,7 @@ export const TablePagination = <T,>({ tableState, onPageChange, onLimitChange }:
           className={styles.pageBtn}
           disabled={page === 1}
           onClick={() => onPageChange?.(page - 1)}
-          aria-label="Önceki sayfa"
+          aria-label="Previous page"
         >
           <Icon
             size={16}
@@ -97,7 +97,7 @@ export const TablePagination = <T,>({ tableState, onPageChange, onLimitChange }:
               key={p}
               className={`${styles.pageBtn} ${p === page ? styles.active : ''}`}
               onClick={() => onPageChange?.(Number(p))}
-              aria-label={`${p}. sayfaya git`}
+              aria-label={`Go to page ${p}`}
               aria-current={p === page ? 'page' : undefined}
             >
               {p}
@@ -109,7 +109,7 @@ export const TablePagination = <T,>({ tableState, onPageChange, onLimitChange }:
           className={styles.pageBtn}
           disabled={page === totalPages}
           onClick={() => onPageChange?.(page + 1)}
-          aria-label="Sonraki sayfa"
+          aria-label="Next page"
         >
           <Icon
             size={14}

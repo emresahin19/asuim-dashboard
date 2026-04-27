@@ -37,15 +37,21 @@
 }
 
 .page {
-	display: grid;
-	gap: 1.5rem;
+  display: grid;
+  gap: 1.5rem;
   max-width: map.get(bp.$breakpoints, xl);
   width: 100%;
   margin: 0 auto;
+  flex: 1;
+  min-width: 0;
 
-	@include bp.up(md) {
-		gap: 2rem;
-	}
+  > * {
+    min-width: 0;
+  }
+
+  @include bp.up(md) {
+    gap: 2rem;
+  }
 }
 
 .main {
@@ -67,27 +73,6 @@
   .main {
     margin-inline-start: 0;
     transform: none;
-  }
-
-  [data-sidebar-state='open']:before {
-    position: absolute;
-    content: '';
-    inset: 0;
-    background: var(--color-backdrop);
-    z-index: 150;
-    backdrop-filter: blur(3.3px);
-    animation: backdropIn 0.3s ease forwards;
-  }
-}
-
-@keyframes backdropIn {
-  from {
-    background: var(--color-backdrop-transparent);
-    backdrop-filter: blur(0);
-  }
-
-  to {
-    background: var(--color-backdrop);
-    backdrop-filter: blur(3px);
+    padding: var(--layout-gap);
   }
 }

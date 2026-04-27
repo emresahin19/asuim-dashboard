@@ -2,10 +2,9 @@
 
 import Link from 'next/link';
 import { useSelectedLayoutSegment } from 'next/navigation';
-import { clsx } from '@/utils';
 import { Tab } from './tabs.types';
 import styles from './tabs.module.scss';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 interface TabsProps {
   tabs: Tab[];
@@ -17,17 +16,43 @@ export default function Tabs({ tabs, children }: TabsProps) {
   const listRef = useRef<HTMLUListElement>(null);
 
   const [indicator, setIndicator] = useState({
-    left: '0',
-    width: '0'
+    left: '0px',
+    width: '0px',
+    top: '8px',
+    height: '36px',
   });
 
+  const updateIndicator = useCallback(() => {
+    const list = listRef.current;
+    if (!list) return;
+
+    const activeIndex = tabs.findIndex(
+      tab => (tab.segment ?? 'overview') === (selectedSegment ?? 'overview')
+    );
+    const items = list.querySelectorAll<HTMLLIElement>(':scope > li');
+    const activeItem = items[activeIndex];
+
+    if (activeItem) {
+      setIndicator({
+        left: `${activeItem.offsetLeft + 8}px`,
+        width: `${activeItem.offsetWidth - 16}px`,
+        top: `${activeItem.offsetTop}px`,
+        height: `${activeItem.offsetHeight}px`,
+      });
+    }
+  }, [selectedSegment, tabs]);
+
   useEffect(() => {
-    const activeIndex = tabs.findIndex(tab => (tab.segment ?? "overview") === (selectedSegment ?? "overview"));
-    setIndicator({
-      left: `calc(${(100 / tabs.length) * (activeIndex ?? 0)}% + 8px)`,
-      width: `calc(${100 / tabs.length}% - 16px)`
-    });
-  }, [selectedSegment]);
+    updateIndicator();
+  }, [updateIndicator]);
+
+  useEffect(() => {
+    const list = listRef.current;
+    if (!list) return;
+    const observer = new ResizeObserver(updateIndicator);
+    observer.observe(list);
+    return () => observer.disconnect();
+  }, [updateIndicator]);
 
   return (
     <div className={styles.root}>
@@ -38,21 +63,23 @@ export default function Tabs({ tabs, children }: TabsProps) {
             className={styles.slider}
             style={{
               left: indicator.left,
-              width: indicator.width
+              width: indicator.width,
+              top: indicator.top,
+              height: indicator.height,
             }}
           />
 
           {tabs.map((tab) => {
             const isActive =
-              (tab.segment ?? "overview") ===
-              (selectedSegment ?? "overview");
+              (tab.segment ?? 'overview') ===
+              (selectedSegment ?? 'overview');
 
             return (
               <li key={tab.id} className={styles.item}>
                 <Link
                   href={tab.href}
                   className={styles.link}
-                  aria-current={isActive ? "page" : undefined}
+                  aria-current={isActive ? 'page' : undefined}
                 >
                   {tab.label}
                 </Link>

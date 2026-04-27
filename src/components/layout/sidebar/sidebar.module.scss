@@ -1,3 +1,6 @@
+@use "sass:map";
+@use "@/styles/tokens/breakpoints" as bp;
+
 .root {
   position: fixed;
   top: var(--layout-gap);
@@ -12,7 +15,7 @@
   color: var(--color-sidebar-text);
 
   transform: var(--layout-transform);
-  transition: var(--layout-transition) transform ,var(--layout-transition) background, var(--layout-transition) color;
+  transition: var(--layout-transition) all;
   z-index: 200;
 
   box-shadow: var(--layout-box-shadow);
@@ -78,12 +81,58 @@
   height: 100%;
   display: flex;
   align-items: center;
+  gap: 6px;
   padding: 0 8px;
   text-align: center;
   justify-content: center;
   font-size: 1.45rem;
   font-weight: 700;
   letter-spacing: -0.5px;
+  text-decoration: none;
+  color: inherit;
+  border-radius: 8px;
+  transition: opacity var(--layout-transition);
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+@include bp.down(md) {
+  .overlay {
+    &.open {
+      position: absolute;
+      content: '';
+      inset: 0;
+      background: var(--color-backdrop);
+      z-index: 150;
+      backdrop-filter: blur(3.3px);
+      animation: backdropIn 0.3s ease forwards;
+    }
+  }
+}
+
+@keyframes backdropIn {
+  from {
+    background: var(--color-backdrop-transparent);
+    backdrop-filter: blur(0);
+  }
+
+  to {
+    background: var(--color-backdrop);
+    backdrop-filter: blur(3px);
+  }
+}
+
+.logoIcon {
+  display: flex;
+  align-items: center;
+  color: var(--color-accent);
+
+  svg {
+    width: 22px;
+    height: auto;
+  }
 }
 
 .asimText {
@@ -144,6 +193,18 @@
 
   svg {
     font-size: 18px;
+  }
+
+  img {
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+  }
+
+  [data-theme="dark"] & {
+    img {
+      filter: brightness(0) invert(1);
+    }
   }
 
   &.active {
@@ -216,6 +277,7 @@
   justify-content: center;
   font-size: 24px;
   border: none;
+  backdrop-filter: blur(3px);
 }
 
 [data-sidebar-state='icon'] .root,
@@ -283,6 +345,8 @@
   }
 }
 
-[data-sidebar-prev="closed"][data-sidebar-state='open'] .root {
-  transition: var(--layout-transition) transform;
+.root {
+  [data-sidebar-prev="closed"][data-sidebar-state='open'] & {
+    transition: var(--layout-transition) transform;
+  } 
 }

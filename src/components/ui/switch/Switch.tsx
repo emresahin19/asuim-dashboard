@@ -25,7 +25,7 @@ export const Switch = ({
   const errorId = typeof error === 'string' ? `${inputId}-error` : undefined;
   const describedBy = [descriptionId, errorId].filter(Boolean).join(' ') || undefined;
   
-  // Loading ise disabled sayılır
+  // Loading counts as disabled
   const isDisabled = disabled || loading;
 
   const containerClasses = [
@@ -58,7 +58,7 @@ export const Switch = ({
         
         <div className={styles.track}>
           <span className={styles.thumb}>
-             {/* Loading ise topuzun içinde spinner dönsün */}
+             {/* Show spinner inside the thumb when loading */}
              {loading && <Icon icon={Loader} className={styles.spinner} decorative />}
           </span>
         </div>

@@ -18,5 +18,6 @@ export type SidebarNavNode = {
   icon?: React.FC<React.SVGProps<SVGSVGElement>>;
   href?: string;
   routeId?: string;
+  dynamicChildrenResolverId?: string;
   children?: SidebarNavNode[];
 };

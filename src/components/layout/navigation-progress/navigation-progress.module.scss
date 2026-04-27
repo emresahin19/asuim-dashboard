@@ -1,0 +1,26 @@
+.fullscreen {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg-glass);
+  backdrop-filter: blur(4px);
+}
+
+.app-content {
+  position: fixed;
+  top: var(--layout-vertical-offset);
+  inset-inline-start: var(--layout-main-inline-offset);
+  inset-inline-end: 0;
+  bottom: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--layout-radius);
+  background: var(--color-bg-glass);
+  transition: inset-inline-start var(--layout-transition);
+  backdrop-filter: blur(4px);
+}

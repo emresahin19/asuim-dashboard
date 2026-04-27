@@ -17,7 +17,7 @@ interface BaseInputProps {
 }
 
 export interface InputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'>, BaseInputProps {
-    type?: 'text' | 'password' | 'email' | 'number' | 'search' | 'tel' | 'url' | 'textarea' | 'file'; // Range'i ayırdık, o ayrı bir atom olmalı.
+    type?: 'text' | 'password' | 'email' | 'number' | 'search' | 'tel' | 'url' | 'textarea' | 'file'; // Range is separated, it should be its own atom.
     rows?: number;
     dropText?: string;
     helperText?: string;

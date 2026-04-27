@@ -7,11 +7,11 @@
 
   --layout-sidebar-width-default: calc(var(--layout-unit) * 32); // 256px
   --layout-sidebar-width: var(--layout-sidebar-width-default);
-  --layout-sidebar-icon-width: calc(var(--layout-unit) * 5.5); // 48px
+  --layout-sidebar-icon-width: calc(var(--layout-unit) * 6); // 48px
   --layout-main-inline-offset: calc(var(--layout-sidebar-width) + var(--layout-gap)); // 272px
 
   --layout-gap: calc(var(--layout-unit) * 2); // 16px
-  --layout-radius: calc(var(--layout-unit) * 2); // 24px
+  --layout-radius: calc(var(--layout-unit) * 3); // 24px
 
   --layout-hamburger-top: calc(var(--layout-unit) * 3.5); // 36px
   --layout-hamburger-inline-offset: calc(var(--layout-unit) * 2.5); // 28px

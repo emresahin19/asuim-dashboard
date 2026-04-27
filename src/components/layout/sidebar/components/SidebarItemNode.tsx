@@ -8,12 +8,14 @@ export function SidebarItemNode({
   activeId,
   openGroups,
   toggleGroup,
+  onClick
 }: {
   item: SidebarItem;
   depth: number;
   activeId: string | null;
   openGroups: Set<string>;
   toggleGroup: (id: string) => void;
+  onClick?: () => void;
 }) {
 
   if (item.role === 'section') {
@@ -33,6 +35,7 @@ export function SidebarItemNode({
         isGroup={isGroup}
         isOpen={isOpen}
         onToggle={isGroup ? () => toggleGroup(item.id) : undefined}
+        onClick={onClick}
       />
 
       {isGroup && isOpen && (

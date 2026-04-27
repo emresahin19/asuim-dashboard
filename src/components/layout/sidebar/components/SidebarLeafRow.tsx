@@ -12,6 +12,7 @@ export function SidebarLeafRow({
   isGroup = false,
   isOpen = false,
   onToggle,
+  onClick
 }: {
   item: SidebarItem;
   depth: number;
@@ -19,6 +20,7 @@ export function SidebarLeafRow({
   isGroup?: boolean;
   isOpen?: boolean;
   onToggle?: () => void;
+  onClick?: () => void;
 }) {
   const content = (
     <>
@@ -44,7 +46,10 @@ export function SidebarLeafRow({
         data-id={item.id}
         data-depth={depth}
         className={clsx(styles.itemContent, styles.groupTrigger, isActive && styles.active)}
-        onClick={onToggle}
+        onClick={(e) => {
+          onClick?.();
+          onToggle?.();
+        }}
         aria-expanded={isOpen}
       >
         {content}

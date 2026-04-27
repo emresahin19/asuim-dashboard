@@ -66,7 +66,7 @@ export const SelectLite = forwardRef<HTMLSelectElement, SelectLiteProps>(
           onChange={onChange}
           {...props}
         >
-          {/* Placeholder Hack: Boş value ile disabled option */}
+          {/* Placeholder Hack: disabled option with empty value */}
           {placeholder && (
             <option disabled hidden>
               {placeholder}

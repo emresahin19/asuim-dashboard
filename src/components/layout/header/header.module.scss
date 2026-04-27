@@ -42,11 +42,78 @@
 }
 
 [data-sidebar-state='closed'] .inner {
-  padding: var(--layout-gap) calc(var(--layout-gap) + var(--layout-hamburger-size));
+  padding: var(--layout-gap) var(--layout-gap) var(--layout-gap) calc(var(--layout-gap) + var(--layout-hamburger-size));
 }
 
-.button {
-  background: none;
+.endButtons {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.iconButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: transparent;
+  border: none;
   cursor: pointer;
-  font-size: 16px;
+  color: var(--color-text);
+  text-decoration: none;
+  transition: background-color 0.15s ease, color 0.15s ease;
+
+  &:hover {
+    background: var(--color-accent-soft);
+    color: var(--color-accent);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-focus-ring);
+    outline-offset: 2px;
+  }
+}
+
+.logoutButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text);
+  position: relative;
+  transition: background-color 0.15s ease, color 0.15s ease;
+
+  .doorOpen {
+    display: none;
+  }
+
+  .doorClosed {
+    display: block;
+  }
+
+  &:hover {
+    background: var(--color-accent-soft);
+    color: var(--color-danger, var(--color-accent));
+
+    .doorOpen {
+      display: block;
+    }
+
+    .doorClosed {
+      display: none;
+    }
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-focus-ring);
+    outline-offset: 2px;
+  }
 }

@@ -74,7 +74,7 @@ export const Range = ({
           defaultValue={defaultValue}
           style={{
             ...style,
-            // SCSS'e dinamik veriyi buradan akıtıyoruz
+            // Pipe dynamic data to SCSS via CSS variables
             '--range-progress': `${progressPercent}%`,
             '--range-thumb': thumbUrl,
             '--thumb-size': thumbSize ? `${thumbSize}px` : undefined

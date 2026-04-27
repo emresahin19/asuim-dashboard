@@ -16,7 +16,6 @@ export function AppLayout({
 }) {
   return (
     <div className={styles.root}>
-      <a href="#main-content" className={styles.skipLink}>İçeriğe geç</a>
       <Header />
       <Sidebar initialOpenGroups={initialOpenGroups} />
 

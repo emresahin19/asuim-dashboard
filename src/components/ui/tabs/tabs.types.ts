@@ -4,3 +4,8 @@ export interface Tab {
     href: string;
     segment: string | null;
 }
+
+export interface ControlledTab {
+    id: string;
+    label: string;
+}

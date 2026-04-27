@@ -114,7 +114,7 @@ export function LineChart<TData extends Record<string, unknown>>({
   );
 
   return (
-    <ResponsiveContainer width='100%' height='100%'>
+    <ResponsiveContainer width='100%' height='100%' initialDimension={{ width: 100, height: 50 }}>
       <RechartsLineChart
         data={data}
         syncId={syncId}

@@ -325,16 +325,15 @@
   .toolbarFilters {
     margin-left: 0;
     width: 100%;
-    justify-content: flex-start;
   }
 
   .toolbarFilterItem,
   .toolbarFilterRange {
-    min-width: 100%;
+    min-width: fit-content;
   }
 
   .toolbarFilterDropdownMenu {
-    position: static;
+    position: absolute;
     width: 100%;
     max-width: 100%;
     margin-top: 0.4rem;

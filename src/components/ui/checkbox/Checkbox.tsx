@@ -15,7 +15,7 @@ export const Checkbox = ({
   reverse = false,
   disabled = false,
   icon,
-  children, // Custom içerik için (örn: görsel eklemek istersen)
+  children, // For custom content (e.g. adding an image)
   ...props
 }: CheckboxProps) => {
   const generatedId = useId();

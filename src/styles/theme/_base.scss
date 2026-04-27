@@ -10,7 +10,6 @@
   --color-bg-subtle: var(--base-100);
   --color-bg-subtle-active: var(--base-50);
 
-
   /* =====================================================
    * TEXT COLORS
    * ===================================================== */
@@ -104,40 +103,6 @@
   --tab-slider-shadow: rgba(0, 0, 0, 0.09) 0px 1px 4px;
 
   --icon-stroke-width: 2px;
-
-  /* =====================================================
-   * SHARED FIELD TOKENS (Optional)
-   * Input/Select/DatePicker can fallback to these tokens.
-   * ===================================================== */
-  --field-bg: var(--color-bg-subtle);
-  --field-bg-focus: var(--color-bg-subtle-active);
-  --field-panel-bg: var(--color-bg-subtle);
-  --field-surface-bg: var(--color-bg-subtle);
-  --field-surface-active-bg: var(--color-bg-subtle-active);
-
-  --field-text: var(--color-text-primary);
-  --field-label: var(--color-text-secondary);
-  --field-placeholder: var(--color-text-muted);
-
-  --field-border: var(--color-border);
-  --field-border-hover: var(--color-border-strong);
-  --field-focus: var(--color-accent);
-  --field-danger: var(--color-danger);
-
-  --field-radius: var(--radius-md);
-  --field-transition: 200ms cubic-bezier(0.4, 0, 0.2, 1);
-
-  --field-height-sm: 36px;
-  --field-height-md: 44px;
-  --field-height-lg: 52px;
-
-  --field-px-sm: 12px;
-  --field-px-md: 14px;
-  --field-px-lg: 18px;
-
-  --field-font-size-sm: 0.875rem;
-  --field-font-size-md: 0.9375rem;
-  --field-font-size-lg: 1rem;
 
   /* =====================================================
    * COMPONENT-SPECIFIC VARIABLES

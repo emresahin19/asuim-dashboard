@@ -22,9 +22,6 @@
   width: calc(100% - 16px);
   max-width: 100%;
   min-width: 0;
-  min-height: 50px;
-  overflow-x: auto;
-  overflow-y: hidden;
   background: var(--tabs-bg);
   border-radius: calc(var(--radius-md) + 4px);
   margin: auto;
@@ -34,9 +31,9 @@
 .list {
   position: relative;
   display: flex;
+  flex-wrap: wrap;
   list-style: none;
   width: 100%;
-  min-width: 100%;
   padding: 8px 0;
   margin: 0;
   background: var(--tabs-bg-active);
@@ -52,8 +49,7 @@
 }
 
 .item {
-  flex: 1;
-  min-width: 0;
+  flex: 1 1 100px;
 }
 
 .content {
@@ -81,22 +77,22 @@
 
   color: var(--tabs-text-muted);
 
+  white-space: nowrap;
   transition: color .2s ease;
 }
 
 .slider {
   position: absolute;
-  top: 0;
-  bottom: 0;
-  height: calc(100% - 16px);
-  margin: auto;
 
   border-radius: calc(var(--radius-md) + 4px);
   background-color: var(--tabs-bg);
   box-shadow: var(--tab-slider-shadow);
 
   transition:
-    left .28s cubic-bezier(.22, 1, .36, 1);
+    left .28s cubic-bezier(.22, 1, .36, 1),
+    top .28s cubic-bezier(.22, 1, .36, 1),
+    width .28s cubic-bezier(.22, 1, .36, 1),
+    height .28s cubic-bezier(.22, 1, .36, 1);
 
   z-index: 0;
 }

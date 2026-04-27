@@ -1,10 +1,10 @@
 import { ThemeState } from "@/types"
 
 export const defaultTheme: ThemeState = {
-    scheme: 'light',
-    primary: 'amber',
+    scheme: 'dark',
+    primary: 'cyan',
     direction: 'ltr',
-    palette: 'stone',
+    palette: 'zinc',
     sidebarState: 'open',
 }
 
@@ -17,4 +17,4 @@ export const allowedPrimaries: ThemeState['primary'][] = [
     'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose',
 ]
 
-export const THEME_STORAGE_KEY = 'asuim.theme'
+export const THEME_STORAGE_KEY = 'oathwall.theme'

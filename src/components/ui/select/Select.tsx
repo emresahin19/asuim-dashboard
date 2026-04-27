@@ -101,21 +101,21 @@ export const Select = ({
     }
   };
 
-  // CHIP SİLME (Multi)
+  // CHIP REMOVE (Multi)
   const removeChip = (e: React.MouseEvent, optionValue: string | number) => {
     e.stopPropagation();
     if (!isMulti || !Array.isArray(value)) return;
     onChange(value.filter(v => v.value !== optionValue));
   };
 
-  // TEMİZLEME (Clear All)
+  // CLEAR (Clear All)
   const handleClear = (e: React.MouseEvent) => {
     e.stopPropagation();
     onChange(isMulti ? [] : null);
     setSearchTerm("");
   };
 
-  // VALUE KONTROLÜ (Seçili mi?)
+  // VALUE CHECK (Is selected?)
   const isSelected = (option: SelectOption) => {
     if (isMulti && Array.isArray(value)) {
       return value.some(v => v.value === option.value);
@@ -164,7 +164,7 @@ export const Select = ({
     >
       {label && !isFloating && <label htmlFor={uniqueId} className={styles.label}>{label}</label>}
 
-      {/* CONTROL BOX (Input Alanı) */}
+      {/* CONTROL BOX (Input Area) */}
       <div
         className={styles.control}
         onClick={() => !disabled && setIsOpen(prev => !prev)}
@@ -187,7 +187,7 @@ export const Select = ({
                 type="button"
                 className={styles.chipRemove}
                 onClick={(e) => removeChip(e, val.value)}
-                aria-label={`${val.label} seçimini kaldır`}
+                aria-label={`Remove ${val.label}`}
               >
                 <Icon icon={X} size={14} decorative />
               </button>
@@ -222,7 +222,7 @@ export const Select = ({
                       ? (value as SelectOption).label
                       : placeholder
                 }
-                readOnly={!isSearchable} // Search kapalıysa klavye açılmasın
+                readOnly={!isSearchable} // Prevent keyboard opening when search is disabled
                 disabled={disabled}
                 role="searchbox"
                 aria-label={resolvedAriaLabel}
@@ -234,12 +234,12 @@ export const Select = ({
 
         </div>
 
-        {/* INDICATORS (Sağ Taraf) */}
+        {/* INDICATORS (Right Side) */}
         <div className={styles.indicators}>
           {isClearable && value && (
             (Array.isArray(value) ? value.length > 0 : true)
           ) && (
-              <button type="button" className={styles.indicator} onClick={handleClear} aria-label="Seçimi temizle">
+              <button type="button" className={styles.indicator} onClick={handleClear} aria-label="Clear selection">
                 <Icon icon={X} size={16} decorative />
               </button>
             )}

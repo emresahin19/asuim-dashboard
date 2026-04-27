@@ -58,7 +58,7 @@ export const TableBody = <T,>({
       ))) : items.length === 0 ? (
         <tr>
           <td colSpan={columns.length + (renderActionButtons ? 1 : 0) + (enableRowSelection ? 1 : 0)} style={{ textAlign: 'center', padding: '2rem' }}>
-            Veri bulunamadı.
+            No data found.
           </td>
         </tr>
       ) : (
@@ -74,7 +74,7 @@ export const TableBody = <T,>({
                     <Checkbox
                       checked={isSelected}
                       onChange={(event) => onRowSelectionChange(item, idx, event.target.checked)}
-                      aria-label="Satiri sec"
+                      aria-label="Select row"
                     />
                   </td>
                 )}

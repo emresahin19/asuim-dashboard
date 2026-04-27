@@ -1,5 +1,44 @@
 import { SidebarState, SidebarItem, TocTokens } from '@/types'
 
+function normalizePath(path: string): string {
+    if (!path) return '/'
+    if (path === '/') return '/'
+    return path.endsWith('/') ? path.slice(0, -1) : path
+}
+
+function isPathPrefixMatch(basePath: string, currentPath: string): boolean {
+    const base = normalizePath(basePath)
+    const current = normalizePath(currentPath)
+
+    if (base === '/') return current === '/'
+    if (current === base) return true
+
+    return current.startsWith(`${base}/`)
+}
+
+function findBestPrefixMatchId(
+    items: SidebarItem[],
+    pathname: string,
+    currentBest: { id: string; hrefLength: number } | null = null
+): { id: string; hrefLength: number } | null {
+    let best = currentBest
+
+    for (const item of items) {
+        if (item.href && isPathPrefixMatch(item.href, pathname)) {
+            const hrefLength = normalizePath(item.href).length
+            if (!best || hrefLength > best.hrefLength) {
+                best = { id: item.id, hrefLength }
+            }
+        }
+
+        if (item.children) {
+            best = findBestPrefixMatchId(item.children, pathname, best)
+        }
+    }
+
+    return best
+}
+
 export function findActiveIdByPath(
     items: SidebarItem[],
     pathname: string
@@ -12,7 +51,9 @@ export function findActiveIdByPath(
             if (found) return found
         }
     }
-    return null
+
+    const bestPrefixMatch = findBestPrefixMatchId(items, pathname)
+    return bestPrefixMatch?.id || null
 }
 
 export function findItemPathById(

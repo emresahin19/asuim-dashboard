@@ -41,7 +41,7 @@ export function ScatterCorrelationChart<TData extends Record<string, unknown>>({
   tooltipLabelStyle,
 }: ScatterCorrelationChartProps<TData>) {
   return (
-    <ResponsiveContainer width='100%' height='100%'>
+    <ResponsiveContainer width='100%' height='100%' initialDimension={{ width: 100, height: 50 }}>
       <ScatterChart margin={margin}>
         <CartesianGrid stroke='var(--color-border-soft)' />
 

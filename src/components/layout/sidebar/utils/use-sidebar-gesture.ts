@@ -33,7 +33,7 @@ export function useSidebarGesture(
 
     const diffX = e.touches[0].clientX - startXRef.current;
 
-    // sadece sola çekmeye izin ver
+    // only allow swipe left
     if (diffX >= 0) return;
 
     const clamped = Math.max(diffX, -sidebarWidth);

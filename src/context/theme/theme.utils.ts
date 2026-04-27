@@ -49,7 +49,7 @@ export function getServerSideTheme({ viewport }: { viewport: 'mobile' | 'desktop
 
                 const root = document.documentElement;
                 
-                // Tema verilerini hemen basıyoruz (Render öncesi)
+                // Apply theme data immediately (before render)
                 root.dataset.theme = theme.scheme;
                 root.dataset.primary = theme.primary || 'blue';
                 root.dataset.palette = theme.palette || 'light';

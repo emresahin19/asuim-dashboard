@@ -20,7 +20,7 @@ export interface DatePickerProps {
   className?: string;
   size?: InputSize;
   fullWidth?: boolean;
-  showPresets?: boolean; // "Son 7 gün" gibi butonlar
+  showPresets?: boolean; // Preset buttons like "Last 7 days"
   startYear?: number;
   endYear?: number;
 }

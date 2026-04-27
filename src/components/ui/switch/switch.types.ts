@@ -9,6 +9,6 @@ export interface SwitchProps extends Omit<InputHTMLAttributes<HTMLInputElement>,
   error?: boolean | string;
   size?: SwitchSize;
   color?: SwitchColor;
-  loading?: boolean; // Yükleniyor durumu (Toggle kilitlenir)
-  reverse?: boolean; // Label solda, switch sağda
+  loading?: boolean; // Loading state (toggle is locked)
+  reverse?: boolean; // Label on the left, switch on the right
 }

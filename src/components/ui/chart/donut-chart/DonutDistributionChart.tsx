@@ -25,7 +25,7 @@ export function DonutDistributionChart({
   tooltipLabelStyle,
 }: DonutDistributionChartProps) {
   return (
-    <ResponsiveContainer width='100%' height='100%'>
+    <ResponsiveContainer width='100%' height='100%' initialDimension={{ width: 100, height: 50 }}>
       <PieChart>
         <Tooltip
           {...getSharedChartTooltipProps({

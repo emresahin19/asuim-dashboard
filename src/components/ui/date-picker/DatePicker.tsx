@@ -2,7 +2,7 @@
 
 import React, { useEffect, useId, useState, useRef, useMemo } from 'react';
 import { format } from 'date-fns';
-import { tr } from "date-fns/locale";
+import { enUS } from "date-fns/locale";
 import { DayPicker, DateRange } from 'react-day-picker';
 
 import styles from './date-picker.module.scss';
@@ -21,7 +21,7 @@ export const DatePicker = ({
   onChange,
   label,
   ariaLabel,
-  placeholder = "Tarih seçiniz",
+  placeholder = "Select a date",
   error = false,
   disabled = false,
   size = 'md',
@@ -61,15 +61,15 @@ export const DatePicker = ({
       const range = value as DateRange;
       if (range?.from) {
         if (range.to) {
-          // Örn: 10 Oca - 15 Şub 2024
-          return `${format(range.from, 'dd MMM', { locale: tr })} - ${format(range.to, 'dd MMM yyyy', { locale: tr })}`;
+          // e.g. Jan 10 - Feb 15, 2024
+          return `${format(range.from, 'dd MMM', { locale: enUS })} - ${format(range.to, 'dd MMM yyyy', { locale: enUS })}`;
         }
-        return format(range.from, 'dd MMM yyyy', { locale: tr });
+        return format(range.from, 'dd MMM yyyy', { locale: enUS });
       }
       return "";
     }
 
-    return format(value as Date, 'dd MMMM yyyy', { locale: tr });
+    return format(value as Date, 'dd MMMM yyyy', { locale: enUS });
   }, [value, mode]);
 
   useEffect(() => {
@@ -157,7 +157,7 @@ export const DatePicker = ({
         />
 
         {displayValue && !disabled && (
-          <button type="button" className={styles.clearBtn} onClick={handleClear} aria-label="Tarihi temizle">
+          <button type="button" className={styles.clearBtn} onClick={handleClear} aria-label="Clear date">
             <Icon icon={X} size={clearIconSize} decorative />
           </button>
         )}
@@ -165,19 +165,19 @@ export const DatePicker = ({
 
       {/* POPOVER CALENDAR */}
       {isOpen && !disabled && (
-        <div className={styles.popover} id={popoverId} role="dialog" aria-modal="false" aria-label="Tarih seçici">
+        <div className={styles.popover} id={popoverId} role="dialog" aria-modal="false" aria-label="Date picker">
           {showPresets && mode === 'range' && (
             <div className={styles.presets}>
-              <button type="button" onClick={() => applyPreset(0)}>Bugün</button>
-              <button type="button" onClick={() => applyPreset(7)}>Son 7 Gün</button>
-              <button type="button" onClick={() => applyPreset(30)}>Son 30 Gün</button>
-              <button type="button" onClick={() => applyPreset(90)}>Son 3 Ay</button>
+              <button type="button" onClick={() => applyPreset(0)}>Today</button>
+              <button type="button" onClick={() => applyPreset(7)}>Last 7 Days</button>
+              <button type="button" onClick={() => applyPreset(30)}>Last 30 Days</button>
+              <button type="button" onClick={() => applyPreset(90)}>Last 3 Months</button>
             </div>
           )}
 
           <div className={styles.calendarWrapper}>
             <DayPicker
-              locale={tr}
+              locale={enUS}
               mode={mode as any}
               selected={value}
               onSelect={handleSelect}
@@ -185,7 +185,7 @@ export const DatePicker = ({
               fromDate={minDate}
               toDate={maxDate}
               
-              // UX MAGIC: DROPDOWN NAVIGASYON
+              // UX MAGIC: DROPDOWN NAVIGATION
               captionLayout="dropdown" 
               fromYear={startYear}
               toYear={endYear}
@@ -201,8 +201,8 @@ export const DatePicker = ({
                 month: styles.rdpMonth,
                 month_grid: styles.rdpMonthGrid,
                 caption_label: styles.rdpCaptionLabel,
-                dropdown: styles.rdpDropdown, // Native Select stili
-                dropdowns: styles.rdpDropdowns, // Dropdown'ları saran container
+                dropdown: styles.rdpDropdown, // Native Select style
+                dropdowns: styles.rdpDropdowns, // Container wrapping dropdowns
                 dropdown_month: styles.rdpDropdownMonth,
                 dropdown_year: styles.rdpDropdownYear,
                 nav: styles.rdpNav,

@@ -32,8 +32,51 @@ import AppWindowIcon from '@/components/ui/icon/icons/AppWindow'
 import MessageCircleIcon from '@/components/ui/icon/icons/MessageCircle'
 import LoaderCircleIcon from '@/components/ui/icon/icons/LoaderCircle'
 import ChartAreaIcon from '@/components/ui/icon/icons/ChartArea'
+import AppWindowMacIcon from '@/components/ui/icon/icons/AppWindowMac'
+import { Icon } from '@/components';
 
-const navTree: SidebarNavNode[] = [
+export interface SidebarAccountApp {
+  id: string;
+  name: string;
+  appKey: string;
+  logoUrl: string | null;
+}
+
+export interface SidebarDynamicContext {
+  apps?: SidebarAccountApp[];
+}
+
+type SidebarChildrenResolver = (context: SidebarDynamicContext) => SidebarNavNode[];
+
+const sidebarChildrenResolvers: Record<string, SidebarChildrenResolver> = {
+  'account-apps': (context) => (context.apps || []).map((app) => ({
+    id: `apps-${app.id}`,
+    label: app.name,
+    role: 'item' as const,
+    icon: () => app.logoUrl 
+      ? <img src={app.logoUrl} alt={`${app.name} logo`} /> 
+      : <Icon icon={AppWindowMacIcon} />,
+    href: `/apps/${app.id}`,
+  })),
+};
+
+function applyDynamicChildren(
+  node: SidebarNavNode,
+  context: SidebarDynamicContext
+): SidebarNavNode {
+  const staticChildren = (node.children || []).map((child) => applyDynamicChildren(child, context));
+  const dynamicChildren = node.dynamicChildrenResolverId
+    ? (sidebarChildrenResolvers[node.dynamicChildrenResolverId]?.(context) || [])
+    : [];
+  const children = [...staticChildren, ...dynamicChildren];
+
+  return {
+    ...node,
+    children: children.length ? children : undefined,
+  };
+}
+
+const baseNavTree: SidebarNavNode[] = [
   { id: 'overview', label: 'Overview', role: 'section' },
 
   {
@@ -128,4 +171,10 @@ const navTree: SidebarNavNode[] = [
   },
 ];
 
-export const sidebarConfig: SidebarItem[] = navTree.map(toSidebarItem);
+export function createSidebarConfig(context: SidebarDynamicContext = {}): SidebarItem[] {
+  const resolvedTree = baseNavTree.map((node) => applyDynamicChildren(node, context));
+
+  return resolvedTree.map(toSidebarItem);
+}
+
+export const sidebarConfig: SidebarItem[] = createSidebarConfig();

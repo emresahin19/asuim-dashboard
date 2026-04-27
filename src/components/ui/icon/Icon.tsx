@@ -1,11 +1,11 @@
 // components/Icon.tsx
 import React from 'react';
 
-// İkon component'ının alacağı standart tipler
+// Standard types for the Icon component
 type SvgIconComponent = React.FC<React.SVGProps<SVGSVGElement>>;
 
 interface IconProps extends Omit<React.SVGProps<SVGSVGElement>, 'width' | 'height'> {
-  // String yerine artık Component'in kendisini istiyoruz
+  // We want the Component itself, not a string
   icon: SvgIconComponent;
   size?: number | string;
   strokeWidth?: number;
@@ -14,8 +14,8 @@ interface IconProps extends Omit<React.SVGProps<SVGSVGElement>, 'width' | 'heigh
 }
 
 export function Icon({
-  icon: IconComponent, // Prop ismini içeride kullanmak için alias atadık
-  size = 24,           // Default değerler verebilirsiniz
+  icon: IconComponent, // Alias to use the prop internally
+  size = 24,           // Default values can be set here
   strokeWidth,
   decorative = true,
   label,
@@ -24,7 +24,7 @@ export function Icon({
   ...rest
 }: IconProps) {
 
-  // Eğer icon prop'u geçilmediyse hata vermemesi için kontrol
+  // Guard against missing icon prop to avoid errors
   if (!IconComponent) return null;
 
   return (

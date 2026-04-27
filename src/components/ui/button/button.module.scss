@@ -161,9 +161,12 @@
 }
 
 .primary {
-  --btn-bg: var(--color-accent);
+  // Use the -700 shade instead of the accent default (-500/-600) so that
+  // white text meets WCAG AA 4.5:1 across all supported primary palettes
+  // (cyan-600 + white = ~3.6:1; cyan-700 + white = ~5.2:1).
+  --btn-bg: var(--primary-700);
   --btn-text: var(--color-white);
-  --btn-border: var(--color-accent);
+  --btn-border: var(--primary-700);
 }
 
 .success {
