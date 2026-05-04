@@ -10,24 +10,29 @@ import styles from './dashboard.module.scss';
 
 // ─── Dummy helpers ───────────────────────────────────────────────────────────
 
-function makeDailyChart(days: number, base: number, variance: number) {
+function seeded(s: number) {
+  const x = Math.sin(s + 1) * 10000;
+  return x - Math.floor(x);
+}
+
+function makeDailyChart(days: number, base: number, variance: number, seed = 0) {
   const now = new Date();
   return Array.from({ length: days }, (_, i) => {
     const d = new Date(now);
     d.setDate(d.getDate() - (days - 1 - i));
     return {
       date: `${d.getMonth() + 1}/${d.getDate()}`,
-      count: Math.max(0, base + Math.round((Math.random() - 0.4) * variance)),
+      count: Math.max(0, base + Math.round((seeded(seed + i) - 0.4) * variance)),
     };
   });
 }
 
-function makeMonthlyChart(months: number, base: number, step: number) {
+function makeMonthlyChart(months: number, base: number, step: number, seed = 0) {
   const labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   const now = new Date();
   return Array.from({ length: months }, (_, i) => {
     const idx = (now.getMonth() - months + 1 + i + 12) % 12;
-    return { month: labels[idx], mrr: base + step * i + Math.round(Math.random() * 800) };
+    return { month: labels[idx], mrr: base + step * i + Math.round(seeded(seed + i + 100) * 800) };
   });
 }
 
@@ -46,34 +51,34 @@ function formatCents(cents: number) {
 
 // ─── Dummy data ───────────────────────────────────────────────────────────────
 
-const accountsChart = makeDailyChart(30, 12, 8);
-const appsChart     = makeDailyChart(30, 5, 4);
-const usersChart    = makeDailyChart(30, 48, 30);
-const sessionsChart = makeDailyChart(30, 220, 120);
+const accountsChart   = makeDailyChart(30, 12, 8, 1);
+const appsChart       = makeDailyChart(30, 5, 4, 2);
+const usersChart      = makeDailyChart(30, 48, 30, 3);
+const sessionsChart   = makeDailyChart(30, 220, 120, 4);
 
-const mrrHistory = makeMonthlyChart(12, 18000, 1200);
-const dailyRevenue = makeDailyChart(30, 1800, 900).map((d) => ({ date: d.date, amount: d.count * 100 }));
+const mrrHistory   = makeMonthlyChart(12, 18000, 1200, 5);
+const dailyRevenue = makeDailyChart(30, 1800, 900, 6).map((d) => ({ date: d.date, amount: d.count * 100 }));
 
-const freeChart     = makeDailyChart(30, 35, 15);
-const standardChart = makeDailyChart(30, 18, 8);
-const enterpriseChart = makeDailyChart(30, 4, 2);
+const freeChart       = makeDailyChart(30, 35, 15, 7);
+const standardChart   = makeDailyChart(30, 18, 8, 8);
+const enterpriseChart = makeDailyChart(30, 4, 2, 9);
 
-const growthChart30d = makeDailyChart(30, 0, 0).map((d) => ({
+const growthChart30d = makeDailyChart(30, 0, 0, 10).map((d, i) => ({
   date: d.date,
-  newUsers:    Math.round(Math.random() * 60 + 10),
-  newAccounts: Math.round(Math.random() * 15 + 2),
+  newUsers:    Math.round(seeded(200 + i) * 60 + 10),
+  newAccounts: Math.round(seeded(300 + i) * 15 + 2),
 }));
 
-const growthChart7d = makeDailyChart(7, 0, 0).map((d) => ({
+const growthChart7d = makeDailyChart(7, 0, 0, 11).map((d, i) => ({
   date: d.date,
-  newUsers:    Math.round(Math.random() * 80 + 20),
-  newAccounts: Math.round(Math.random() * 20 + 4),
+  newUsers:    Math.round(seeded(400 + i) * 80 + 20),
+  newAccounts: Math.round(seeded(500 + i) * 20 + 4),
 }));
 
 const growthChart24h = Array.from({ length: 24 }, (_, i) => ({
   date: `${String(i).padStart(2, '0')}:00`,
-  newUsers:    Math.round(Math.random() * 12 + 1),
-  newAccounts: Math.round(Math.random() * 3),
+  newUsers:    Math.round(seeded(600 + i) * 12 + 1),
+  newAccounts: Math.round(seeded(700 + i) * 3),
 }));
 
 const providerDistribution = [

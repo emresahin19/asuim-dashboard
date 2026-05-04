@@ -1,0 +1,1063 @@
+// Studio Tool — tüm renkler projenin CSS variable sisteminden gelir.
+// Gece/gündüz modu data-theme="dark/light" ile otomatik değişir.
+
+// ─── Layout ───────────────────────────────────────────────────────────────────
+.studio {
+  display:        flex;
+  flex-direction: column;
+  height:         100%;
+  min-height:     0;
+  background:     var(--color-bg-app);
+  color:          var(--color-text);
+  font-family:    system-ui, -apple-system, sans-serif;
+  font-size:      13px;
+  user-select:    none;
+}
+
+// ─── Header ───────────────────────────────────────────────────────────────────
+.header {
+  display:         flex;
+  align-items:     center;
+  justify-content: space-between;
+  padding:         0 16px;
+  height:          52px;
+  background:      var(--color-header-bg);
+  border-bottom:   1px solid var(--color-header-border);
+  flex-shrink:     0;
+  gap:             12px;
+}
+
+.headerLeft,
+.headerRight {
+  display:     flex;
+  align-items: center;
+  gap:         8px;
+  min-width:   0;
+}
+
+.headerCenter {
+  display:     flex;
+  align-items: center;
+  gap:         8px;
+}
+
+.logo {
+  display:     flex;
+  align-items: center;
+  gap:         7px;
+  font-weight: 700;
+  font-size:   15px;
+  color:       var(--color-text);
+  white-space: nowrap;
+}
+
+// ─── Body ─────────────────────────────────────────────────────────────────────
+.body {
+  display:    flex;
+  flex:       1;
+  min-height: 0;
+  overflow:   hidden;
+}
+
+// ─── Sol Sidebar (toolbar) ────────────────────────────────────────────────────
+.sidebar {
+  width:          56px;
+  min-width:      56px;
+  background:     var(--color-sidebar-bg);
+  border-right:   1px solid var(--color-sidebar-border);
+  display:        flex;
+  flex-direction: column;
+  align-items:    stretch;
+  padding:        8px 0;
+  flex-shrink:    0;
+  overflow:       visible;
+  position:       relative;
+  z-index:        20;
+}
+
+// ─── Sahne ────────────────────────────────────────────────────────────────────
+.stage {
+  flex:       1;
+  min-width:  0;
+  display:    flex;
+  align-items:     center;
+  justify-content: center;
+  overflow:   hidden;
+  position:   relative;
+  background: var(--color-bg-app);
+  user-select: none;
+}
+
+// Viewport container for zoom/pan events
+.stageViewport {
+  flex:       1;
+  width:      100%;
+  height:     100%;
+  display:    flex;
+  align-items:     center;
+  justify-content: center;
+  overflow:   hidden;
+  position:   relative;
+  padding:    16px;
+}
+
+.stageWrap {
+  position:     relative;
+  width:        100%;
+  max-width:    100%;
+  aspect-ratio: 16 / 9;
+  background:   var(--color-bg-elevated);
+  border-radius: 8px;
+  overflow:     hidden;
+  box-shadow:   var(--layout-box-shadow);
+  border:       1px solid var(--color-border);
+  flex-shrink:  0;
+}
+
+.compositorCanvas {
+  position: absolute;
+  inset:    0;
+  width:    100%;
+  height:   100%;
+  display:  block;
+}
+
+.drawingCanvas {
+  position:       absolute;
+  inset:          0;
+  width:          100%;
+  height:         100%;
+  display:        block;
+  pointer-events: none;
+  cursor:         default;
+  touch-action:   none;
+
+  &Active {
+    pointer-events: auto;
+  }
+}
+
+// ─── Sağ Sidebar (kamera) ─────────────────────────────────────────────────────
+.cameraSidebar {
+  width:           220px;
+  flex-shrink:     0;
+  background:      var(--color-sidebar-bg);
+  border-left:     1px solid var(--color-sidebar-border);
+  overflow-y:      auto;
+  display:         flex;
+  flex-direction:  column;
+}
+
+// ─── Toolbar ──────────────────────────────────────────────────────────────────
+.toolbar {
+  display:        flex;
+  flex-direction: column;
+  align-items:    stretch;
+  width:          100%;
+  height:         100%;
+}
+
+// 4 main tool buttons row
+.tbMainTools {
+  display:        flex;
+  flex-direction: column;
+  gap:            2px;
+  padding:        4px 6px;
+}
+
+.tbMainBtn {
+  display:         flex;
+  flex-direction:  column;
+  align-items:     center;
+  justify-content: center;
+  gap:             3px;
+  padding:         8px 4px;
+  border-radius:   8px;
+  border:          none;
+  background:      transparent;
+  color:           var(--color-text-muted);
+  cursor:          pointer;
+  transition:      background 0.15s, color 0.15s;
+  width:           44px;
+  align-self:      center;
+
+  &:hover { background: var(--color-hover-overlay); color: var(--color-text); }
+
+  &Active {
+    background: var(--color-accent-soft);
+    color:      var(--color-accent);
+  }
+}
+
+.tbMainLabel {
+  font-size:   9px;
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+// Floating panel that appears to the right of the sidebar
+.tbFloatPanel {
+  position:       absolute;
+  left:           calc(100% + 6px);
+  top:            0;
+  width:          172px;
+  max-height:     calc(100vh - 120px);
+  overflow-y:     auto;
+  display:        flex;
+  flex-direction: column;
+  gap:            6px;
+  padding:        10px;
+  background:     var(--color-sidebar-bg);
+  border:         1px solid var(--color-sidebar-border);
+  border-radius:  10px;
+  box-shadow:     0 4px 24px rgba(0, 0, 0, 0.22);
+  z-index:        100;
+  animation:      tbFloatIn 0.14s ease;
+
+  @keyframes tbFloatIn {
+    from { opacity: 0; transform: translateX(-6px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+}
+
+.tbPanelDivider {
+  height:     1px;
+  background: var(--color-border);
+  flex-shrink: 0;
+}
+
+.tbHint {
+  font-size:  11px;
+  color:      var(--color-text-muted);
+  text-align: center;
+  margin:     0;
+  padding:    4px 0;
+}
+
+// Row of icon buttons (sub-tools)
+.tbRow {
+  display:         flex;
+  flex-direction:  row;
+  align-items:     center;
+  gap:             3px;
+  flex-wrap:       wrap;
+}
+
+.tbIconBtn {
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  width:           32px;
+  height:          32px;
+  border-radius:   7px;
+  border:          none;
+  background:      transparent;
+  color:           var(--color-text-muted);
+  cursor:          pointer;
+  transition:      background 0.14s, color 0.14s;
+  flex-shrink:     0;
+
+  &:hover:not(:disabled) { background: var(--color-hover-overlay); color: var(--color-text); }
+  &:disabled             { opacity: 0.3; cursor: not-allowed; }
+
+  &Active {
+    background: var(--color-accent-soft);
+    color:      var(--color-accent);
+  }
+
+  &Danger:hover:not(:disabled) {
+    background: var(--color-danger-bg);
+    color:      var(--color-danger);
+  }
+}
+
+// Label-style toggle buttons (e.g. "Dış hat" / "Dolu")
+.tbLabelBtn {
+  flex:          1;
+  padding:       5px 6px;
+  border-radius: 6px;
+  border:        1px solid var(--color-border);
+  background:    transparent;
+  color:         var(--color-text-muted);
+  font-size:     11px;
+  cursor:        pointer;
+  text-align:    center;
+  transition:    all 0.14s;
+  white-space:   nowrap;
+
+  &:hover   { background: var(--color-hover-overlay); color: var(--color-text); }
+  &Active   { border-color: var(--color-accent); background: var(--color-accent-soft); color: var(--color-accent); }
+}
+
+// Color palette
+.tbColorPalette {
+  display:   grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap:       4px;
+}
+
+.tbColorBtn {
+  width:         22px;
+  height:        22px;
+  border-radius: 50%;
+  border:        2px solid transparent;
+  cursor:        pointer;
+  padding:       0;
+  transition:    transform 0.1s, border-color 0.1s;
+
+  &:hover  { transform: scale(1.2); }
+  &Active  { border-color: var(--color-text); transform: scale(1.1); }
+}
+
+// Size picker row
+.tbSizeRow {
+  display:     flex;
+  align-items: center;
+  gap:         2px;
+}
+
+.tbSizeBtn {
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  width:           32px;
+  height:          32px;
+  border-radius:   7px;
+  padding:         0;
+  border:          none;
+  background:      transparent;
+  color:           var(--color-text-muted);
+  cursor:          pointer;
+  transition:      background 0.14s, color 0.14s;
+
+  &:hover  { background: var(--color-hover-overlay); color: var(--color-text); }
+  &Active  { background: var(--color-accent-soft); color: var(--color-accent); }
+}
+
+// Full-width action button
+.tbActionBtn {
+  display:       flex;
+  align-items:   center;
+  gap:           6px;
+  width:         100%;
+  padding:       6px 8px;
+  border-radius: 7px;
+  border:        1px solid var(--color-border);
+  background:    transparent;
+  color:         var(--color-text-muted);
+  font-size:     11px;
+  cursor:        pointer;
+  transition:    all 0.14s;
+
+  &:hover { background: var(--color-hover-overlay); color: var(--color-text); }
+}
+
+// Zoom reset button at bottom of toolbar
+.tbResetBtn {
+  display:       flex;
+  align-items:   center;
+  justify-content: center;
+  gap:           4px;
+  padding:       5px 8px;
+  border-radius: 6px;
+  border:        1px solid var(--color-border);
+  background:    transparent;
+  color:         var(--color-text-muted);
+  font-size:     10px;
+  cursor:        pointer;
+  margin:        4px 8px;
+  transition:    all 0.14s;
+
+  &:hover { background: var(--color-hover-overlay); color: var(--color-text); }
+}
+
+// ─── Kayıt Kontrolleri ────────────────────────────────────────────────────────
+.recControls {
+  display:     flex;
+  align-items: center;
+  gap:         8px;
+}
+
+.recIndicator {
+  display:     flex;
+  align-items: center;
+  gap:         6px;
+  padding:     0 10px;
+}
+
+.recDot {
+  width:         8px;
+  height:        8px;
+  border-radius: 50%;
+  background:    var(--color-danger);
+  animation:     recPulse 1s ease-in-out infinite;
+
+  @keyframes recPulse {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.3; }
+  }
+}
+
+.recLabel {
+  font-size:      11px;
+  font-weight:    700;
+  color:          var(--color-danger);
+  letter-spacing: 1px;
+}
+
+.recTimer {
+  font-size:            14px;
+  font-weight:          600;
+  font-variant-numeric: tabular-nums;
+  color:                var(--color-text);
+  min-width:            48px;
+}
+
+.startBtn {
+  display:       flex;
+  align-items:   center;
+  gap:           6px;
+  padding:       7px 14px;
+  border-radius: 8px;
+  border:        none;
+  background:    var(--color-danger);
+  color:         var(--color-white, #fff);
+  font-size:     13px;
+  font-weight:   600;
+  cursor:        pointer;
+  transition:    opacity 0.15s;
+
+  &:hover { opacity: 0.85; }
+}
+
+.stopBtn {
+  display:       flex;
+  align-items:   center;
+  gap:           6px;
+  padding:       7px 14px;
+  border-radius: 8px;
+  border:        1px solid var(--color-border);
+  background:    var(--color-bg-elevated);
+  color:         var(--color-text);
+  font-size:     13px;
+  font-weight:   600;
+  cursor:        pointer;
+  transition:    background 0.15s;
+
+  &:hover { background: var(--color-hover-overlay); }
+}
+
+.downloadBtn {
+  display:       flex;
+  align-items:   center;
+  gap:           6px;
+  padding:       7px 14px;
+  border-radius: 8px;
+  border:        1px solid var(--color-success);
+  background:    var(--color-success-bg);
+  color:         var(--color-success-text);
+  font-size:     13px;
+  font-weight:   600;
+  cursor:        pointer;
+  transition:    opacity 0.15s;
+
+  &:hover { opacity: 0.85; }
+}
+
+// ─── Kaynak Butonu ────────────────────────────────────────────────────────────
+.sourceBtn {
+  display:       flex;
+  align-items:   center;
+  gap:           6px;
+  padding:       6px 12px;
+  border-radius: 8px;
+  border:        1px solid var(--color-border);
+  background:    var(--color-bg-elevated);
+  color:         var(--color-text-muted);
+  font-size:     13px;
+  font-weight:   500;
+  cursor:        pointer;
+  white-space:   nowrap;
+  transition:    all 0.15s;
+
+  &:hover {
+    background: var(--color-hover-overlay);
+    color:      var(--color-text);
+  }
+
+  &Active {
+    border-color: var(--color-accent);
+    background:   var(--color-accent-soft);
+    color:        var(--color-accent);
+  }
+}
+
+// ─── Kamera Overlay (drag/resize) ─────────────────────────────────────────────
+.cameraOverlay {
+  position:       absolute;
+  inset:          0;
+  pointer-events: none;
+  z-index:        5;
+}
+
+.cameraOverlayBox {
+  position:       absolute;
+  border:         2px solid rgba(255, 255, 255, 0.6);
+  border-radius:  10px;
+  cursor:         move;
+  pointer-events: all;
+  box-shadow:     0 2px 16px rgba(0, 0, 0, 0.4);
+  transition:     border-color 0.15s;
+
+  &:hover { border-color: rgba(255, 255, 255, 0.9); }
+}
+
+.resizeHandle {
+  position:      absolute;
+  width:         10px;
+  height:        10px;
+  background:    #fff;
+  border:        1.5px solid rgba(0, 0, 0, 0.2);
+  border-radius: 2px;
+  box-shadow:    0 1px 4px rgba(0, 0, 0, 0.3);
+}
+
+.resizeHandleTL { top: -5px; left: -5px;   cursor: nwse-resize; }
+.resizeHandleTR { top: -5px; right: -5px;  cursor: nesw-resize; }
+.resizeHandleBL { bottom: -5px; left: -5px;  cursor: nesw-resize; }
+.resizeHandleBR { bottom: -5px; right: -5px; cursor: nwse-resize; }
+
+// ─── Kamera Widget ────────────────────────────────────────────────────────────
+.cameraWidget {
+  display:        flex;
+  flex-direction: column;
+  padding:        12px;
+  gap:            10px;
+  flex:           1;
+}
+
+.cameraHeader {
+  display:     flex;
+  align-items: center;
+}
+
+.cameraTitle {
+  font-size:   13px;
+  font-weight: 600;
+  color:       var(--color-text);
+}
+
+.cameraPreview {
+  width:           100%;
+  aspect-ratio:    16 / 9;
+  border-radius:   8px;
+  overflow:        hidden;
+  background:      var(--color-bg-elevated);
+  border:          1px solid var(--color-border);
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+}
+
+.cameraCanvas {
+  width:   100%;
+  height:  100%;
+  display: block;
+}
+
+.cameraOffMsg {
+  display:        flex;
+  flex-direction: column;
+  align-items:    center;
+  gap:            8px;
+  color:          var(--color-text-muted);
+  font-size:      12px;
+}
+
+// ─── Camera icon row ──────────────────────────────────────────────────────────
+.camIconRow {
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  gap:             8px;
+}
+
+.camIconBtn {
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  width:           34px;
+  height:          34px;
+  border-radius:   8px;
+  border:          1px solid var(--color-border);
+  background:      var(--color-bg-elevated);
+  color:           var(--color-text-muted);
+  cursor:          pointer;
+  transition:      all 0.15s;
+
+  &:hover { background: var(--color-hover-overlay); color: var(--color-text); }
+
+  &Active {
+    border-color: var(--color-accent);
+    background:   var(--color-accent-soft);
+    color:        var(--color-accent);
+  }
+
+  &Danger:hover {
+    border-color: var(--color-danger);
+    background:   var(--color-danger-bg);
+    color:        var(--color-danger-text, var(--color-danger));
+  }
+}
+
+.camStartBtn {
+  display:       flex;
+  align-items:   center;
+  gap:           7px;
+  padding:       7px 14px;
+  border-radius: 8px;
+  border:        1px solid var(--color-border);
+  background:    var(--color-bg-elevated);
+  color:         var(--color-text-muted);
+  font-size:     12px;
+  font-weight:   500;
+  cursor:        pointer;
+  transition:    all 0.15s;
+
+  &:hover { background: var(--color-hover-overlay); color: var(--color-text); }
+}
+
+// ─── Settings panel & accordion ───────────────────────────────────────────────
+.camSettingsPanel {
+  border-top: 1px solid var(--color-border);
+  animation:  panelIn 0.15s ease;
+
+  @keyframes panelIn {
+    from { opacity: 0; transform: translateY(-4px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+}
+
+.accordionItem {
+  border-bottom: 1px solid var(--color-border);
+
+  &:last-child { border-bottom: none; }
+}
+
+.accordionHeader {
+  display:         flex;
+  align-items:     center;
+  justify-content: space-between;
+  padding:         8px 10px;
+  cursor:          pointer;
+  font-size:       12px;
+  font-weight:     500;
+  color:           var(--color-text-muted);
+  transition:      color 0.15s;
+  user-select:     none;
+
+  &:hover, &Open { color: var(--color-text); }
+}
+
+.accordionHeaderLabel {
+  display:     flex;
+  align-items: center;
+  gap:         6px;
+}
+
+.accordionBadge {
+  width:         6px;
+  height:        6px;
+  border-radius: 50%;
+  background:    var(--color-accent);
+  flex-shrink:   0;
+}
+
+.accordionChevron {
+  transition:  transform 0.2s;
+  flex-shrink: 0;
+  display:     flex;
+  align-items: center;
+
+  &Open { transform: rotate(180deg); }
+}
+
+.accordionContent {
+  padding: 0 10px 10px;
+}
+
+.camControlBtn {
+  display:       flex;
+  align-items:   center;
+  gap:           7px;
+  padding:       7px 10px;
+  border-radius: 8px;
+  border:        1px solid var(--color-border);
+  background:    var(--color-bg-elevated);
+  color:         var(--color-text-muted);
+  font-size:     12px;
+  cursor:        pointer;
+  transition:    all 0.15s;
+  width:         100%;
+
+  &:hover:not(:disabled) { background: var(--color-hover-overlay); color: var(--color-text); }
+  &:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  &Active {
+    border-color: var(--color-accent);
+    background:   var(--color-accent-soft);
+    color:        var(--color-accent);
+  }
+}
+
+// ─── Toolbar bottom actions ───────────────────────────────────────────────────
+.tbBottomActions {
+  display:          grid;
+  gap:              3px;
+  padding:          6px;
+  border-top:       1px solid var(--color-border);
+  flex-shrink:      0;
+  margin-bottom:    64px;
+}
+
+.tbBottomBtn {
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  height:          34px;
+  border-radius:   7px;
+  border:          none;
+  background:      transparent;
+  color:           var(--color-text-muted);
+  cursor:          pointer;
+  transition:      background 0.14s, color 0.14s;
+
+  &:hover:not(:disabled) { background: var(--color-hover-overlay); color: var(--color-text); }
+  &:disabled             { opacity: 0.28; cursor: not-allowed; }
+
+  &Danger:hover:not(:disabled) {
+    background: var(--color-danger-bg);
+    color:      var(--color-danger);
+  }
+}
+
+// ─── Text input overlay ───────────────────────────────────────────────────────
+.textInputOverlay {
+  position:    absolute;
+  z-index:     20;
+  background:  transparent;
+  border:      1.5px dashed rgba(255, 255, 255, 0.55);
+  border-radius: 4px;
+  padding:     4px 8px;
+  font-family: system-ui, sans-serif;
+  outline:     none;
+  line-height: 1.4;
+  box-sizing:  border-box;
+  resize:      none;
+}
+
+// ─── Toolbar tool container (for hover panels) ────────────────────────────────
+.tbToolContainer {
+  position: relative;
+  display:  flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+// ─── Görsel Overlay ───────────────────────────────────────────────────────────
+.imageOverlayBox {
+  position:       absolute;
+  border:         2px solid transparent;
+  border-radius:  6px;
+  pointer-events: none;
+  transition:     border-color 0.15s, box-shadow 0.15s;
+}
+
+.imageOverlayBoxCursor {
+  cursor:         move;
+  pointer-events: all;
+}
+
+.imageOverlayBoxSelected {
+  border-color: rgba(99, 179, 237, 0.9);
+  box-shadow:   0 2px 16px rgba(0, 0, 0, 0.35);
+}
+
+.imageDeleteBtn {
+  position:        absolute;
+  top:             -10px;
+  right:           -10px;
+  width:           20px;
+  height:          20px;
+  border-radius:   50%;
+  border:          none;
+  background:      rgba(220, 38, 38, 0.9);
+  color:           #fff;
+  font-size:       11px;
+  line-height:     1;
+  cursor:          pointer;
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  pointer-events:  all;
+  z-index:         10;
+  transition:      background 0.15s;
+
+  &:hover { background: rgba(185, 28, 28, 1); }
+}
+
+// ─── Kamera arka planı ────────────────────────────────────────────────────────
+.camBgPresets {
+  display:               grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap:                   5px;
+  margin-bottom:         8px;
+}
+
+.camBgSwatch {
+  width:         24px;
+  height:        24px;
+  border-radius: 50%;
+  border:        2px solid transparent;
+  cursor:        pointer;
+  padding:       0;
+  transition:    transform 0.1s, border-color 0.1s;
+
+  &:hover { transform: scale(1.2); }
+
+  &Active {
+    border-color: var(--color-text);
+    transform:    scale(1.1);
+  }
+}
+
+// ─── Image Sidebar Section ────────────────────────────────────────────────────
+.imageSidebarSection {
+  padding:        10px;
+  border-bottom:  1px solid var(--color-border);
+  display:        flex;
+  flex-direction: column;
+  gap:            8px;
+}
+
+.imageSidebarHeader {
+  display:         flex;
+  align-items:     center;
+  justify-content: space-between;
+}
+
+.imageSidebarTitle {
+  display:     flex;
+  align-items: center;
+  gap:         6px;
+  font-size:   12px;
+  font-weight: 600;
+  color:       var(--color-text);
+}
+
+.imageSidebarAddBtn {
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  width:           24px;
+  height:          24px;
+  border-radius:   6px;
+  border:          1px solid var(--color-border);
+  background:      transparent;
+  color:           var(--color-text-muted);
+  cursor:          pointer;
+  transition:      all 0.14s;
+
+  &:hover { background: var(--color-hover-overlay); color: var(--color-text); }
+}
+
+.imageDropZone {
+  border:          1.5px dashed var(--color-border);
+  border-radius:   8px;
+  padding:         12px 8px;
+  text-align:      center;
+  font-size:       11px;
+  color:           var(--color-text-muted);
+  cursor:          pointer;
+  transition:      all 0.15s;
+
+  &:hover         { border-color: var(--color-accent); color: var(--color-accent); background: var(--color-accent-soft); }
+}
+
+.imageDropZoneActive {
+  border-color: var(--color-accent);
+  background:   var(--color-accent-soft);
+  color:        var(--color-accent);
+}
+
+.imageThumbnailList {
+  display:        flex;
+  flex-direction: column;
+  gap:            4px;
+  max-height:     160px;
+  overflow-y:     auto;
+}
+
+.imageThumbnailRow {
+  display:     flex;
+  align-items: center;
+  gap:         6px;
+  background:  var(--color-bg-elevated);
+  border:      1px solid var(--color-border);
+  border-radius: 6px;
+  padding:     4px;
+}
+
+.imageThumbnail {
+  width:         40px;
+  height:        28px;
+  object-fit:    cover;
+  border-radius: 4px;
+  flex-shrink:   0;
+}
+
+.imageThumbnailDelete {
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  width:           22px;
+  height:          22px;
+  border-radius:   4px;
+  border:          none;
+  background:      transparent;
+  color:           var(--color-text-muted);
+  cursor:          pointer;
+  margin-left:     auto;
+  flex-shrink:     0;
+  transition:      all 0.14s;
+
+  &:hover { background: var(--color-danger-bg); color: var(--color-danger); }
+}
+
+// ─── Object Edit Panel ────────────────────────────────────────────────────────
+.objectEditPanel {
+  position:       absolute;
+  z-index:        30;
+  display:        flex;
+  flex-direction: column;
+  gap:            4px;
+  padding:        8px;
+  background:     var(--color-sidebar-bg);
+  border:         1px solid var(--color-sidebar-border);
+  border-radius:  10px;
+  box-shadow:     0 4px 24px rgba(0, 0, 0, 0.3);
+  min-width:      170px;
+  max-width:      220px;
+  animation:      epFadeIn 0.12s ease;
+  pointer-events: all;
+
+  @keyframes epFadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+}
+
+.epRow {
+  display:     flex;
+  align-items: center;
+  gap:         3px;
+  flex-wrap:   wrap;
+}
+
+.epColorBtn {
+  width:         18px;
+  height:        18px;
+  border-radius: 50%;
+  border:        2px solid transparent;
+  cursor:        pointer;
+  padding:       0;
+  transition:    transform 0.1s, border-color 0.1s;
+  flex-shrink:   0;
+
+  &:hover  { transform: scale(1.2); }
+}
+
+.epColorBtnActive {
+  border-color: var(--color-text);
+  transform:    scale(1.1);
+}
+
+.epSizeBtn {
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  width:           28px;
+  height:          28px;
+  border-radius:   6px;
+  padding:         0;
+  border:          none;
+  background:      transparent;
+  color:           var(--color-text-muted);
+  cursor:          pointer;
+  transition:      background 0.14s, color 0.14s;
+
+  &:hover { background: var(--color-hover-overlay); color: var(--color-text); }
+}
+
+.epSizeBtnActive {
+  background: var(--color-accent-soft);
+  color:      var(--color-accent);
+}
+
+.epLabelBtn {
+  flex:          0 0 auto;
+  padding:       4px 6px;
+  border-radius: 5px;
+  border:        1px solid var(--color-border);
+  background:    transparent;
+  color:         var(--color-text-muted);
+  font-size:     11px;
+  cursor:        pointer;
+  text-align:    center;
+  transition:    all 0.14s;
+  white-space:   nowrap;
+
+  &:hover  { background: var(--color-hover-overlay); color: var(--color-text); }
+}
+
+.epLabelBtnActive {
+  border-color: var(--color-accent);
+  background:   var(--color-accent-soft);
+  color:        var(--color-accent);
+}
+
+.epDeleteBtn {
+  position:  absolute;
+  top:       -8px;
+  right:     -8px;
+  width:     20px;
+  height:    20px;
+  border-radius: 50%;
+  border:    none;
+  background: rgba(220, 38, 38, 0.9);
+  color:     #fff;
+  font-size: 10px;
+  cursor:    pointer;
+  display:   flex;
+  align-items:     center;
+  justify-content: center;
+  transition: background 0.14s;
+
+  &:hover { background: rgba(185, 28, 28, 1); }
+}
+
+// ─── Spinner ──────────────────────────────────────────────────────────────────
+.spinner {
+  width:         14px;
+  height:        14px;
+  border:        2px solid var(--color-border);
+  border-top-color: var(--color-text);
+  border-radius: 50%;
+  animation:     spin 0.7s linear infinite;
+  flex-shrink:   0;
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+}

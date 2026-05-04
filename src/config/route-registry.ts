@@ -25,6 +25,7 @@ const routes: RouteDefinition[] = [
     { id: 'components-form-switch', path: '/components/form/switch', title: 'Switch' },
     { id: 'components-form-range', path: '/components/form/range', title: 'Range' },
     { id: 'components-form-date-picker', path: '/components/form/date-picker', title: 'Date Picker' },
+    { id: 'studio', path: '/studio', title: 'Studio' },
     { id: 'navigation', path: '/components/navigation', title: 'Navigation' },
 
     { id: 'icons', path: '/utilities/icons', title: 'Icons' },

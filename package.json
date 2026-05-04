@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@mediapipe/selfie_segmentation": "^0.1.1675465747",
     "axios": "^1.13.5",
     "date-fns": "^4.1.0",
     "firebase": "^12.12.1",

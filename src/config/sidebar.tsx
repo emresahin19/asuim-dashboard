@@ -33,6 +33,7 @@ import MessageCircleIcon from '@/components/ui/icon/icons/MessageCircle'
 import LoaderCircleIcon from '@/components/ui/icon/icons/LoaderCircle'
 import ChartAreaIcon from '@/components/ui/icon/icons/ChartArea'
 import AppWindowMacIcon from '@/components/ui/icon/icons/AppWindowMac'
+import MonitorPlayIcon from '@/components/ui/icon/icons/MonitorPlay'
 import { Icon } from '@/components';
 
 export interface SidebarAccountApp {
@@ -155,6 +156,14 @@ const baseNavTree: SidebarNavNode[] = [
       { id: 'icons', label: 'Icons', role: 'item', icon: SmileIcon, routeId: 'icons' },
       { id: 'colors', label: 'Colors', role: 'item', icon: DropletIcon, routeId: 'colors' },
     ],
+  },
+
+  {
+    id: 'studio',
+    label: 'Studio',
+    role: 'item',
+    icon: MonitorPlayIcon,
+    routeId: 'studio',
   },
 
   { id: 'system', label: 'System', role: 'section' },
